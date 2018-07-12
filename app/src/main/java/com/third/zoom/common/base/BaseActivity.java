@@ -1,6 +1,5 @@
 package com.third.zoom.common.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,12 +11,6 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    protected static final int DEFAULT_LOADING_TIME = 2000;
-    protected static final int WHAT_LOAD = 1;
-    protected static final int WHAT_LOAD_SUCCESS = 2;
-    protected static final int WHAT_LOAD_FAIL = 2;
-    protected static final int WHAT_REFRESH = 3;
 
     protected ActivityFragmentInject annotation;
 

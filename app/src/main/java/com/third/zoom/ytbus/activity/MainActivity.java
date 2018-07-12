@@ -4,8 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Environment;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.view.KeyEvent;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.third.zoom.R;
@@ -13,8 +19,12 @@ import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.utils.KeyEventUtils;
+import com.third.zoom.common.utils.PreferenceUtils;
+import com.third.zoom.common.widget.YTVideoView;
 import com.third.zoom.ytbus.bean.PlayDataBean;
 import com.third.zoom.ytbus.utils.Contans;
+
+import java.io.File;
 
 import static com.third.zoom.ytbus.utils.Contans.COM_00;
 import static com.third.zoom.ytbus.utils.Contans.COM_01;
@@ -32,24 +42,66 @@ import static com.third.zoom.ytbus.utils.Contans.COM_12;
 )
 public class MainActivity extends BaseActivity {
 
-    /**
-     * 配置数据
-     */
+    private static final int WHAT_OPEN_SERIAL = 10;
+
+    //文件夹名
+    private static final String YT_FILE_DIR = "YTBus";
+    //配置数据
     private PlayDataBean playDataBean;
+    //配置文件跟路径
+    private String ytFileRootPath;
+
+    private YTVideoView ytVideoView;
+    private TextView ytAdTextView;
+    private ImageView imgError;
+
+    //播放广告时先保存电影的位置
+    private int tempPlayPosition = 0;
+    private String tempPlayPath = "";
 
     @Override
     protected void toHandleMessage(Message msg) {
+        switch (msg.what) {
+            case WHAT_OPEN_SERIAL:
+                openSerial();
+                break;
+        }
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState, persistentState);
     }
 
     @Override
     protected void findViewAfterViewCreate() {
-
+        ytVideoView = (YTVideoView) findViewById(R.id.ytVideoView);
+        ytAdTextView = (TextView) findViewById(R.id.txt_ad_content);
+        imgError = (ImageView) findViewById(R.id.img_error);
     }
 
     @Override
     protected void initDataAfterFindView() {
+        PreferenceUtils.init(this);
+        SerialInterface.serialInit(this);
 
+        configFileInit();
+
+        registerYTProReceiver();
+        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,2000);
+    }
+
+
+    /**
+     * 配置文件初始化
+     */
+    private void configFileInit(){
+        ytFileRootPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File file = new File(ytFileRootPath,YT_FILE_DIR);
+        if(file == null || !file.exists()){
+            file.mkdirs();
+        }
     }
 
     /**
@@ -121,7 +173,7 @@ public class MainActivity extends BaseActivity {
                 KeyEventUtils.sendKeyEvent(KeyEvent.KEYCODE_ENTER);
                 break;
             case COM_05:
-//                doHandle05();
+                doHandle05();
                 break;
             case COM_06:
                 KeyEventUtils.sendKeyEvent(KeyEvent.KEYCODE_BACK);
@@ -130,6 +182,13 @@ public class MainActivity extends BaseActivity {
                 toFileSystem();
                 break;
         }
+    }
+
+    /**
+     * 暂停/播放
+     */
+    private void doHandle05(){
+
     }
 
     /**
