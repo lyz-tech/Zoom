@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/DIMEN_80dp"
+              android:orientation="horizontal"
+>
+
+    <com.third.zoom.common.widget.CommonBmvItem
+        android:id="@+id/bottombar_item_0"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <com.third.zoom.common.widget.CommonBmvItem
+        android:id="@+id/bottombar_item_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <com.third.zoom.common.widget.CommonBmvItem
+        android:id="@+id/bottombar_item_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <com.third.zoom.common.widget.CommonBmvItem
+        android:id="@+id/bottombar_item_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+</LinearLayout>

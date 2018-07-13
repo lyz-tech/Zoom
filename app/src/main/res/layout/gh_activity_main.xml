@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.third.zoom.guanjia.widget.NavTopView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_40dp">
+    </com.third.zoom.guanjia.widget.NavTopView>
+
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+        <com.third.zoom.guanjia.widget.MainView android:layout_width="match_parent"
+                                                android:layout_height="match_parent">
+        </com.third.zoom.guanjia.widget.MainView>
+
+    </RelativeLayout>
+
+</LinearLayout>

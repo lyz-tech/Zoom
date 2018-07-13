@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt_time_day"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/DIMEN_20dp"
+        android:layout_marginRight="@dimen/DIMEN_20dp"
+        android:gravity="center"
+        android:text="2018年7月13日"/>
+
+    <TextView
+        android:id="@+id/txt_time_week"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/txt_time_day"
+        android:gravity="center"
+        android:text="星期三"/>
+
+    <TextView
+        android:id="@+id/txt_time_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="15:50"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/DIMEN_20dp"
+        android:layout_marginRight="@dimen/DIMEN_20dp"
+        android:id="@+id/txt_water_cap"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="50升"/>
+
+    <TextView
+        android:id="@+id/txt_water_time"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/txt_water_cap"
+        android:gravity="center"
+        android:text="66天"/>
+
+
+
+</RelativeLayout>
