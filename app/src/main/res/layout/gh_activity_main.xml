@@ -6,7 +6,7 @@
 
     <com.third.zoom.guanjia.widget.NavTopView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/DIMEN_40dp">
+        android:layout_height="@dimen/DIMEN_30dp">
     </com.third.zoom.guanjia.widget.NavTopView>
 
 

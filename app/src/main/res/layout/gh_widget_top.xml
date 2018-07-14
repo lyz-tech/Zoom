@@ -8,12 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
+        android:textSize="@dimen/DIMEN_15sp"
         android:layout_marginLeft="@dimen/DIMEN_20dp"
         android:layout_marginRight="@dimen/DIMEN_20dp"
         android:gravity="center"
         android:text="2018年7月13日"/>
 
     <TextView
+        android:textSize="@dimen/DIMEN_15sp"
         android:id="@+id/txt_time_week"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -22,6 +24,7 @@
         android:text="星期三"/>
 
     <TextView
+        android:textSize="@dimen/DIMEN_15sp"
         android:id="@+id/txt_time_hour"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -30,6 +33,7 @@
         android:text="15:50"/>
 
     <TextView
+        android:textSize="@dimen/DIMEN_15sp"
         android:layout_marginLeft="@dimen/DIMEN_20dp"
         android:layout_marginRight="@dimen/DIMEN_20dp"
         android:id="@+id/txt_water_cap"
@@ -40,6 +44,7 @@
         android:text="50升"/>
 
     <TextView
+        android:textSize="@dimen/DIMEN_15sp"
         android:id="@+id/txt_water_time"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
