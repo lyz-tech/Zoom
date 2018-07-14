@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/DIMEN_60dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/selecter_back"
+    android:layout_marginTop="@dimen/DIMEN_5dp"
+    android:layout_marginBottom="@dimen/DIMEN_5dp"
+    android:layout_marginLeft="@dimen/DIMEN_20dp"
+    android:layout_marginRight="@dimen/DIMEN_20dp">
+
+    <ImageView
+        android:focusable="false"
+        android:clickable="false"
+        android:id="@+id/img_type"
+        android:layout_marginLeft="@dimen/DIMEN_10dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/dir"
+        android:layout_centerVertical="true"
+        android:layout_width="@dimen/DIMEN_30dp"
+        android:layout_height="@dimen/DIMEN_30dp" />
+
+    <TextView
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_marginLeft="@dimen/DIMEN_50dp"
+        android:layout_marginRight="@dimen/DIMEN_40dp"
+        android:id="@+id/txt_file_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="文件名称"
+        android:maxLines="3"
+        android:ellipsize="middle"
+        android:textColor="#aa000000"
+        android:textSize="@dimen/DIMEN_15sp" />
+
+    <ImageView
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_marginRight="@dimen/DIMEN_10dp"
+        android:layout_width="@dimen/DIMEN_20dp"
+        android:layout_height="@dimen/DIMEN_20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_next" />
+
+    <View
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_marginLeft="@dimen/DIMEN_10dp"
+        android:layout_marginRight="@dimen/DIMEN_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#cccccc"></View>
+
+</RelativeLayout>
+
+

@@ -1,8 +1,5 @@
 package com.third.zoom.ytbus.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 作者：Sky on 2018/3/6.
  * 用途：配置相关信息
@@ -16,9 +13,14 @@ public class PlayDataBean {
     //串口波特率
     private String defaultSerialRate;
 
-    //默认播放地址
-    private String defaultPlayPath;
+    //视频间隔
+    private String AdDuration;
 
+    //字幕间隔
+    private String textDuration;
+
+    //字幕内容
+    private String textContent;
 
     public String getDefaultSerialPort() {
         return defaultSerialPort;
@@ -36,13 +38,27 @@ public class PlayDataBean {
         this.defaultSerialRate = defaultSerialRate;
     }
 
-    public String getDefaultPlayPath() {
-        return defaultPlayPath;
+    public String getAdDuration() {
+        return AdDuration;
     }
 
-    public void setDefaultPlayPath(String defaultPlayPath) {
-        this.defaultPlayPath = defaultPlayPath;
+    public void setAdDuration(String adDuration) {
+        AdDuration = adDuration;
     }
 
+    public String getTextDuration() {
+        return textDuration;
+    }
 
+    public void setTextDuration(String textDuration) {
+        this.textDuration = textDuration;
+    }
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
 }

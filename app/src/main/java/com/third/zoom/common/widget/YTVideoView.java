@@ -11,6 +11,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -246,6 +247,7 @@ public class YTVideoView extends SurfaceView {
 	 * @param currentPlayFilePath
      */
 	public void setVideoPath(String currentPlayFilePath) {
+		Log.e("ZM","当前播放：" + currentPlayFilePath);
 		path = currentPlayFilePath;
 		playPosition = 0;
 		//但是这样可能无法无缝切换(主要是轮播下一个视频的时候,每次重新new 一个 MediaPlayer 则无法做到无缝播放)

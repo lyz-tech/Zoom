@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_50dp">
+
+        <ImageView
+            android:background="@drawable/selecter_back"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/img_back"
+            android:layout_marginLeft="@dimen/DIMEN_5dp"
+            android:src="@drawable/icon_back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="@dimen/DIMEN_35dp"
+            android:layout_height="@dimen/DIMEN_35dp"/>
+
+
+        <TextView
+            android:focusable="false"
+            android:clickable="false"
+            android:text="文件路径"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/DIMEN_55dp"
+            android:layout_marginRight="@dimen/DIMEN_10dp"
+            android:textSize="@dimen/DIMEN_15sp"
+            android:textColor="#000000"
+            android:id="@+id/txt_path_name"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_1dp"></View>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

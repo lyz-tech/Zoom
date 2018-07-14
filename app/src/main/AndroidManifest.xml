@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ytbus.activity.FileSystemActivity"
+                  android:screenOrientation="landscape"></activity>
+
         <receiver android:name=".common.receiver.BootReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
