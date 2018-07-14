@@ -8,24 +8,22 @@
     android:layout_height="match_parent"
     tools:context="com.third.zoom.ytbus.activity.MainActivity">
 
-    <com.third.ytbus.widget.YTVideoView
+    <com.third.zoom.common.widget.YTVideoView
         android:id="@+id/ytVideoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <TextView
+    <com.third.zoom.common.widget.MarqueeTextViewV2
         android:visibility="invisible"
         android:id="@+id/txt_ad_content"
         android:textSize="@dimen/DIMEN_20sp"
-        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_50dp"
         android:background="#aaffffff"
         android:ellipsize="marquee"
         android:focusable="true"
-        android:gravity="center"
         android:focusableInTouchMode="true"
-        android:marqueeRepeatLimit="marquee_forever"
+        android:marqueeRepeatLimit="1"
         android:singleLine="true"
         android:text="" />
 
