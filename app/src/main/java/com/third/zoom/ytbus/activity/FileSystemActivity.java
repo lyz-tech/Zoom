@@ -92,6 +92,7 @@ public class FileSystemActivity extends BaseActivity{
         });
 
         initAdapter();
+        intFiles();
         String path = getIntent().getStringExtra("urlPath");
         if(TextUtils.isEmpty(path)){
             selectSpace();
@@ -101,25 +102,34 @@ public class FileSystemActivity extends BaseActivity{
 
     }
 
+    List<String> spaceFiles = new ArrayList<>();
+    private void intFiles(){
+        spaceFiles.add("/mnt/sata");
+        spaceFiles.add(Environment.getExternalStorageDirectory().getAbsolutePath());
+        spaceFiles.add("/mnt/usbhost0");
+        spaceFiles.add("/mnt/usbhost1");
+        spaceFiles.add("/mnt/usbhost2");
+        spaceFiles.add("/mnt/usbhost3");
+    }
+
     private void selectSpace(){
+        PreferenceUtils.commitString("selectPath","");
         txtTitle.setText("文件管理器");
-        List<String> files = new ArrayList<>();
-        files.add("/mnt/sata");
-        files.add(Environment.getExternalStorageDirectory().getAbsolutePath());
-        files.add("/mnt/usbhost0");
-        files.add("/mnt/usbhost1");
-        files.add("/mnt/usbhost2");
-        files.add("/mnt/usbhost3");
-        fileDetailAdapter.updateDatas(files);
+        fileDetailAdapter.updateDatas(spaceFiles);
         recyclerView.scrollToPosition(0);
     }
 
     private void selectPath(String path){
         firstFlag = false;
-        urlPath = path;
-        txtTitle.setText(urlPath);
-        currentPath = urlPath;
-        updateData(urlPath);
+        for (String file : spaceFiles) {
+            if(path.startsWith(file)){
+                urlPath = file;
+                break;
+            }
+        }
+        txtTitle.setText(path);
+        currentPath = path;
+        updateData(path);
     }
 
     private void initAdapter(){
@@ -137,7 +147,6 @@ public class FileSystemActivity extends BaseActivity{
                 }
                 File file = new File(path);
                 if(file != null && file.isDirectory()){
-                    PreferenceUtils.commitString("selectPath",path);
                     updateData(path);
                 }else{
                     int type = SpaceFileUtil.getFileType(path);
@@ -157,6 +166,7 @@ public class FileSystemActivity extends BaseActivity{
     }
 
     private void updateData(String path){
+        PreferenceUtils.commitString("selectPath",path);
         txtTitle.setText(path);
         currentPath = path;
         List<String> files = SpaceFileUtil.getFileByPath(path);
