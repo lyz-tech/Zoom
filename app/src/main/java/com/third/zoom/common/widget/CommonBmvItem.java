@@ -80,4 +80,9 @@ public class CommonBmvItem  extends LinearLayout {
         setTitleSelected(selected);
     }
 
+    public boolean isSelect(){
+        return mIconSelected;
+    }
+
+
 }

@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.third.zoom.R;
+import com.third.zoom.common.listener.BmvSelectListener;
+import com.third.zoom.common.widget.CommonBmv;
 
 /**
  * 作者：Sky on 2018/7/13.
@@ -22,6 +25,7 @@ public class MainView extends LinearLayout{
 
     private Context mContext;
     private ImageView imgShow;
+    private CommonBmv commonBmv;
 
     /**
      * 主页轮播图
@@ -59,10 +63,22 @@ public class MainView extends LinearLayout{
     private void initView(){
         View view = View.inflate(mContext, R.layout.gj_widget_main,this);
         imgShow = (ImageView) view.findViewById(R.id.img_main_show);
+        commonBmv = (CommonBmv) view.findViewById(R.id.commonbmv);
     }
 
     private void initData(){
         updateShow(0);
+        commonBmv.setBmvSelectListener(new BmvSelectListener() {
+            @Override
+            public void itemSelectOpen(int position) {
+                Log.e("ZM","itemSelectOpen = " + position);
+            }
+
+            @Override
+            public void itemSelectClose(int position) {
+                Log.e("ZM","itemSelectClose = " + position);
+            }
+        });
     }
 
     private void updateShow(int index){

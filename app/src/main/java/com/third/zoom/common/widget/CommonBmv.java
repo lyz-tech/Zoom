@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.third.zoom.R;
 import com.third.zoom.common.listener.BmvChangeListener;
+import com.third.zoom.common.listener.BmvSelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
     List<CommonBmvItem> tabs = new ArrayList<CommonBmvItem>();
 
     BmvChangeListener changeListener;
+    BmvSelectListener bmvSelectListener;
 
     public CommonBmv(Context context) {
         this(context,null);
@@ -80,14 +82,30 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
         }
     }
 
+    /**
+     * 如果第一次点击，select哪个，如果再次点击相同，
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         for (int i = 0; i < tabs.size(); i++) {
             CommonBmvItem item = tabs.get(i);
+            if(item.isSelect()){
+                item.setTabSelected(false);
+                if(bmvSelectListener != null){
+                    bmvSelectListener.itemSelectClose(i);
+                }
+                if((Integer)v.getTag() == i){
+                    return;
+                }
+            }
+        }
+        for (int i = 0; i < tabs.size(); i++) {
+            CommonBmvItem item = tabs.get(i);
             if((Integer)v.getTag() == i){
                 item.setTabSelected(true);
-                if(changeListener != null){
-                    changeListener.itemChange(i);
+                if(bmvSelectListener != null){
+                    bmvSelectListener.itemSelectOpen(i);
                 }
             }else{
                 item.setTabSelected(false);
@@ -97,6 +115,10 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
 
     public void setBmvChangeListener(BmvChangeListener changeListener){
         this.changeListener = changeListener;
+    }
+
+    public void setBmvSelectListener(BmvSelectListener bmvSelectListener){
+        this.bmvSelectListener = bmvSelectListener;
     }
 
     public void setCheck(int position){
