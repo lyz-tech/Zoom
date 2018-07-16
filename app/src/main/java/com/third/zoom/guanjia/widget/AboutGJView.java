@@ -22,6 +22,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private Context context;
     private ViewPager viewPager;
     private LinearLayout circles;
+    private SetPermissionView setPermissionView;
     private LinearLayout ll1,ll2,ll3,ll4,ll5,ll6;
     private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6;
     private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6;
@@ -57,6 +58,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         View view = View.inflate(context, R.layout.gj_widget_about, this);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         circles = (LinearLayout) view.findViewById(R.id.circles);
+        setPermissionView = (SetPermissionView) view.findViewById(R.id.setPermissionView);
         imgBack = (ImageView) view.findViewById(R.id.img_back);
         ll1 = (LinearLayout) view.findViewById(R.id.ll1);
         ll2 = (LinearLayout) view.findViewById(R.id.ll2);
@@ -155,32 +157,52 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll1:
+                changeView(1);
                 imgResIds = resId1;
                 changeTextColor(1);
+                updateData(imgResIds);
                 break;
             case R.id.ll2:
+                changeView(2);
                 imgResIds = resId2;
                 changeTextColor(2);
+                updateData(imgResIds);
                 break;
             case R.id.ll3:
+                changeView(3);
                 imgResIds = resId3;
                 changeTextColor(3);
+                updateData(imgResIds);
                 break;
             case R.id.ll4:
+                changeView(4);
                 imgResIds = resId4;
                 changeTextColor(4);
+                updateData(imgResIds);
                 break;
             case R.id.ll5:
+                changeView(5);
                 imgResIds = resId5;
                 changeTextColor(5);
+                updateData(imgResIds);
                 break;
             case R.id.ll6:
-                imgResIds = resId6;
                 changeTextColor(6);
+                changeView(6);
                 break;
         }
+    }
 
-        updateData(imgResIds);
+    private void changeView(int position){
+        if(position == 6){
+            viewPager.setVisibility(GONE);
+            circles.setVisibility(GONE);
+            setPermissionView.setVisibility(VISIBLE);
+        }else{
+            viewPager.setVisibility(VISIBLE);
+            circles.setVisibility(VISIBLE);
+            setPermissionView.setVisibility(GONE);
+        }
     }
 
     private void changeTextColor(int index){

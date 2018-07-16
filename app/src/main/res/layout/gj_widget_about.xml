@@ -197,6 +197,13 @@
             android:orientation="horizontal" >
         </LinearLayout>
 
+        <com.third.zoom.guanjia.widget.SetPermissionView
+            android:visibility="gone"
+            android:id="@+id/setPermissionView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.third.zoom.guanjia.widget.SetPermissionView>
+
     </RelativeLayout>
 
 </LinearLayout>
