@@ -14,9 +14,18 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
-        <com.third.zoom.guanjia.widget.MainView android:layout_width="match_parent"
-                                                android:layout_height="match_parent">
+        <com.third.zoom.guanjia.widget.MainView
+            android:id="@+id/mainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         </com.third.zoom.guanjia.widget.MainView>
+
+        <com.third.zoom.guanjia.widget.SelectHotWaterView
+            android:visibility="gone"
+            android:id="@+id/selectHotWaterView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.third.zoom.guanjia.widget.SelectHotWaterView>
 
     </RelativeLayout>
 

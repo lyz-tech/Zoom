@@ -82,6 +82,10 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
         }
     }
 
+    public CommonBmvItem getBmvItem(int position){
+        return tabs.get(position);
+    }
+
     /**
      * 如果第一次点击，select哪个，如果再次点击相同，
      * @param v

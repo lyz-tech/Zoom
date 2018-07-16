@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +11,7 @@ import android.widget.LinearLayout;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.BmvSelectListener;
 import com.third.zoom.common.widget.CommonBmv;
+import com.third.zoom.common.widget.CommonBmvItem;
 
 /**
  * 作者：Sky on 2018/7/13.
@@ -31,7 +31,11 @@ public class MainView extends LinearLayout{
      * 主页轮播图
      */
     private int[] showRes = {R.drawable.apk,R.drawable.audio};
+    private int[] positionRes = {R.drawable.avi,R.drawable.dir,R.drawable.flv,R.drawable.pdf};
     private int showIndex = 0;
+
+    //当前点击index
+    private int curClickIndex = -1;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -68,20 +72,32 @@ public class MainView extends LinearLayout{
 
     private void initData(){
         updateShow(0);
-        commonBmv.setBmvSelectListener(new BmvSelectListener() {
-            @Override
-            public void itemSelectOpen(int position) {
-                Log.e("ZM","itemSelectOpen = " + position);
-            }
-
-            @Override
-            public void itemSelectClose(int position) {
-                Log.e("ZM","itemSelectClose = " + position);
-            }
-        });
     }
 
-    private void updateShow(int index){
+    public void setBmvListener(BmvSelectListener bmvListener){
+        commonBmv.setBmvSelectListener(bmvListener);
+    }
+
+    public CommonBmvItem getBmvItem(int position){
+        return commonBmv.getBmvItem(position);
+    }
+
+    public void setHotWaterClickListener(OnClickListener onClickListener){
+        imgShow.setOnClickListener(onClickListener);
+    }
+
+    public void setPositionShow(int position){
+        mHandler.removeMessages(WHAT_UPDATE_SHOW);
+        imgShow.setImageResource(positionRes[position]);
+        curClickIndex = position;
+        if(curClickIndex == 1){
+            imgShow.setClickable(true);
+        }else{
+            imgShow.setClickable(false);
+        }
+    }
+
+    public void updateShow(int index){
         showIndex = showIndex + index;
         if(showIndex >= showRes.length){
             showIndex = 0;

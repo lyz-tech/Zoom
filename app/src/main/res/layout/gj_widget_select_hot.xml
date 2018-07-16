@@ -6,6 +6,7 @@
 
 
     <ImageView
+        android:id="@+id/img_back"
         android:layout_marginTop="@dimen/DIMEN_10dp"
         android:layout_marginLeft="@dimen/DIMEN_10dp"
         android:layout_alignParentLeft="true"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/txt_notice"
         android:textColor="#000000"
         android:textSize="@dimen/DIMEN_25sp"
         android:layout_centerInParent="true"
@@ -32,6 +34,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/txt_th_50"
             android:text="50°C"
             android:textColor="#ffffff"
             android:gravity="center"
@@ -50,6 +53,7 @@
             android:layout_height="@dimen/DIMEN_5dp"></View>
 
         <TextView
+            android:id="@+id/txt_th_65"
             android:textColor="#ffffff"
             android:text="65°C"
             android:gravity="center"
@@ -68,6 +72,7 @@
             android:layout_height="@dimen/DIMEN_5dp"></View>
 
         <TextView
+            android:id="@+id/txt_th_85"
             android:textColor="#ffffff"
             android:text="85°C"
             android:gravity="center"
@@ -86,8 +91,9 @@
             android:layout_height="@dimen/DIMEN_5dp"></View>
 
         <TextView
+            android:id="@+id/txt_th_95"
             android:textColor="#ffffff"
-            android:text="90°C"
+            android:text="95°C"
             android:gravity="center"
             android:textSize="@dimen/DIMEN_15sp"
             android:background="@drawable/gj_shape_cir_textview"
