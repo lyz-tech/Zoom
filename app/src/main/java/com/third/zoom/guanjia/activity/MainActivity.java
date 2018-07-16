@@ -12,6 +12,7 @@ import com.third.zoom.R;
 import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.BmvSelectListener;
+import com.third.zoom.guanjia.widget.AboutGJView;
 import com.third.zoom.guanjia.widget.MainView;
 import com.third.zoom.guanjia.widget.SelectHotWaterView;
 
@@ -28,6 +29,7 @@ public class MainActivity extends BaseActivity {
 
     private MainView mainView;
     private SelectHotWaterView selectHotWaterView;
+    private AboutGJView aboutGJView;
 
     @Override
     protected void toHandleMessage(Message msg) {
@@ -45,6 +47,7 @@ public class MainActivity extends BaseActivity {
     protected void findViewAfterViewCreate() {
         mainView = (MainView) findViewById(R.id.mainView);
         selectHotWaterView = (SelectHotWaterView) findViewById(R.id.selectHotWaterView);
+        aboutGJView = (AboutGJView) findViewById(R.id.aboutView);
     }
 
     @Override
@@ -57,7 +60,9 @@ public class MainActivity extends BaseActivity {
                 if(position == 0 || position == 2){
                     sendPro(true,"position = " + position);
                 }else if(position == 3){
-
+                    mainView.setVisibility(View.GONE);
+                    aboutGJView.setVisibility(View.VISIBLE);
+                    mainView.getBmvItem(3).performClick();
                 }
             }
 
@@ -75,7 +80,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mainView.setVisibility(View.GONE);
-
                 selectHotWaterView.setVisibility(View.VISIBLE);
                 mainView.getBmvItem(1).performClick();
             }
@@ -98,6 +102,15 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 mainView.setVisibility(View.VISIBLE);
                 selectHotWaterView.setVisibility(View.GONE);
+                mainView.updateShow(0);
+            }
+        });
+
+        aboutGJView.setImageBackOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainView.setVisibility(View.VISIBLE);
+                aboutGJView.setVisibility(View.GONE);
                 mainView.updateShow(0);
             }
         });

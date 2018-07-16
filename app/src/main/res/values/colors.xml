@@ -8,4 +8,7 @@
     <color name="tab_normal">#9dbcb9</color>
     <color name="tab_focus">#34c7bb</color>
 
+    <color name="txt_normal">#c2c2c2</color>
+    <color name="txt_focus">#0186ff</color>
+
 </resources>
