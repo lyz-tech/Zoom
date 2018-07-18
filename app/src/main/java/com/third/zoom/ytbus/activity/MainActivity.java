@@ -48,6 +48,16 @@ import static com.third.zoom.ytbus.utils.Contans.COM_04;
 import static com.third.zoom.ytbus.utils.Contans.COM_05;
 import static com.third.zoom.ytbus.utils.Contans.COM_06;
 import static com.third.zoom.ytbus.utils.Contans.COM_12;
+import static com.third.zoom.ytbus.utils.Contans.COM_21;
+import static com.third.zoom.ytbus.utils.Contans.COM_22;
+import static com.third.zoom.ytbus.utils.Contans.COM_23;
+import static com.third.zoom.ytbus.utils.Contans.COM_24;
+import static com.third.zoom.ytbus.utils.Contans.COM_25;
+import static com.third.zoom.ytbus.utils.Contans.COM_26;
+import static com.third.zoom.ytbus.utils.Contans.COM_27;
+import static com.third.zoom.ytbus.utils.Contans.COM_28;
+import static com.third.zoom.ytbus.utils.Contans.COM_29;
+import static com.third.zoom.ytbus.utils.Contans.COM_30;
 
 @ActivityFragmentInject(
         contentViewId = R.layout.yt_activity_main,
@@ -66,6 +76,11 @@ public class MainActivity extends BaseActivity {
     private static final String SP_KEY_PLAY_TIME = "playTime";
     //文件夹名
     private String CURRENT_VIDEO_FILE_DIR = "VIDEO";
+    private static final String[] VIDEO_FILE_DIRS = {"VIDEO1","VIDEO2",
+            "VIDEO3","VIDEO4",
+            "VIDEO5","VIDEO6",
+            "VIDEO7","VIDEO8",
+            "VIDEO9","VIDE10"};
     private static final String DEFAULT_VIDEO_FILE_DIR = "VIDEO";
     private static final String YT_AD_FILE_DIR = "AD";
     private static final String FIRST_PLAY_AD = "AD001.mp4";
@@ -192,7 +207,7 @@ public class MainActivity extends BaseActivity {
             String urlPath = getIntent().getStringExtra("selectPath");
             if(TextUtils.isEmpty(urlPath)){
                 if (TextUtils.isEmpty(tempPlayPath)) {
-                    String next = getRandomVideoPath();
+                    String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
                         someError("未找到视频文件，请检查！");
                         return;
@@ -318,7 +333,7 @@ public class MainActivity extends BaseActivity {
                     runADTimer(true);
                     Log.e("ZM","播放默认视频");
                     if(TextUtils.isEmpty(tempPlayPath)){
-                        String next = getRandomVideoPath();
+                        String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                         if(TextUtils.isEmpty(next)){
                             someError("未找到视频文件，请检查！");
                         }else{
@@ -332,7 +347,7 @@ public class MainActivity extends BaseActivity {
                                 ytVideoView.seekTo(tempPlayPosition);
                             }
                         }else{
-                            String next = getRandomVideoPath();
+                            String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                             if(TextUtils.isEmpty(next)){
                                 someError("未找到视频文件，请检查！");
                             }else{
@@ -342,7 +357,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }else{
                     Log.e("ZM","播放默认视频");
-                    String next = getRandomVideoPath();
+                    String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
                         someError("未找到视频文件，请检查！");
                     }else{
@@ -417,10 +432,18 @@ public class MainActivity extends BaseActivity {
     private void handleCom(int comValue){
         switch (comValue){
             case COM_00:
-                KeyEventUtils.sendKeyEvent(KeyEvent.KEYCODE_DPAD_UP);
+                if(isFileActivity){
+                    KeyEventUtils.sendKeyEvent(KeyEvent.KEYCODE_DPAD_UP);
+                }else{
+                    playRandomNext();
+                }
                 break;
             case COM_01:
-                KeyEventUtils.sendKeyEvent(KeyEvent.KEYCODE_DPAD_DOWN);
+                if(isFileActivity){
+                    KeyEventUtils.sendKeyEvent(KeyEvent.KEYCODE_DPAD_DOWN);
+                }else{
+                    playRandomNext();
+                }
                 break;
             case COM_02:
                 KeyEventUtils.sendKeyEvent(KeyEvent.KEYCODE_DPAD_LEFT);
@@ -440,6 +463,33 @@ public class MainActivity extends BaseActivity {
             case COM_12:
                 toFileSystem();
                 break;
+            case COM_21:
+            case COM_22:
+            case COM_23:
+            case COM_24:
+            case COM_25:
+            case COM_26:
+            case COM_27:
+            case COM_28:
+            case COM_29:
+            case COM_30:
+                selectVideoDir(comValue);
+                break;
+        }
+    }
+
+
+    /**
+     * 播放上一首、下一首
+     */
+    private void playRandomNext(){
+        runADTimer(true);
+        String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
+        if(TextUtils.isEmpty(next)){
+            someError("未找到视频文件，请检查！");
+            return;
+        }else{
+            ytVideoView.setVideoPath(next);
         }
     }
 
@@ -447,13 +497,22 @@ public class MainActivity extends BaseActivity {
      * 暂停/播放
      */
     private void doHandle05(){
-
+        if(ytVideoView.isPlaying()) {
+            ytVideoView.pause();
+        }else{
+            ytVideoView.start();
+        }
     }
 
     /**
      * 调到文件系统
      */
+    private boolean isFileActivity = false;
     private void toFileSystem() {
+        if(isFileActivity){
+            return;
+        }
+        isFileActivity = true;
         Intent toDetail = new Intent(this,FileSystemActivity.class);
         toDetail.putExtra("urlPath",PreferenceUtils.getString("selectPath",""));
         startActivityForResult(toDetail,1);
@@ -467,6 +526,7 @@ public class MainActivity extends BaseActivity {
         }
         String urlPath = data.getStringExtra("selectPath");
         if(requestCode == 1){
+            isFileActivity = false;
             String[] paths = urlPath.split("/");
             String dirName = paths[paths.length - 2];
             Log.e("ZM","选择的DIRNAME = " + dirName);
@@ -477,6 +537,31 @@ public class MainActivity extends BaseActivity {
             tempPlayPosition = 0;
             PreferenceUtils.commitString(SP_KEY_PLAY_PATH, tempPlayPath);
             PreferenceUtils.commitInt(SP_KEY_PLAY_TIME, tempPlayPosition);
+        }
+    }
+
+    private void selectVideoDir(int index){
+        if(index >= 21 && index <= 30){
+            index = index - 21;
+            String dirName = VIDEO_FILE_DIRS[index];
+            File videoFile = new File(ytFileRootPath, dirName);
+            File[] videoFiles = videoFile.listFiles();
+            if(videoFiles == null || videoFiles.length == 0){
+                someError("当前文件夹没有视频文件！");
+            }else{
+                String urlPath = getRandomVideoPath(dirName);
+                if(TextUtils.isEmpty(urlPath)){
+                    someError("当前文件夹没有视频文件！");
+                    return;
+                }
+                CURRENT_VIDEO_FILE_DIR = dirName;
+                PreferenceUtils.commitString(SP_KEY_PLAY_DIR,dirName);
+                ytVideoView.setVideoPath(urlPath);
+                tempPlayPath = urlPath;
+                tempPlayPosition = 0;
+                PreferenceUtils.commitString(SP_KEY_PLAY_PATH, tempPlayPath);
+                PreferenceUtils.commitInt(SP_KEY_PLAY_TIME, tempPlayPosition);
+            }
         }
     }
 
@@ -504,18 +589,29 @@ public class MainActivity extends BaseActivity {
      * 获取随机video视频
      * @return
      */
-    private String getRandomVideoPath(){
-        File videoFile = new File(ytFileRootPath, CURRENT_VIDEO_FILE_DIR);
+    private String getRandomVideoPath(String dirPath){
+        File videoFile = new File(ytFileRootPath, dirPath);
         File[] videoFiles = videoFile.listFiles();
+        ArrayList<String> fileList = new ArrayList<>();
         if(videoFiles != null && videoFiles.length > 0){
+            for (int i = 0; i < videoFiles.length; i++) {
+                int type = SpaceFileUtil.getFileType(videoFiles[i].getAbsolutePath());
+                if (type >= 300 && type < 400) {}else{
+                    fileList.add(videoFiles[i].getAbsolutePath());
+                }
+            }
+
+            if(fileList.size() == 0){
+                return "";
+            }
             int index = 0;
             try{
                 Random random = new Random();
-                index = random.nextInt(videoFiles.length) ;
+                index = random.nextInt(fileList.size()) ;
             }catch (Exception e){
                 index = 0;
             }
-            return videoFiles[index].getAbsolutePath();
+            return fileList.get(index);
         }else{
             return "";
         }
