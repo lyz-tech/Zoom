@@ -57,14 +57,17 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
     }
 
     private void initData(){
-        deviceBar.setTabIcon(R.drawable.icon_tab_test,R.drawable.icon_tab_test_press);
-        deviceBar.setTitleColor(getResources().getColor(R.color.tab_normal),getResources().getColor(R.color.tab_focus));
-        shoppingBar.setTabIcon(R.drawable.icon_tab_test,R.drawable.icon_tab_test_press);
-        shoppingBar.setTitleColor(getResources().getColor(R.color.tab_normal),getResources().getColor(R.color.tab_focus));
-        communityBar.setTabIcon(R.drawable.icon_tab_test,R.drawable.icon_tab_test_press);
-        communityBar.setTitleColor(getResources().getColor(R.color.tab_normal),getResources().getColor(R.color.tab_focus));
-        mineBar.setTabIcon(R.drawable.icon_tab_test,R.drawable.icon_tab_test_press);
-        mineBar.setTitleColor(getResources().getColor(R.color.tab_normal),getResources().getColor(R.color.tab_focus));
+        deviceBar.setTabIcon(R.drawable.gj_icon_tab_bom,R.drawable.gj_icon_tab_bom_press);
+        deviceBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
+
+        shoppingBar.setTabIcon(R.drawable.gj_icon_tab_hot,R.drawable.gj_icon_tab_hot_press);
+        shoppingBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
+
+        communityBar.setTabIcon(R.drawable.gj_icon_tab_normal,R.drawable.gj_icon_tab_normal_press);
+        communityBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
+
+        mineBar.setTabIcon(R.drawable.gj_icon_tab_about,R.drawable.gj_icon_tab_about_press);
+        mineBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
 
         deviceBar.setTitle(getResources().getString(R.string.main_tab_title_drum));
         shoppingBar.setTitle(getResources().getString(R.string.main_tab_title_hot));

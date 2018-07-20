@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity {
 
         ytVideoViewOnCompletionListener();
         ytTextViewOnCompletionListener();
-
+        setOnErrorListener();
         registerYTProReceiver();
     }
 
@@ -209,7 +209,7 @@ public class MainActivity extends BaseActivity {
                 if (TextUtils.isEmpty(tempPlayPath)) {
                     String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
-                        someError("未找到视频文件，请检查！");
+                        someError("doOnResumeThings未找到视频文件，请检查！");
                         return;
                     }else{
                         ytVideoView.setVideoPath(next);
@@ -321,6 +321,22 @@ public class MainActivity extends BaseActivity {
         runTextTimer(false);
     }
 
+    private void setOnErrorListener(){
+        ytVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                Log.e("ZM","onError = " + i);
+                String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
+                if(TextUtils.isEmpty(next)){
+                    someError("setOnErrorListener 2 未找到视频文件，请检查！");
+                }else{
+                    ytVideoView.setVideoPath(next);
+                }
+                return true;
+            }
+        });
+    }
+
     //先播完ad001，播放之后播默认，30秒后播广告，广告播完在回来，30秒后播广告
     private void ytVideoViewOnCompletionListener() {
         ytVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -335,13 +351,13 @@ public class MainActivity extends BaseActivity {
                     if(TextUtils.isEmpty(tempPlayPath)){
                         String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                         if(TextUtils.isEmpty(next)){
-                            someError("未找到视频文件，请检查！");
+                            someError("setOnCompletionListener未找到视频文件，请检查！");
                         }else{
                             ytVideoView.setVideoPath(next);
                         }
                     }else{
                         int type = SpaceFileUtil.getFileType(tempPlayPath);
-                        if(type >= 300 && type < 400){
+                        if(!isADVideo(tempPlayPath) && type >= 300 && type < 400){
                             ytVideoView.setVideoPath(tempPlayPath);
                             if (tempPlayPosition > 0) {
                                 ytVideoView.seekTo(tempPlayPosition);
@@ -349,7 +365,7 @@ public class MainActivity extends BaseActivity {
                         }else{
                             String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                             if(TextUtils.isEmpty(next)){
-                                someError("未找到视频文件，请检查！");
+                                someError("setOnCompletionListener 2 未找到视频文件，请检查！");
                             }else{
                                 ytVideoView.setVideoPath(next);
                             }
@@ -359,7 +375,7 @@ public class MainActivity extends BaseActivity {
                     Log.e("ZM","播放默认视频");
                     String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
-                        someError("未找到视频文件，请检查！");
+                        someError("setOnCompletionListener 3 未找到视频文件，请检查！");
                     }else{
                         ytVideoView.setVideoPath(next);
                     }
@@ -486,7 +502,7 @@ public class MainActivity extends BaseActivity {
         runADTimer(true);
         String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
         if(TextUtils.isEmpty(next)){
-            someError("未找到视频文件，请检查！");
+            someError("playRandomNext 未找到视频文件，请检查！");
             return;
         }else{
             ytVideoView.setVideoPath(next);
@@ -596,7 +612,7 @@ public class MainActivity extends BaseActivity {
         if(videoFiles != null && videoFiles.length > 0){
             for (int i = 0; i < videoFiles.length; i++) {
                 int type = SpaceFileUtil.getFileType(videoFiles[i].getAbsolutePath());
-                if (type >= 300 && type < 400) {}else{
+                if (type >= 300 && type < 400){
                     fileList.add(videoFiles[i].getAbsolutePath());
                 }
             }

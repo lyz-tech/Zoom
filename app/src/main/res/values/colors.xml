@@ -11,4 +11,6 @@
     <color name="txt_normal">#c2c2c2</color>
     <color name="txt_focus">#0186ff</color>
 
+    <color name="txt_tab_normal">#d1d1d1</color>
+
 </resources>

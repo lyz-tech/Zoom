@@ -9,12 +9,14 @@
     <ImageView
         android:id="@+id/tab_icon"
         android:src="@drawable/apk"
-        android:layout_width="@dimen/DIMEN_40dp"
-        android:layout_height="@dimen/DIMEN_40dp"
+        android:layout_width="@dimen/DIMEN_45dp"
+        android:layout_height="@dimen/DIMEN_45dp"
     />
 
     <TextView
+        android:layout_marginTop="@dimen/DIMEN_3dp"
         android:id="@+id/tab_title"
+        android:textSize="@dimen/DIMEN_10sp"
         android:text="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

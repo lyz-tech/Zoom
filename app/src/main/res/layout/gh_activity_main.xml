@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+            android:background="#ffffff"
               android:orientation="vertical">
 
     <com.third.zoom.guanjia.widget.NavTopView
+        android:background="#c2c2c2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/DIMEN_30dp">
+        android:layout_height="@dimen/DIMEN_28dp">
     </com.third.zoom.guanjia.widget.NavTopView>
 
 
