@@ -8,6 +8,14 @@
                     android:layout_weight="1"
                   android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/gj_main_img_pre"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/gj_selecter_icon_pre"
+            android:scaleType="fitXY"
+            android:layout_width="@dimen/DIMEN_25dp"
+            android:layout_height="@dimen/DIMEN_25dp" />
 
 
     </RelativeLayout>
@@ -38,6 +46,17 @@
 
     <RelativeLayout android:layout_width="0dp"
                     android:layout_weight="1"
-                  android:layout_height="match_parent"></RelativeLayout>
+                  android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/gj_main_img_next"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/gj_selecter_icon_next"
+            android:scaleType="fitXY"
+            android:layout_width="@dimen/DIMEN_25dp"
+            android:layout_height="@dimen/DIMEN_25dp" />
+
+    </RelativeLayout>
 
 </LinearLayout>
