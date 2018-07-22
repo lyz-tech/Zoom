@@ -19,7 +19,7 @@
         android:textSize="@dimen/DIMEN_20sp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_50dp"
-        android:background="#aaffffff"
+        android:background="#55424242"
         android:ellipsize="marquee"
         android:focusable="true"
         android:focusableInTouchMode="true"

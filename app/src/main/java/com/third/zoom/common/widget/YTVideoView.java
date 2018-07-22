@@ -258,6 +258,10 @@ public class YTVideoView extends SurfaceView {
 		return path;
 	}
 
+	public void changePath(String path){
+		this.path = path;
+	}
+
 	/**
 	 * 获取当前进度
 	 * @return

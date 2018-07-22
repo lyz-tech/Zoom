@@ -8,7 +8,7 @@ import com.third.zoom.ytbus.utils.Contans;
 
 /**
  * 作者：Sky on 2018/7/12.
- * 用途：//TODO
+ * 用途：协议处理
  */
 
 public class YTProHandler {
@@ -59,10 +59,14 @@ public class YTProHandler {
                 Log.e("ZM", "密令头：" + cmd);
                 Log.e("ZM", "有效数据：" + validData);
 
-                toHandler(validData);
-
                 reciverString = reciverString.substring((decimalism + 6) * 2,
                         reciverString.length());
+
+                if(cmd.contains("2")){
+                    toHandler(validData);
+                }else{
+                    reciverString = "";
+                }
 
                 if (reciverString.length() > 0) {
                     handleMessage("");

@@ -36,6 +36,7 @@ public interface Contans {
     //菜单
     int COM_12 = 12;
     //选择VIDEO1-10
+    int COM_20 = 20;
     int COM_21 = 21;
     int COM_22 = 22;
     int COM_23 = 23;

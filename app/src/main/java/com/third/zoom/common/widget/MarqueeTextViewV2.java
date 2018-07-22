@@ -57,7 +57,7 @@ public class MarqueeTextViewV2 extends TextView {
 	/**
 	 * 字体颜色
 	 */
-	private String mTextColor = "#000000";
+	private String mTextColor = "#ffffff";
 	/**
 	 * 切割长度
 	 */
