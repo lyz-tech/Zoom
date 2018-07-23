@@ -27,12 +27,12 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6;
     private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6;
 
-    private int[] resId1 = {R.drawable.audio,R.drawable.audio,R.drawable.audio};
-    private int[] resId2 = {R.drawable.copy,R.drawable.copy,R.drawable.copy};
-    private int[] resId3 = {R.drawable.dir,R.drawable.dir,R.drawable.dir};
-    private int[] resId4 = {R.drawable.excel,R.drawable.excel,R.drawable.excel};
-    private int[] resId5 = {R.drawable.flv,R.drawable.flv,R.drawable.flv};
-    private int[] resId6 = {R.drawable.gif,R.drawable.gif,R.drawable.gif};
+    private int[] resId1 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
+    private int[] resId2 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
+    private int[] resId3 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
+    private int[] resId4 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
+    private int[] resId5 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
+    private int[] resId6 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
 
     private AboutPageAdapter aboutPageAdapter;
     private int[] imgResIds;
@@ -101,9 +101,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             public void onPageSelected(int position) {
                 for (int i = 0; i < imgResIds.length; i++) {
                     if (position == i) {
-                        tips[position].setBackgroundResource(R.drawable.audio);
+                        tips[position].setBackgroundResource(R.drawable.gj_icon_circle_press);
                     }else{
-                        tips[i].setBackgroundResource(R.drawable.vedio);
+                        tips[i].setBackgroundResource(R.drawable.gj_icon_cirlce);
                     }
                 }
             }
@@ -141,13 +141,13 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         circles.removeAllViews();
         for (int i = 0; i < allSize; i++) {
             imageView = new ImageView(context);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(20, 20));
-            imageView.setPadding(50, 0, 50, 0);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(15, 15));
+            imageView.setPadding(20, 0, 20, 0);
             tips[i] = imageView;
             if (i == 0) {
-                tips[i].setBackgroundResource(R.drawable.audio);
+                tips[i].setBackgroundResource(R.drawable.gj_icon_circle_press);
             } else {
-                tips[i].setBackgroundResource(R.drawable.vedio);
+                tips[i].setBackgroundResource(R.drawable.gj_icon_cirlce);
             }
             circles.addView(tips[i]);
         }
