@@ -1,5 +1,10 @@
 package com.third.zoom.guanjia.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
@@ -12,9 +17,14 @@ import com.third.zoom.R;
 import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.BmvSelectListener;
+import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.widget.AboutGJView;
 import com.third.zoom.guanjia.widget.MainView;
 import com.third.zoom.guanjia.widget.SelectHotWaterView;
+import com.third.zoom.guanjia.widget.WaitingView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 作者：Sky on 2018/7/13.
@@ -27,13 +37,21 @@ import com.third.zoom.guanjia.widget.SelectHotWaterView;
 )
 public class MainActivity extends BaseActivity {
 
+    private static final int WHAT_NOT_OPERATION = 10;
+    private static final long DEFAULT_TIME = 3 * 60 * 1000;
+
     private MainView mainView;
     private SelectHotWaterView selectHotWaterView;
     private AboutGJView aboutGJView;
+    private WaitingView waitingView;
 
     @Override
     protected void toHandleMessage(Message msg) {
-
+        switch (msg.what){
+            case WHAT_NOT_OPERATION:
+                operation(false);
+                break;
+        }
     }
 
     @Override
@@ -44,14 +62,22 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unRegisterGJProReceiver();
+    }
+
+    @Override
     protected void findViewAfterViewCreate() {
         mainView = (MainView) findViewById(R.id.mainView);
         selectHotWaterView = (SelectHotWaterView) findViewById(R.id.selectHotWaterView);
         aboutGJView = (AboutGJView) findViewById(R.id.aboutView);
+        waitingView = (WaitingView) findViewById(R.id.waitingView);
     }
 
     @Override
     protected void initDataAfterFindView() {
+        registerGJProReceiver();
         mainView.setBmvListener(new BmvSelectListener() {
             @Override
             public void itemSelectOpen(int position) {
@@ -115,6 +141,8 @@ public class MainActivity extends BaseActivity {
                 mainView.updateShow(0);
             }
         });
+
+        runOperationTimer();
     }
 
     /**
@@ -129,6 +157,57 @@ public class MainActivity extends BaseActivity {
             Log.e("ZM","关闭：" + pro);
         }
 
+    }
+
+    private OperationReceiver operationReceiver;
+    private void registerGJProReceiver(){
+        operationReceiver = new OperationReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Contans.INTENT_GJ_ACTION_ACTIVE);
+        registerReceiver(operationReceiver,intentFilter);
+    }
+
+    private void unRegisterGJProReceiver(){
+        if(operationReceiver != null){
+            unregisterReceiver(operationReceiver);
+        }
+    }
+
+    private class OperationReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            operation(true);
+            runOperationTimer();
+        }
+    }
+
+    private void operation(boolean isActive){
+        if(isActive){
+            waitingView.setVisibility(View.GONE);
+        }else{
+            waitingView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 操作倒计时
+     * @param flag
+     */
+    private Timer operationTimer;
+    private void runOperationTimer(){
+        if(operationTimer != null){
+            operationTimer.cancel();
+            operationTimer = null;
+        }
+        Log.e("ZM","开始没有操作定时");
+        operationTimer = new Timer();
+        operationTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.sendEmptyMessage(WHAT_NOT_OPERATION);
+            }
+        },DEFAULT_TIME);
     }
 
 }

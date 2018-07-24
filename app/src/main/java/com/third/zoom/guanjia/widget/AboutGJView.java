@@ -27,12 +27,12 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6;
     private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6;
 
-    private int[] resId1 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
-    private int[] resId2 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
-    private int[] resId3 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
-    private int[] resId4 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
-    private int[] resId5 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
-    private int[] resId6 = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_2};
+    private int[] resId1 = {R.drawable.gj_about_tab1_1,R.drawable.gj_about_tab1_2};
+    private int[] resId2 = {R.drawable.gj_about_tab2_1,R.drawable.gj_about_tab2_2};
+    private int[] resId3 = {R.drawable.gj_about_tab3_1,R.drawable.gj_about_tab3_2};
+    private int[] resId4 = {R.drawable.gj_about_tab4_1,R.drawable.gj_about_tab4_2};
+    private int[] resId5 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
+    private int[] resId6 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
 
     private AboutPageAdapter aboutPageAdapter;
     private int[] imgResIds;

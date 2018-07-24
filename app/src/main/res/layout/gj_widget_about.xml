@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/img_back"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/gj_icon_back"
+            android:background="@drawable/gj_selecter_icon_back"
             android:layout_margin="@dimen/DIMEN_10dp"
             android:layout_width="@dimen/DIMEN_10dp"
             android:layout_height="@dimen/DIMEN_16dp" />

@@ -36,6 +36,13 @@
             android:layout_height="match_parent">
         </com.third.zoom.guanjia.widget.AboutGJView>
 
+        <com.third.zoom.guanjia.widget.WaitingView
+            android:visibility="gone"
+            android:id="@+id/waitingView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.third.zoom.guanjia.widget.WaitingView>
+
     </RelativeLayout>
 
 </LinearLayout>
