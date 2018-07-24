@@ -100,6 +100,7 @@ public class MainActivity extends BaseActivity {
         selectHotWaterView.setImageBackOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectHotWaterView.resetView();
                 mainView.setVisibility(View.VISIBLE);
                 selectHotWaterView.setVisibility(View.GONE);
                 mainView.updateShow(0);

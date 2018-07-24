@@ -25,13 +25,15 @@ public class MainView extends LinearLayout{
 
     private Context mContext;
     private ImageView imgShow;
+    private ImageView imgPre;
+    private ImageView imgNext;
     private CommonBmv commonBmv;
 
     /**
      * 主页轮播图
      */
     private int[] showRes = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_3};
-    private int[] positionRes = {R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_hot_unlock,R.drawable.gj_icon_bom_notice,R.drawable.pdf};
+    private int[] positionRes = {R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_hot_unlock,R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_bom_notice};
     private int showIndex = 0;
 
     //当前点击index
@@ -68,10 +70,25 @@ public class MainView extends LinearLayout{
         View view = View.inflate(mContext, R.layout.gj_widget_main,this);
         imgShow = (ImageView) view.findViewById(R.id.img_main_show);
         commonBmv = (CommonBmv) view.findViewById(R.id.commonbmv);
+        imgPre = (ImageView) view.findViewById(R.id.gj_main_img_pre);
+        imgNext = (ImageView) view.findViewById(R.id.gj_main_img_next);
     }
 
     private void initData(){
         updateShow(0);
+        imgPre.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateShow(-1);
+            }
+        });
+
+        imgNext.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateShow(1);
+            }
+        });
     }
 
     public void setBmvListener(BmvSelectListener bmvListener){
@@ -98,6 +115,7 @@ public class MainView extends LinearLayout{
     }
 
     public void updateShow(int index){
+        mHandler.removeMessages(WHAT_UPDATE_SHOW);
         showIndex = showIndex + index;
         if(showIndex >= showRes.length){
             showIndex = 0;

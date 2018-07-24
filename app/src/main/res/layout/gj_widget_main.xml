@@ -14,7 +14,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/gj_selecter_icon_pre"
             android:scaleType="fitXY"
-            android:layout_width="@dimen/DIMEN_25dp"
+            android:layout_width="@dimen/DIMEN_15dp"
             android:layout_height="@dimen/DIMEN_25dp" />
 
 
@@ -54,7 +54,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/gj_selecter_icon_next"
             android:scaleType="fitXY"
-            android:layout_width="@dimen/DIMEN_25dp"
+            android:layout_width="@dimen/DIMEN_15dp"
             android:layout_height="@dimen/DIMEN_25dp" />
 
     </RelativeLayout>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private ViewPager viewPager;
     private LinearLayout circles;
     private SetPermissionView setPermissionView;
+    private ImageView imgPre,imgNext;
     private LinearLayout ll1,ll2,ll3,ll4,ll5,ll6;
     private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6;
     private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6;
@@ -60,6 +60,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         circles = (LinearLayout) view.findViewById(R.id.circles);
         setPermissionView = (SetPermissionView) view.findViewById(R.id.setPermissionView);
         imgBack = (ImageView) view.findViewById(R.id.img_back);
+        imgPre = (ImageView) view.findViewById(R.id.gj_about_img_pre);
+        imgNext = (ImageView) view.findViewById(R.id.gj_about_img_next);
         ll1 = (LinearLayout) view.findViewById(R.id.ll1);
         ll2 = (LinearLayout) view.findViewById(R.id.ll2);
         ll3 = (LinearLayout) view.findViewById(R.id.ll3);
@@ -114,6 +116,31 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             }
         });
 
+
+        imgPre.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = viewPager.getCurrentItem();
+                int count = aboutPageAdapter.getCount();
+                if(--index < 0){
+                    index = count - 1;
+                }
+                viewPager.setCurrentItem(index);
+            }
+        });
+        imgNext.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = viewPager.getCurrentItem();
+                int count = aboutPageAdapter.getCount();
+                if(++index >= count){
+                    index = 0;
+                }
+                viewPager.setCurrentItem(index);
+            }
+        });
+
+
         ll1.performClick();
     }
 
@@ -141,8 +168,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         circles.removeAllViews();
         for (int i = 0; i < allSize; i++) {
             imageView = new ImageView(context);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(15, 15));
-            imageView.setPadding(20, 0, 20, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(15, 15);
+            params.setMargins(5, 0, 5, 0);
+            imageView.setLayoutParams(params);
             tips[i] = imageView;
             if (i == 0) {
                 tips[i].setBackgroundResource(R.drawable.gj_icon_circle_press);
@@ -195,10 +223,14 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
 
     private void changeView(int position){
         if(position == 6){
+            imgPre.setVisibility(GONE);
+            imgNext.setVisibility(GONE);
             viewPager.setVisibility(GONE);
             circles.setVisibility(GONE);
             setPermissionView.setVisibility(VISIBLE);
         }else{
+            imgPre.setVisibility(VISIBLE);
+            imgNext.setVisibility(VISIBLE);
             viewPager.setVisibility(VISIBLE);
             circles.setVisibility(VISIBLE);
             setPermissionView.setVisibility(GONE);

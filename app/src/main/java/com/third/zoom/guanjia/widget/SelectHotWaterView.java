@@ -19,6 +19,7 @@ import java.util.List;
 
 public class SelectHotWaterView extends RelativeLayout implements View.OnClickListener{
 
+    private String DEFAULT_TEXT = "请选择需求选择所需的水温";
     private String[] waterNotice = {"50度水温适宜冲泡奶粉、蜂蜜等",
             "65度水温适宜冲泡生粉及芝麻糊等",
             "80度水温适宜冲泡醇香咖啡等",
@@ -57,6 +58,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
     private void initView(){
         View view = View.inflate(mContext, R.layout.gj_widget_select_hot,this);
         txtNotice = (TextView) view.findViewById(R.id.txt_notice);
+        txtNotice.setText(DEFAULT_TEXT);
         imgBack = (ImageView) findViewById(R.id.img_back);
 
         txtTH50 = (TextView) view.findViewById(R.id.txt_th_50);
@@ -84,7 +86,10 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
     }
 
     public void resetView(){
-
+        if(currentIndex >= 0){
+            TextView item = tabs.get(currentIndex);
+            item.performClick();
+        }
     }
 
     public void setBmvSelectListener(BmvSelectListener bmvSelectListener){
@@ -101,6 +106,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             TextView item = tabs.get(i);
             if(currentIndex == i){
                 currentIndex = -1;
+                txtNotice.setText(DEFAULT_TEXT);
                 item.setBackgroundResource(closeResId);
                 if(bmvSelectListener != null){
                     bmvSelectListener.itemSelectClose(i);
@@ -113,7 +119,9 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
         for (int i = 0; i < tabs.size(); i++) {
             TextView item = tabs.get(i);
             if((Integer)v.getTag() == i){
+                currentIndex = i;
                 item.setBackgroundResource(openResId);
+                txtNotice.setText(waterNotice[i]);
                 if(bmvSelectListener != null){
                     bmvSelectListener.itemSelectOpen(i);
                 }
