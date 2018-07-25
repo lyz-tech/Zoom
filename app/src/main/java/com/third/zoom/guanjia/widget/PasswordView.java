@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.third.zoom.R;
+import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.IntentUtils;
 
 /**
  * 作者：Sky on 2018/7/16.
@@ -77,6 +79,7 @@ public class PasswordView extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
         switch (view.getId()){
             case R.id.txt_pwd_0:
                 passwordText += "0";

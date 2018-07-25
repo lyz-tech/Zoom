@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.third.zoom.R;
 import com.third.zoom.guanjia.adapter.AboutPageAdapter;
+import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.IntentUtils;
 
 /**
  * 作者：Sky on 2018/7/16.
@@ -101,6 +103,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
 
             @Override
             public void onPageSelected(int position) {
+                IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
                 for (int i = 0; i < imgResIds.length; i++) {
                     if (position == i) {
                         tips[position].setBackgroundResource(R.drawable.gj_icon_circle_press);
@@ -222,6 +225,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     }
 
     private void changeView(int position){
+        IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
         if(position == 6){
             imgPre.setVisibility(GONE);
             imgNext.setVisibility(GONE);

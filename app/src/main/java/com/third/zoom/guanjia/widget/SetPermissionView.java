@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.third.zoom.R;
+import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.IntentUtils;
 
 /**
  * 作者：Sky on 2018/7/16.
@@ -50,6 +52,7 @@ public class SetPermissionView extends RelativeLayout{
         btnPassword.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
                 permissionRoot.setVisibility(GONE);
                 passwordView.setVisibility(VISIBLE);
             }
@@ -58,6 +61,7 @@ public class SetPermissionView extends RelativeLayout{
         passwordView.setCancelOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
                 permissionRoot.setVisibility(VISIBLE);
                 passwordView.setVisibility(GONE);
             }

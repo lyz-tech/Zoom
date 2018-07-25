@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.third.zoom.R;
 import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.IntentUtils;
 
 /**
  * Created by Alienware on 2018/7/24.
@@ -49,8 +50,7 @@ public class WaitingView extends LinearLayout {
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toActive = new Intent(Contans.INTENT_GJ_ACTION_ACTIVE);
-                context.sendBroadcast(toActive);
+                IntentUtils.sendBroadcast(context,Contans.INTENT_GJ_ACTION_ACTIVE);
             }
         });
     }

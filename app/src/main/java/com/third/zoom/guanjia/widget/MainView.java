@@ -80,6 +80,7 @@ public class MainView extends LinearLayout{
             @Override
             public void onClick(View v) {
                 updateShow(-1);
+
             }
         });
 

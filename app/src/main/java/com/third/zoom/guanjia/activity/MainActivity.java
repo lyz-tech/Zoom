@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
@@ -17,7 +16,9 @@ import com.third.zoom.R;
 import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.BmvSelectListener;
+import com.third.zoom.common.utils.SystemUtil;
 import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.IntentUtils;
 import com.third.zoom.guanjia.widget.AboutGJView;
 import com.third.zoom.guanjia.widget.MainView;
 import com.third.zoom.guanjia.widget.SelectHotWaterView;
@@ -38,7 +39,11 @@ import java.util.TimerTask;
 public class MainActivity extends BaseActivity {
 
     private static final int WHAT_NOT_OPERATION = 10;
+    private static final int WHAT_NOT_OPERATION_1 = 11;
+    private static final int WHAT_NOT_OPERATION_2 = 12;
     private static final long DEFAULT_TIME = 3 * 60 * 1000;
+    private static final long DEFAULT_TIME_1 = 1 * 60 * 1000;
+    private static final long DEFAULT_TIME_2 = 2 * 60 * 1000;
 
     private MainView mainView;
     private SelectHotWaterView selectHotWaterView;
@@ -50,6 +55,12 @@ public class MainActivity extends BaseActivity {
         switch (msg.what){
             case WHAT_NOT_OPERATION:
                 operation(false);
+                break;
+            case WHAT_NOT_OPERATION_1:
+                operation1();
+                break;
+            case WHAT_NOT_OPERATION_2:
+                operation2();
                 break;
         }
     }
@@ -82,6 +93,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void itemSelectOpen(int position) {
                 Log.e("ZM","itemSelectOpen = " + position);
+                sendActiveAction();
                 mainView.setPositionShow(position);
                 if(position == 0 || position == 2){
                     sendPro(true,"position = " + position);
@@ -94,6 +106,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void itemSelectClose(int position) {
+                sendActiveAction();
                 Log.e("ZM","itemSelectClose = " + position);
                 mainView.updateShow(0);
                 if(position == 0 || position == 2){
@@ -105,6 +118,7 @@ public class MainActivity extends BaseActivity {
         mainView.setHotWaterClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendActiveAction();
                 mainView.setVisibility(View.GONE);
                 selectHotWaterView.setVisibility(View.VISIBLE);
                 mainView.getBmvItem(1).performClick();
@@ -114,11 +128,13 @@ public class MainActivity extends BaseActivity {
         selectHotWaterView.setBmvSelectListener(new BmvSelectListener() {
             @Override
             public void itemSelectOpen(int position) {
+                sendActiveAction();
                 Log.e("ZM","itemSelectOpen = " + position);
             }
 
             @Override
             public void itemSelectClose(int position) {
+                sendActiveAction();
                 Log.e("ZM","itemSelectClose = " + position);
             }
         });
@@ -126,6 +142,7 @@ public class MainActivity extends BaseActivity {
         selectHotWaterView.setImageBackOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendActiveAction();
                 selectHotWaterView.resetView();
                 mainView.setVisibility(View.VISIBLE);
                 selectHotWaterView.setVisibility(View.GONE);
@@ -136,6 +153,7 @@ public class MainActivity extends BaseActivity {
         aboutGJView.setImageBackOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendActiveAction();
                 mainView.setVisibility(View.VISIBLE);
                 aboutGJView.setVisibility(View.GONE);
                 mainView.updateShow(0);
@@ -182,12 +200,31 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 3分钟没有操作，亮度设置为30%
+     */
     private void operation(boolean isActive){
         if(isActive){
+            SystemUtil.setScreenLight(this,200);
             waitingView.setVisibility(View.GONE);
         }else{
+            SystemUtil.setScreenLight(this,80);
             waitingView.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * 1分钟没有操作，亮度设置为70%
+     */
+    private void operation1(){
+        SystemUtil.setScreenLight(this,160);
+    }
+
+    /**
+     * 2分钟没有操作，亮度设置为50%
+     */
+    private void operation2(){
+        SystemUtil.setScreenLight(this,120);
     }
 
     /**
@@ -195,12 +232,22 @@ public class MainActivity extends BaseActivity {
      * @param flag
      */
     private Timer operationTimer;
+    private Timer operationTimer1;
+    private Timer operationTimer2;
     private void runOperationTimer(){
         if(operationTimer != null){
             operationTimer.cancel();
             operationTimer = null;
         }
-        Log.e("ZM","开始没有操作定时");
+        if(operationTimer1 != null){
+            operationTimer1.cancel();
+            operationTimer1 = null;
+        }
+        if(operationTimer2 != null){
+            operationTimer2.cancel();
+            operationTimer2 = null;
+        }
+        Log.e("ZM","开始操作定时");
         operationTimer = new Timer();
         operationTimer.schedule(new TimerTask() {
             @Override
@@ -208,6 +255,26 @@ public class MainActivity extends BaseActivity {
                 mHandler.sendEmptyMessage(WHAT_NOT_OPERATION);
             }
         },DEFAULT_TIME);
+
+        operationTimer1 = new Timer();
+        operationTimer1.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.sendEmptyMessage(WHAT_NOT_OPERATION_1);
+            }
+        },DEFAULT_TIME_1);
+
+        operationTimer2 = new Timer();
+        operationTimer2.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.sendEmptyMessage(WHAT_NOT_OPERATION_2);
+            }
+        },DEFAULT_TIME_2);
+    }
+
+    private void sendActiveAction(){
+        IntentUtils.sendBroadcast(MainActivity.this, Contans.INTENT_GJ_ACTION_ACTIVE);
     }
 
 }
