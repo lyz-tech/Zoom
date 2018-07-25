@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_centerInParent="true"
+                  android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_select_time"
+            android:text="选择时间"
+            android:textSize="@dimen/DIMEN_13sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_marginTop="@dimen/DIMEN_10dp"
+            android:id="@+id/btn_cancel"
+            android:text="取消"
+            android:textSize="@dimen/DIMEN_13sp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 
 
-</LinearLayout>
+
+</RelativeLayout>

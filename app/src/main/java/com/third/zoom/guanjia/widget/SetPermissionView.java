@@ -20,6 +20,7 @@ public class SetPermissionView extends RelativeLayout{
 
     private Context context;
     private PasswordView passwordView;
+    private SetTimeView setTimeView;
     private LinearLayout permissionRoot;
     private Button btnTime;
     private Button btnPassword;
@@ -43,12 +44,22 @@ public class SetPermissionView extends RelativeLayout{
     private void initView() {
         View view = View.inflate(context, R.layout.gj_widget_permission,this);
         passwordView = (PasswordView) view.findViewById(R.id.permission_password);
+        setTimeView = (SetTimeView) view.findViewById(R.id.permission_setTime);
         permissionRoot = (LinearLayout) view.findViewById(R.id.permission_root);
         btnTime = (Button) view.findViewById(R.id.btn_time);
         btnPassword = (Button) view.findViewById(R.id.btn_password);
     }
 
     private void initData() {
+        btnTime.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
+                permissionRoot.setVisibility(GONE);
+                setTimeView.setVisibility(VISIBLE);
+            }
+        });
+
         btnPassword.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +75,16 @@ public class SetPermissionView extends RelativeLayout{
                 IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
                 permissionRoot.setVisibility(VISIBLE);
                 passwordView.setVisibility(GONE);
+            }
+        });
+
+        setTimeView.setCancelOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
+                permissionRoot.setVisibility(VISIBLE);
+                passwordView.setVisibility(GONE);
+                setTimeView.setVisibility(GONE);
             }
         });
     }

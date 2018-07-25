@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.third.zoom.R;
 import com.third.zoom.common.base.ActivityFragmentInject;
@@ -52,7 +54,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void toHandleMessage(Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case WHAT_NOT_OPERATION:
                 operation(false);
                 break;
@@ -68,7 +70,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState, persistentState);
     }
 
@@ -92,12 +94,12 @@ public class MainActivity extends BaseActivity {
         mainView.setBmvListener(new BmvSelectListener() {
             @Override
             public void itemSelectOpen(int position) {
-                Log.e("ZM","itemSelectOpen = " + position);
+                Log.e("ZM", "itemSelectOpen = " + position);
                 sendActiveAction();
                 mainView.setPositionShow(position);
-                if(position == 0 || position == 2){
-                    sendPro(true,"position = " + position);
-                }else if(position == 3){
+                if (position == 0 || position == 2) {
+                    sendPro(true, "position = " + position);
+                } else if (position == 3) {
                     mainView.setVisibility(View.GONE);
                     aboutGJView.setVisibility(View.VISIBLE);
                     mainView.getBmvItem(3).performClick();
@@ -107,10 +109,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void itemSelectClose(int position) {
                 sendActiveAction();
-                Log.e("ZM","itemSelectClose = " + position);
+                Log.e("ZM", "itemSelectClose = " + position);
                 mainView.updateShow(0);
-                if(position == 0 || position == 2){
-                    sendPro(false,"position = " + position);
+                if (position == 0 || position == 2) {
+                    sendPro(false, "position = " + position);
                 }
             }
         });
@@ -129,13 +131,13 @@ public class MainActivity extends BaseActivity {
             @Override
             public void itemSelectOpen(int position) {
                 sendActiveAction();
-                Log.e("ZM","itemSelectOpen = " + position);
+                Log.e("ZM", "itemSelectOpen = " + position);
             }
 
             @Override
             public void itemSelectClose(int position) {
                 sendActiveAction();
-                Log.e("ZM","itemSelectClose = " + position);
+                Log.e("ZM", "itemSelectClose = " + position);
             }
         });
 
@@ -165,33 +167,35 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 发送协议
+     *
      * @param isOpen
      * @param pro
      */
-    private synchronized void sendPro(boolean isOpen,String pro){
-        if(isOpen){
-            Log.e("ZM","打开：" + pro);
-        }else{
-            Log.e("ZM","关闭：" + pro);
+    private synchronized void sendPro(boolean isOpen, String pro) {
+        if (isOpen) {
+            Log.e("ZM", "打开：" + pro);
+        } else {
+            Log.e("ZM", "关闭：" + pro);
         }
 
     }
 
     private OperationReceiver operationReceiver;
-    private void registerGJProReceiver(){
+
+    private void registerGJProReceiver() {
         operationReceiver = new OperationReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Contans.INTENT_GJ_ACTION_ACTIVE);
-        registerReceiver(operationReceiver,intentFilter);
+        registerReceiver(operationReceiver, intentFilter);
     }
 
-    private void unRegisterGJProReceiver(){
-        if(operationReceiver != null){
+    private void unRegisterGJProReceiver() {
+        if (operationReceiver != null) {
             unregisterReceiver(operationReceiver);
         }
     }
 
-    private class OperationReceiver extends BroadcastReceiver{
+    private class OperationReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -203,12 +207,13 @@ public class MainActivity extends BaseActivity {
     /**
      * 3分钟没有操作，亮度设置为30%
      */
-    private void operation(boolean isActive){
-        if(isActive){
-            SystemUtil.setScreenLight(this,200);
+    private void operation(boolean isActive) {
+        if (isActive) {
+            SystemUtil.setScreenLight(this, 200);
             waitingView.setVisibility(View.GONE);
-        }else{
-            SystemUtil.setScreenLight(this,80);
+        } else {
+            Log.e("ZM", "3分钟没有操作");
+            SystemUtil.setScreenLight(this, 80);
             waitingView.setVisibility(View.VISIBLE);
         }
     }
@@ -216,45 +221,49 @@ public class MainActivity extends BaseActivity {
     /**
      * 1分钟没有操作，亮度设置为70%
      */
-    private void operation1(){
-        SystemUtil.setScreenLight(this,160);
+    private void operation1() {
+        Log.e("ZM", "1分钟没有操作");
+        SystemUtil.setScreenLight(this, 160);
     }
 
     /**
      * 2分钟没有操作，亮度设置为50%
      */
-    private void operation2(){
-        SystemUtil.setScreenLight(this,120);
+    private void operation2() {
+        Log.e("ZM", "2分钟没有操作");
+        SystemUtil.setScreenLight(this, 120);
     }
 
     /**
      * 操作倒计时
+     *
      * @param flag
      */
     private Timer operationTimer;
     private Timer operationTimer1;
     private Timer operationTimer2;
-    private void runOperationTimer(){
-        if(operationTimer != null){
+
+    private void runOperationTimer() {
+        if (operationTimer != null) {
             operationTimer.cancel();
             operationTimer = null;
         }
-        if(operationTimer1 != null){
+        if (operationTimer1 != null) {
             operationTimer1.cancel();
             operationTimer1 = null;
         }
-        if(operationTimer2 != null){
+        if (operationTimer2 != null) {
             operationTimer2.cancel();
             operationTimer2 = null;
         }
-        Log.e("ZM","开始操作定时");
+        Log.e("ZM", "开始操作定时");
         operationTimer = new Timer();
         operationTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 mHandler.sendEmptyMessage(WHAT_NOT_OPERATION);
             }
-        },DEFAULT_TIME);
+        }, DEFAULT_TIME);
 
         operationTimer1 = new Timer();
         operationTimer1.schedule(new TimerTask() {
@@ -262,7 +271,7 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 mHandler.sendEmptyMessage(WHAT_NOT_OPERATION_1);
             }
-        },DEFAULT_TIME_1);
+        }, DEFAULT_TIME_1);
 
         operationTimer2 = new Timer();
         operationTimer2.schedule(new TimerTask() {
@@ -270,11 +279,27 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 mHandler.sendEmptyMessage(WHAT_NOT_OPERATION_2);
             }
-        },DEFAULT_TIME_2);
+        }, DEFAULT_TIME_2);
     }
 
-    private void sendActiveAction(){
+    private void sendActiveAction() {
         IntentUtils.sendBroadcast(MainActivity.this, Contans.INTENT_GJ_ACTION_ACTIVE);
+    }
+
+    private long timeLimit = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.e("ZM", "onKeyDown = " + keyCode);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis() - timeLimit < 1500) {
+                finish();
+            } else {
+                timeLimit = System.currentTimeMillis();
+                Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_LONG).show();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

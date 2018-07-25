@@ -37,6 +37,13 @@
 
     </LinearLayout>
 
+    <com.third.zoom.guanjia.widget.SetTimeView
+        android:id="@+id/permission_setTime"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+    </com.third.zoom.guanjia.widget.SetTimeView>
+
     <com.third.zoom.guanjia.widget.PasswordView android:id="@+id/permission_password"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"

@@ -2,6 +2,7 @@ package com.third.zoom.common.utils;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.net.Uri;
 import android.provider.Settings;
 import android.view.WindowManager;
 
@@ -16,7 +17,7 @@ public class SystemUtil {
      * 设置屏幕为手动模式
      * @param context
      */
-    public void setScreenManualMode(Activity context) {
+    public static void setScreenManualMode(Activity context) {
         ContentResolver contentResolver = context.getContentResolver();
         try {
             int mode = Settings.System.getInt(contentResolver,
@@ -43,6 +44,12 @@ public class SystemUtil {
                 Settings.System.SCREEN_BRIGHTNESS, defVal);
     }
 
+
+    public static void saveBrightness(Activity activity, int brightness) {
+        Uri uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS);
+        Settings.System.putInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
+        activity.getContentResolver().notifyChange(uri, null);
+    }
 
     /**
      * 设置屏幕亮度，
