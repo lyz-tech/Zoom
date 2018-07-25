@@ -10,13 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_60dp">
 
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/gj_selecter_icon_back"
-            android:layout_margin="@dimen/DIMEN_10dp"
-            android:layout_width="@dimen/DIMEN_10dp"
-            android:layout_height="@dimen/DIMEN_16dp" />
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="@dimen/DIMEN_40dp"
+            android:layout_height="@dimen/DIMEN_60dp">
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_centerInParent="true"
+                android:background="@drawable/gj_selecter_icon_back"
+                android:layout_width="@dimen/DIMEN_10dp"
+                android:layout_height="@dimen/DIMEN_16dp" />
+
+        </RelativeLayout>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/img_back"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="@drawable/gj_selecter_icon_back"-->
+            <!--android:layout_margin="@dimen/DIMEN_10dp"-->
+            <!--android:layout_width="@dimen/DIMEN_10dp"-->
+            <!--android:layout_height="@dimen/DIMEN_16dp" />-->
 
         <LinearLayout
             android:id="@+id/ll1"

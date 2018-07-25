@@ -29,6 +29,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
     private int closeResId = R.drawable.gj_shape_cir_textview;
 
     private Context mContext;
+    private RelativeLayout rlBack;
     private ImageView imgBack;
     private TextView txtNotice;
     private TextView txtTH50;
@@ -57,6 +58,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
 
     private void initView(){
         View view = View.inflate(mContext, R.layout.gj_widget_select_hot,this);
+        rlBack = (RelativeLayout) view.findViewById(R.id.rl_back);
         txtNotice = (TextView) view.findViewById(R.id.txt_notice);
         txtNotice.setText(DEFAULT_TEXT);
         imgBack = (ImageView) findViewById(R.id.img_back);
@@ -98,6 +100,12 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
 
     public void setImageBackOnClickListener(OnClickListener onClickListener){
         imgBack.setOnClickListener(onClickListener);
+        rlBack.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgBack.performClick();
+            }
+        });
     }
 
     @Override

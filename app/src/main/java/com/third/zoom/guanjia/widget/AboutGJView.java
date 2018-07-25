@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.third.zoom.R;
@@ -62,6 +63,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         circles = (LinearLayout) view.findViewById(R.id.circles);
         setPermissionView = (SetPermissionView) view.findViewById(R.id.setPermissionView);
         imgBack = (ImageView) view.findViewById(R.id.img_back);
+        rlBack = (RelativeLayout) view.findViewById(R.id.rl_back);
         imgPre = (ImageView) view.findViewById(R.id.gj_about_img_pre);
         imgNext = (ImageView) view.findViewById(R.id.gj_about_img_next);
         ll1 = (LinearLayout) view.findViewById(R.id.ll1);
@@ -147,9 +149,16 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         ll1.performClick();
     }
 
+    private RelativeLayout rlBack;
     private ImageView imgBack;
     public void setImageBackOnClickListener(OnClickListener onClickListener){
         imgBack.setOnClickListener(onClickListener);
+        rlBack.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgBack.performClick();
+            }
+        });
     }
 
     public void updateData(int[] imgRes){

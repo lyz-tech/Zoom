@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
@@ -71,6 +72,7 @@ public class SetTimeView extends RelativeLayout {
             @Override
             public void onTimeSelect(Date date, View v) {
                 Log.e("pvTime", "onTimeSelect = " + getTime(date));
+                Toast.makeText(context,"选择的时间: " + getTime(date),Toast.LENGTH_SHORT).show();
             }
         }).setType(new boolean[]{true, true, true, true, true, true})
                 .isDialog(true)
