@@ -18,8 +18,10 @@ import com.third.zoom.R;
 import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.BmvSelectListener;
+import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.utils.SystemUtil;
 import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.GJProUtil;
 import com.third.zoom.guanjia.utils.IntentUtils;
 import com.third.zoom.guanjia.widget.AboutGJView;
 import com.third.zoom.guanjia.widget.MainView;
@@ -28,6 +30,8 @@ import com.third.zoom.guanjia.widget.WaitingView;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.third.zoom.guanjia.utils.Contans.INTENT_GJ_ACTION_ACTIVE;
 
 /**
  * 作者：Sky on 2018/7/13.
@@ -40,6 +44,7 @@ import java.util.TimerTask;
 )
 public class MainActivity extends BaseActivity {
 
+    private static final int WHAT_OPEN_SERIAL = 9;
     private static final int WHAT_NOT_OPERATION = 10;
     private static final int WHAT_NOT_OPERATION_1 = 11;
     private static final int WHAT_NOT_OPERATION_2 = 12;
@@ -55,6 +60,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void toHandleMessage(Message msg) {
         switch (msg.what) {
+            case WHAT_OPEN_SERIAL:
+                openSerial();
+                break;
             case WHAT_NOT_OPERATION:
                 operation(false);
                 break;
@@ -78,6 +86,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unRegisterGJProReceiver();
+        SerialInterface.closeAllSerialPort();
     }
 
     @Override
@@ -91,6 +100,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initDataAfterFindView() {
         registerGJProReceiver();
+
+        SerialInterface.serialInit(this);
+        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,2000);
+
         mainView.setBmvListener(new BmvSelectListener() {
             @Override
             public void itemSelectOpen(int position) {
@@ -98,7 +111,8 @@ public class MainActivity extends BaseActivity {
                 sendActiveAction();
                 mainView.setPositionShow(position);
                 if (position == 0 || position == 2) {
-                    sendPro(true, "position = " + position);
+                    sendPro(true, GJProUtil.DEFAULT_NORMAL_WATER_TH,
+                            GJProUtil.DEFAULT_WATER_ML);
                 } else if (position == 3) {
                     mainView.setVisibility(View.GONE);
                     aboutGJView.setVisibility(View.VISIBLE);
@@ -112,7 +126,8 @@ public class MainActivity extends BaseActivity {
                 Log.e("ZM", "itemSelectClose = " + position);
                 mainView.updateShow(0);
                 if (position == 0 || position == 2) {
-                    sendPro(false, "position = " + position);
+                    sendPro(false, GJProUtil.DEFAULT_NORMAL_WATER_TH,
+                            GJProUtil.DEFAULT_WATER_ML);
                 }
             }
         });
@@ -132,12 +147,16 @@ public class MainActivity extends BaseActivity {
             public void itemSelectOpen(int position) {
                 sendActiveAction();
                 Log.e("ZM", "itemSelectOpen = " + position);
+                sendPro(false, GJProUtil.getWaterThByPosition(position),
+                        GJProUtil.DEFAULT_WATER_ML);
             }
 
             @Override
             public void itemSelectClose(int position) {
                 sendActiveAction();
                 Log.e("ZM", "itemSelectClose = " + position);
+                sendPro(false, GJProUtil.getWaterThByPosition(position),
+                        GJProUtil.DEFAULT_WATER_ML);
             }
         });
 
@@ -165,27 +184,26 @@ public class MainActivity extends BaseActivity {
         runOperationTimer();
     }
 
+
     /**
      * 发送协议
-     *
-     * @param isOpen
-     * @param pro
+     * @param isOpen 出水、停水
+     * @param waterTh 水温
+     * @param waterMl 水容量
      */
-    private synchronized void sendPro(boolean isOpen, String pro) {
-        if (isOpen) {
-            Log.e("ZM", "打开：" + pro);
-        } else {
-            Log.e("ZM", "关闭：" + pro);
-        }
-
+    private long sendProTime = 0;   //用来记录当前发送的时间
+    private synchronized void sendPro(boolean isOpen, int waterTh, int waterMl) {
+        sendProTime = System.currentTimeMillis();
+        String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
+        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
     }
 
     private OperationReceiver operationReceiver;
-
     private void registerGJProReceiver() {
         operationReceiver = new OperationReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Contans.INTENT_GJ_ACTION_ACTIVE);
+        intentFilter.addAction(Contans.INTENT_GJ_ACTION_PRO_COME);
         registerReceiver(operationReceiver, intentFilter);
     }
 
@@ -199,8 +217,17 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            operation(true);
-            runOperationTimer();
+            String action = intent.getAction();
+            if(action.equals(Contans.INTENT_GJ_ACTION_ACTIVE)){
+                operation(true);
+                runOperationTimer();
+            }else if(action.equals(Contans.INTENT_GJ_ACTION_PRO_COME)){
+                int comValue = intent.getIntExtra("comValue",-1);
+                if(comValue == 1){
+                    //发送协议成功
+
+                }
+            }
         }
     }
 
@@ -283,8 +310,21 @@ public class MainActivity extends BaseActivity {
     }
 
     private void sendActiveAction() {
-        IntentUtils.sendBroadcast(MainActivity.this, Contans.INTENT_GJ_ACTION_ACTIVE);
+        IntentUtils.sendBroadcast(MainActivity.this, INTENT_GJ_ACTION_ACTIVE);
     }
+
+
+    /**
+     * 打开串口
+     */
+    private void openSerial(){
+        try {
+            SerialInterface.openSerialPort(SerialInterface.USEING_PORT,SerialInterface.USEING_RATE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private long timeLimit = 0;
     @Override

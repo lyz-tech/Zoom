@@ -12,6 +12,7 @@ import android.util.Log;
 import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.serial.SerialManager;
 import com.third.zoom.common.serial.SerialUtils;
+import com.third.zoom.guanjia.handler.GJProHandler;
 import com.third.zoom.ytbus.handler.YTProHandler;
 
 import java.io.File;
@@ -171,9 +172,14 @@ public class SerialService extends Service {
 
     //YT协议处理类
     private YTProHandler YTProHandler;
+    //GJ协议处理类
+    private GJProHandler GJProHandler;
+
     private void initProHandler(){
         YTProHandler = new YTProHandler(this);
+        GJProHandler = new GJProHandler(this);
     }
+
 
     private class SerialDataReceiver extends BroadcastReceiver {
 
@@ -181,7 +187,9 @@ public class SerialService extends Service {
         public void onReceive(Context context, Intent intent) {
             byte[] arrayExtra = intent.getByteArrayExtra(SerialInterface.EXTRA_NAME);
 
-            YTProHandler.handleMessage(SerialUtils.bytes2HexString(arrayExtra));
+//            YTProHandler.handleMessage(SerialUtils.bytes2HexString(arrayExtra));
+
+            GJProHandler.handleMessage(SerialUtils.bytes2HexString(arrayExtra));
         }
 
     }

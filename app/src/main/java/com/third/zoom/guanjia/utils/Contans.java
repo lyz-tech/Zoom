@@ -9,5 +9,7 @@ public interface Contans {
 
     String INTENT_GJ_ACTION_ACTIVE = "gj.intent.action.active";
 
+    String INTENT_GJ_ACTION_PRO_COME = "gj.intent.action.pro.come";
+
 }
 
