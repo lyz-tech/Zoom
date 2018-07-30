@@ -1,5 +1,6 @@
 package com.third.zoom.guanjia.activity;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -42,12 +43,20 @@ import static com.third.zoom.guanjia.utils.Contans.INTENT_GJ_ACTION_ACTIVE;
         hasNavigationView = false,
         hasToolbar = false
 )
+/**
+ * 1、获取数据、获取成功2，获取不成功，重复获取
+ * 2、同步本地状态
+ * 3、点击发送协议、如果返回CC，表示发送成功、如果没返回，100ms后继续发送、重复3次，3次不行，提示错误
+ *
+ */
 public class MainActivity extends BaseActivity {
 
     private static final int WHAT_OPEN_SERIAL = 9;
     private static final int WHAT_NOT_OPERATION = 10;
     private static final int WHAT_NOT_OPERATION_1 = 11;
     private static final int WHAT_NOT_OPERATION_2 = 12;
+    private static final int WHAT_PRO_HANDLER = 13;
+    private static final int WHAT_DIALOG_DISMISS = 14;
     private static final long DEFAULT_TIME = 3 * 60 * 1000;
     private static final long DEFAULT_TIME_1 = 1 * 60 * 1000;
     private static final long DEFAULT_TIME_2 = 2 * 60 * 1000;
@@ -72,6 +81,12 @@ public class MainActivity extends BaseActivity {
             case WHAT_NOT_OPERATION_2:
                 operation2();
                 break;
+            case WHAT_PRO_HANDLER:
+                proTimerHandler();
+                break;
+            case WHAT_DIALOG_DISMISS:
+                dialogDismiss();
+                break;
         }
     }
 
@@ -86,7 +101,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unRegisterGJProReceiver();
-        SerialInterface.closeAllSerialPort();
+//        SerialInterface.closeAllSerialPort();
     }
 
     @Override
@@ -101,8 +116,8 @@ public class MainActivity extends BaseActivity {
     protected void initDataAfterFindView() {
         registerGJProReceiver();
 
-        SerialInterface.serialInit(this);
-        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,2000);
+//        SerialInterface.serialInit(this);
+//        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
 
         mainView.setBmvListener(new BmvSelectListener() {
             @Override
@@ -182,6 +197,8 @@ public class MainActivity extends BaseActivity {
         });
 
         runOperationTimer();
+
+        normalDialog();
     }
 
 
@@ -192,10 +209,21 @@ public class MainActivity extends BaseActivity {
      * @param waterMl 水容量
      */
     private long sendProTime = 0;   //用来记录当前发送的时间
-    private synchronized void sendPro(boolean isOpen, int waterTh, int waterMl) {
+    private boolean isSending = false;  //是否正在发送协议
+    private String proTempString = "";
+    private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
+        if(isSending){
+            return true;
+        }
+        dialogShow(dialogMessage);
+        proTimer(false);
         sendProTime = System.currentTimeMillis();
+        isSending = true;
         String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
-        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+        proTempString = pro;
+        Log.e("ZM","PRO = " + pro);
+//        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+        return isSending;
     }
 
     private OperationReceiver operationReceiver;
@@ -225,7 +253,7 @@ public class MainActivity extends BaseActivity {
                 int comValue = intent.getIntExtra("comValue",-1);
                 if(comValue == 1){
                     //发送协议成功
-
+                    isSending = false;
                 }
             }
         }
@@ -342,4 +370,66 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
+
+    private Timer proTimer;
+    private void proTimer(boolean cancel){
+        if(proTimer != null){
+            proTimer.cancel();
+            proTimer = null;
+        }
+        if(cancel){
+            return;
+        }
+        proTimer = new Timer();
+        proTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.sendEmptyMessage(WHAT_PRO_HANDLER);
+            }
+        },200);
+    }
+
+    /**
+     * 100ms没收到返回、继续发送，三次后提示错误
+     */
+    private int sendTimes = 0;
+    private void proTimerHandler(){
+        if(isSending){
+            //重复发送pro、重新定时
+            if(sendTimes > 2){
+                //dialog消失,次数清0。提示错误
+                sendTimes = 0;
+                dialogShow(dialogMessageFail);
+                mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,500);
+            }else{
+                Log.e("ZM","重复发送 = " + proTempString);
+                sendTimes++;
+                proTimer(false);
+            }
+        }else{
+            //dialog消失
+            dialogShow(dialogMessageSuccess);
+            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,500);
+        }
+    }
+
+    private AlertDialog normalDialog;
+    private String dialogMessage = "正在处理中,请稍后...";
+    private String dialogMessageSuccess = "处理成功";
+    private String dialogMessageFail = "处理失败";
+    private void normalDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("温馨提示");
+        normalDialog = builder.create();
+    }
+
+    private void dialogShow(String message){
+        normalDialog.setMessage(message);
+        normalDialog.show();
+    }
+
+    private void dialogDismiss(){
+        normalDialog.dismiss();
+    }
 }
