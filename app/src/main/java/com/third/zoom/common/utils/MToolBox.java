@@ -55,6 +55,7 @@ public class MToolBox {
 		case Global.FileType_mp4:
 		case Global.FileType_rmvb:
 		case Global.FileType_avi:
+		case Global.FileType_mkv:
 			return R.drawable.vedio;
 		case Global.FileType_flv:
 			return R.drawable.flv;

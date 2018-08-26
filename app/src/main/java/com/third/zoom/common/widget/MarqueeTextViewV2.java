@@ -174,7 +174,7 @@ public class MarqueeTextViewV2 extends TextView {
 
 	public void init() {
 		mSrollLag = 0f;
-		float resizeText = 60;
+		float resizeText = 40;
 		setTextSize(resizeText);
 		mTextPaint.setColor(Color.parseColor(mTextColor));
 		mTextLength = mTextPaint.measureText(mContent);

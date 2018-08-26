@@ -81,10 +81,10 @@ public class MainActivity extends BaseActivity {
             "VIDEO3","VIDEO4",
             "VIDEO5","VIDEO6",
             "VIDEO7","VIDEO8",
-            "VIDEO9","VIDE10"};
+            "VIDEO9","VIDEO10"};
     private static final String DEFAULT_VIDEO_FILE_DIR = "VIDEO";
     private static final String YT_AD_FILE_DIR = "AD";
-    private static final String FIRST_PLAY_AD = "AD001.mp4";
+    private static final String FIRST_PLAY_AD = "AD001";
     //配置数据
     private PlayDataBean playDataBean;
     //配置文件跟路径
@@ -269,7 +269,16 @@ public class MainActivity extends BaseActivity {
 
     //开机播放AD001
     private void playFirstAD(){
-        File ad001 = new File(ytFileRootPath + "/" + YT_AD_FILE_DIR + "/" + FIRST_PLAY_AD);
+        String[] temps = {".mp4", ".rmvb", ".avi", ".flv", ".mkv"};
+        String exist = "";
+        for (String temp : temps) {
+            File ad001 = new File(ytFileRootPath + "/" + YT_AD_FILE_DIR + "/" + FIRST_PLAY_AD + temp);
+            if(ad001 != null && ad001.exists()){
+                exist = temp;
+                break;
+            }
+        }
+        File ad001 = new File(ytFileRootPath + "/" + YT_AD_FILE_DIR + "/" + FIRST_PLAY_AD + exist);
         if(ad001 != null && ad001.exists()){
             ytVideoView.setVideoPath(ad001.getAbsolutePath());
         }else {
@@ -284,6 +293,10 @@ public class MainActivity extends BaseActivity {
         Log.e("ZM","播放广告");
         imgError.setVisibility(View.GONE);
         tempPlayPosition = ytVideoView.getCurrentPosition();
+        Log.e("ZM","当前保存位置 = " + tempPlayPosition);
+        if(tempPlayPosition < 10000){
+            tempPlayPosition = 0;
+        }
         tempPlayPath = ytVideoView.getVideoPath();
         if (!TextUtils.isEmpty(tempPlayPath)) {
             PreferenceUtils.commitString(SP_KEY_PLAY_PATH, tempPlayPath);
@@ -359,7 +372,7 @@ public class MainActivity extends BaseActivity {
                         }
                     }else{
                         int type = SpaceFileUtil.getFileType(tempPlayPath);
-                        if(!isADVideo(tempPlayPath) && type >= 300 && type < 400){
+                        if(!isADVideo(tempPlayPath) && type >= 300 && type < 400 && new File(tempPlayPath).exists()){
                             ytVideoView.setVideoPath(tempPlayPath);
                             if (tempPlayPosition > 0) {
                                 ytVideoView.seekTo(tempPlayPosition);
@@ -633,6 +646,7 @@ public class MainActivity extends BaseActivity {
                 tempPlayPosition = 0;
                 PreferenceUtils.commitString(SP_KEY_PLAY_PATH, tempPlayPath);
                 PreferenceUtils.commitInt(SP_KEY_PLAY_TIME, tempPlayPosition);
+                Toast.makeText(this,"切换到文件夹 " + CURRENT_VIDEO_FILE_DIR,Toast.LENGTH_LONG).show();
             }
         }
     }

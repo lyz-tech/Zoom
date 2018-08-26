@@ -16,9 +16,9 @@
     <com.third.zoom.common.widget.MarqueeTextViewV2
         android:visibility="invisible"
         android:id="@+id/txt_ad_content"
-        android:textSize="@dimen/DIMEN_20sp"
+        android:textSize="@dimen/DIMEN_15sp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/DIMEN_50dp"
+        android:layout_height="@dimen/DIMEN_60dp"
         android:background="#55424242"
         android:ellipsize="marquee"
         android:focusable="true"
