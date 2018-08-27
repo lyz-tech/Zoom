@@ -21,6 +21,7 @@ import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.BmvSelectListener;
 import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.utils.SystemUtil;
+import com.third.zoom.guanjia.handler.GJProHandler;
 import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.utils.GJProUtil;
 import com.third.zoom.guanjia.utils.IntentUtils;
@@ -57,6 +58,8 @@ public class MainActivity extends BaseActivity {
     private static final int WHAT_NOT_OPERATION_2 = 12;
     private static final int WHAT_PRO_HANDLER = 13;
     private static final int WHAT_DIALOG_DISMISS = 14;
+    private static final int WHAT_DATA_REPEAT = 15;
+
     private static final long DEFAULT_TIME = 3 * 60 * 1000;
     private static final long DEFAULT_TIME_1 = 1 * 60 * 1000;
     private static final long DEFAULT_TIME_2 = 2 * 60 * 1000;
@@ -86,6 +89,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case WHAT_DIALOG_DISMISS:
                 dialogDismiss();
+                break;
+            case WHAT_DATA_REPEAT:
+                sendWaterData();
                 break;
         }
     }
@@ -250,10 +256,13 @@ public class MainActivity extends BaseActivity {
                 operation(true);
                 runOperationTimer();
             }else if(action.equals(Contans.INTENT_GJ_ACTION_PRO_COME)){
-                int comValue = intent.getIntExtra("comValue",-1);
-                if(comValue == 1){
+                String comValue = intent.getStringExtra("comValue");
+                if(comValue != null && comValue.equals(GJProHandler.RESPONSE)){
                     //发送协议成功
                     isSending = false;
+                }else if(comValue != null && comValue.length() == GJProHandler.STATUS_LENGTH){
+                    //状态返回
+
                 }
             }
         }
@@ -433,4 +442,16 @@ public class MainActivity extends BaseActivity {
     private void dialogDismiss(){
         normalDialog.dismiss();
     }
+
+    /**
+     * 轮询获取状态数据
+     */
+    private void sendWaterData(){
+        String pro = GJProUtil.getWaterDataPro();
+//        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+        mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,1500);
+    }
+
+
+
 }

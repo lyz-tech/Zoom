@@ -111,4 +111,12 @@ public class GJProUtil {
         return result;
     }
 
+    /**
+     * 查询协议
+     * @return
+     */
+    public static String getWaterDataPro(){
+        return "A5";
+    }
+
 }

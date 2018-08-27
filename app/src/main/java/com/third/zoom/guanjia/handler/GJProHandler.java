@@ -17,7 +17,8 @@ public class GJProHandler {
     private String PRO_HEAD = "";
     private Context context;
 
-    private String RESPONSE = "CC";
+    public static String RESPONSE = "CC";
+    public static  int STATUS_LENGTH = 18 * 2;
 
     public GJProHandler(Context context){
         this.context = context;
@@ -25,14 +26,12 @@ public class GJProHandler {
 
     public void handleMessage(String buf){
         Log.e("ZM", buf);
-        if(buf.equals(RESPONSE)){
-            toHandler(buf);
-        }
+        toHandler(buf);
     }
 
     private void toHandler(String data){
         Intent intent = new Intent(Contans.INTENT_GJ_ACTION_PRO_COME);
-        intent.putExtra("comValue",1);
+        intent.putExtra("comValue",data);
         context.sendBroadcast(intent);
     }
 
