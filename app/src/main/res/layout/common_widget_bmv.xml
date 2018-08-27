@@ -23,10 +23,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <com.third.zoom.common.widget.CommonBmvItem
-        android:id="@+id/bottombar_item_3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+    <!--<com.third.zoom.common.widget.CommonBmvItem-->
+        <!--android:id="@+id/bottombar_item_3"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
 
 </LinearLayout>

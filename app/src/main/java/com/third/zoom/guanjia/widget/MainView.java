@@ -33,7 +33,7 @@ public class MainView extends LinearLayout{
      * 主页轮播图
      */
     private int[] showRes = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_3};
-    private int[] positionRes = {R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_hot_unlock,R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_bom_notice};
+    private int[] positionRes = {R.drawable.gj_icon_hot_unlock,R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_bom_notice};
     private int showIndex = 0;
 
     //当前点击index
@@ -108,7 +108,7 @@ public class MainView extends LinearLayout{
         mHandler.removeMessages(WHAT_UPDATE_SHOW);
         imgShow.setImageResource(positionRes[position]);
         curClickIndex = position;
-        if(curClickIndex == 1){
+        if(curClickIndex == 0){
             imgShow.setClickable(true);
         }else{
             imgShow.setClickable(false);

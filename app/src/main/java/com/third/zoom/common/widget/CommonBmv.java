@@ -26,7 +26,7 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
     CommonBmvItem deviceBar;
     CommonBmvItem shoppingBar;
     CommonBmvItem communityBar;
-    CommonBmvItem mineBar;
+//    CommonBmvItem mineBar;
 
     List<CommonBmvItem> tabs = new ArrayList<CommonBmvItem>();
 
@@ -53,31 +53,31 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
         deviceBar = (CommonBmvItem) view.findViewById(R.id.bottombar_item_0);
         shoppingBar = (CommonBmvItem) view.findViewById(R.id.bottombar_item_1);
         communityBar = (CommonBmvItem) view.findViewById(R.id.bottombar_item_2);
-        mineBar = (CommonBmvItem) view.findViewById(R.id.bottombar_item_3);
+//        mineBar = (CommonBmvItem) view.findViewById(R.id.bottombar_item_3);
     }
 
     private void initData(){
-        deviceBar.setTabIcon(R.drawable.gj_icon_tab_bom,R.drawable.gj_icon_tab_bom_press);
+        deviceBar.setTabIcon(R.drawable.gj_icon_tab_hot,R.drawable.gj_icon_tab_hot_press);
         deviceBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
 
-        shoppingBar.setTabIcon(R.drawable.gj_icon_tab_hot,R.drawable.gj_icon_tab_hot_press);
+        shoppingBar.setTabIcon(R.drawable.gj_icon_tab_normal,R.drawable.gj_icon_tab_normal_press);
         shoppingBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
 
-        communityBar.setTabIcon(R.drawable.gj_icon_tab_normal,R.drawable.gj_icon_tab_normal_press);
+        communityBar.setTabIcon(R.drawable.gj_icon_tab_about,R.drawable.gj_icon_tab_about_press);
         communityBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
 
-        mineBar.setTabIcon(R.drawable.gj_icon_tab_about,R.drawable.gj_icon_tab_about_press);
-        mineBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
+//        mineBar.setTabIcon(R.drawable.gj_icon_tab_about,R.drawable.gj_icon_tab_about_press);
+//        mineBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
 
-        deviceBar.setTitle(getResources().getString(R.string.main_tab_title_drum));
-        shoppingBar.setTitle(getResources().getString(R.string.main_tab_title_hot));
-        communityBar.setTitle(getResources().getString(R.string.main_tab_title_normal));
-        mineBar.setTitle(getResources().getString(R.string.main_tab_title_about));
+        deviceBar.setTitle(getResources().getString(R.string.main_tab_title_hot));
+        shoppingBar.setTitle(getResources().getString(R.string.main_tab_title_normal));
+        communityBar.setTitle(getResources().getString(R.string.main_tab_title_about));
+//        mineBar.setTitle(getResources().getString(R.string.main_tab_title_about));
 
         tabs.add(deviceBar);
         tabs.add(shoppingBar);
         tabs.add(communityBar);
-        tabs.add(mineBar);
+//        tabs.add(mineBar);
 
         for (int i = 0; i < tabs.size(); i++) {
             tabs.get(i).setTag(i);

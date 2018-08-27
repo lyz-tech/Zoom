@@ -125,13 +125,13 @@ public class MainActivity extends BaseActivity {
                 Log.e("ZM", "itemSelectOpen = " + position);
                 sendActiveAction();
                 mainView.setPositionShow(position);
-                if (position == 0 || position == 2) {
+                if (position == 1) {
                     sendPro(true, GJProUtil.DEFAULT_NORMAL_WATER_TH,
                             GJProUtil.DEFAULT_WATER_ML);
-                } else if (position == 3) {
+                } else if (position == 2) {
                     mainView.setVisibility(View.GONE);
                     aboutGJView.setVisibility(View.VISIBLE);
-                    mainView.getBmvItem(3).performClick();
+                    mainView.getBmvItem(2).performClick();
                 }
             }
 
@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
                 sendActiveAction();
                 Log.e("ZM", "itemSelectClose = " + position);
                 mainView.updateShow(0);
-                if (position == 0 || position == 2) {
+                if (position == 1) {
                     sendPro(false, GJProUtil.DEFAULT_NORMAL_WATER_TH,
                             GJProUtil.DEFAULT_WATER_ML);
                 }
@@ -153,7 +153,7 @@ public class MainActivity extends BaseActivity {
                 sendActiveAction();
                 mainView.setVisibility(View.GONE);
                 selectHotWaterView.setVisibility(View.VISIBLE);
-                mainView.getBmvItem(1).performClick();
+                mainView.getBmvItem(0).performClick();
             }
         });
 
@@ -399,6 +399,7 @@ public class MainActivity extends BaseActivity {
             //重复发送pro、重新定时
             if(sendTimes > 2){
                 //dialog消失,次数清0。提示错误
+                isSending = false;
                 sendTimes = 0;
                 dialogShow(dialogMessageFail);
                 mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,500);
