@@ -81,11 +81,11 @@ public class SerialInterface {
 	 * @param msg
 	 */
 	public static void sendHexMsg2SerialPort(String serialPath,String msg){
-		if (SerialService.mSerialService == null) {
-			// TODO 服务可能挂了或者没开启
-			throw new RuntimeException("please start serialInit first !!!");
-		}
-		SerialService.mSerialService.sendHexMsg2SerialPort(serialPath, msg);
+//		if (SerialService.mSerialService == null) {
+//			// TODO 服务可能挂了或者没开启
+//			throw new RuntimeException("please start serialInit first !!!");
+//		}
+//		SerialService.mSerialService.sendHexMsg2SerialPort(serialPath, msg);
 	}
 	
 	/**

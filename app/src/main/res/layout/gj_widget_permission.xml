@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="时间设置"
+            android:text="滤芯更换"
             android:textSize="@dimen/DIMEN_13sp"/>
 
         <Button
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/DIMEN_20dp"
-            android:text="内部权限"
+            android:text="机型更换"
             android:textSize="@dimen/DIMEN_13sp"/>
 
         <View android:layout_width="match_parent"

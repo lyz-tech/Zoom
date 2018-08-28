@@ -522,7 +522,7 @@ public class MainActivity extends BaseActivity {
      */
     private void sendWaterData(){
         String pro = GJProUtil.getWaterDataPro();
-//        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
         mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,500);
     }
 
