@@ -21,6 +21,7 @@ import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.BmvSelectListener;
 import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.utils.SystemUtil;
+import com.third.zoom.guanjia.bean.DeviceDetailStatus;
 import com.third.zoom.guanjia.handler.GJProHandler;
 import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.utils.GJProUtil;
@@ -216,7 +217,65 @@ public class MainActivity extends BaseActivity {
      */
     private long sendProTime = 0;   //用来记录当前发送的时间
     private boolean isSending = false;  //是否正在发送协议
+    private boolean isNeed = false;
+    private String newTempString = "";
     private String proTempString = "";
+    private synchronized boolean sendPro2(boolean isOpen, int waterTh, int waterMl) {
+        //错误不允许出水
+        if(deviceDetailStatus == null){
+            dialogShow("通讯异常");
+            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
+            isSending = false;
+            return false;
+        }
+        int error0 = deviceDetailStatus.getError0();
+        if(error0 != 0){
+            dialogShow("错误提示");
+            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
+            isSending = false;
+            return false;
+        }
+        int error1 = deviceDetailStatus.getError1();
+        if(error1 != 0){
+            dialogShow("错误提示");
+            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
+            isSending = false;
+            return false;
+        }
+
+        //显示对话框
+        dialogShow(dialogMessage);
+
+        //查看当前出水状态，1代表出水中、0代表没动作
+        int status = deviceDetailStatus.getStatus();
+        if(status >= 1){
+            //当前正在出水中、需要先停止。
+            String pro = GJProUtil.getWaterPro(false,deviceDetailStatus.getTh(),deviceDetailStatus.getCap());
+            //        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+            proTempString = pro;
+            isSending = true;
+            proTimer(false);
+            if(isOpen){
+                isNeed = true;
+                String newPro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
+                newTempString = newPro;
+            }
+        }else{
+            //当前处于停水状态,如果需要出水，发送协议，否则不操作
+            if(isOpen){
+                String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
+//                    SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+                proTempString = pro;
+                isSending = true;
+                proTimer(false);
+            }else{
+                dialogDismiss();
+                isSending = false;
+            }
+        }
+        return isSending;
+    }
+
     private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
         if(isSending){
             return true;
@@ -228,7 +287,7 @@ public class MainActivity extends BaseActivity {
         String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
         proTempString = pro;
         Log.e("ZM","PRO = " + pro);
-//        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+        //        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
         return isSending;
     }
 
@@ -262,7 +321,7 @@ public class MainActivity extends BaseActivity {
                     isSending = false;
                 }else if(comValue != null && comValue.length() == GJProHandler.STATUS_LENGTH){
                     //状态返回
-
+                    handleWaterData(comValue);
                 }
             }
         }
@@ -380,7 +439,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     private Timer proTimer;
     private void proTimer(boolean cancel){
         if(proTimer != null){
@@ -411,16 +469,26 @@ public class MainActivity extends BaseActivity {
                 isSending = false;
                 sendTimes = 0;
                 dialogShow(dialogMessageFail);
-                mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,500);
+                mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
             }else{
                 Log.e("ZM","重复发送 = " + proTempString);
                 sendTimes++;
                 proTimer(false);
+                SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,proTempString);
             }
         }else{
             //dialog消失
-            dialogShow(dialogMessageSuccess);
-            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,500);
+            if(isNeed){
+                isNeed = false;
+                proTempString = newTempString;
+                newTempString = "";
+//                SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,proTempString);
+                isSending = true;
+                proTimer(false);
+            }else{
+                dialogShow(dialogMessageSuccess);
+                mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
+            }
         }
     }
 
@@ -435,12 +503,18 @@ public class MainActivity extends BaseActivity {
     }
 
     private void dialogShow(String message){
-        normalDialog.setMessage(message);
-        normalDialog.show();
+        if(!normalDialog.isShowing()){
+            normalDialog.setMessage(message);
+            normalDialog.show();
+        }else{
+            normalDialog.setMessage(message);
+        }
     }
 
     private void dialogDismiss(){
-        normalDialog.dismiss();
+        if(normalDialog.isShowing()){
+            normalDialog.dismiss();
+        }
     }
 
     /**
@@ -449,9 +523,17 @@ public class MainActivity extends BaseActivity {
     private void sendWaterData(){
         String pro = GJProUtil.getWaterDataPro();
 //        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
-        mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,1500);
+        mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,500);
     }
 
+    /**
+     * 数据处理
+     * @param data
+     */
+    private DeviceDetailStatus deviceDetailStatus;
+    private void handleWaterData(String data){
+        deviceDetailStatus = GJProUtil.parseData(data);
+    }
 
 
 }

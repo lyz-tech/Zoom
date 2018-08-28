@@ -2,6 +2,8 @@ package com.third.zoom.guanjia.utils;
 
 import android.util.Log;
 
+import com.third.zoom.guanjia.bean.DeviceDetailStatus;
+
 /**
  * 作者：Sky on 2018/7/28.
  * 用途：协议工具类
@@ -117,6 +119,39 @@ public class GJProUtil {
      */
     public static String getWaterDataPro(){
         return "A5";
+    }
+
+
+    /**
+     * 解析协议
+     * @param data
+     * @return
+     */
+    public static DeviceDetailStatus parseData(String data){
+        if(data.length() != 17 * 2){
+            Log.e("ZM",data);
+            return null;
+        }
+        DeviceDetailStatus detailStatus = new DeviceDetailStatus();
+        try {
+            int workMode = Integer.parseInt(data.substring(0,2),16);
+            int status = Integer.parseInt(data.substring(2,4),16);
+            int th = Integer.parseInt(data.substring(4,6),16);
+            int cap = Integer.parseInt(data.substring(6,10),16);
+            long capTotal = Long.parseLong(data.substring(10,18),16);
+            int error0 = Integer.parseInt(data.substring(18,20),16);
+            int error1 = Integer.parseInt(data.substring(20,22),16);
+            detailStatus.setWorkMode(workMode);
+            detailStatus.setStatus(status);
+            detailStatus.setStatus(th);
+            detailStatus.setCap(cap);
+            detailStatus.setCapTotal(capTotal);
+            detailStatus.setError0(error0);
+            detailStatus.setError1(error1);
+        }catch (Exception e){
+            Log.e("ZM","数据解析失败 ：" + e.getMessage());
+        }
+        return detailStatus;
     }
 
 }
