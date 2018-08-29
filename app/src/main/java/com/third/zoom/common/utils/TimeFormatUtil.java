@@ -135,7 +135,7 @@ public class TimeFormatUtil {
 
     /**
      * 获得当前的时间字符串格式：年月日时分秒毫秒比如:20120102123602001
-     * 2012-11-9 下午01:58:05
+     * 2012-g11-9 下午01:58:05
      * @return
      */
     public static String getCurrentDateTime()

@@ -32,7 +32,14 @@ public class MainView extends LinearLayout{
     /**
      * 主页轮播图
      */
-    private int[] showRes = {R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_3};
+    private int[] showRes = {R.drawable.gj_main_show_3,R.drawable.gj_main_show_3,
+            R.drawable.gj_main_show_4,R.drawable.gj_main_show_5,R.drawable.gj_main_show_6,R.drawable.gj_main_show_7,
+            R.drawable.gj_main_show_9,R.drawable.gj_main_show_10,R.drawable.gj_main_show_11,
+            R.drawable.gj_main_show_15,
+            R.drawable.gj_main_show_16,R.drawable.gj_main_show_18,
+            R.drawable.gj_main_show_20,R.drawable.gj_main_show_22,R.drawable.gj_main_show_23,
+            R.drawable.gj_main_show_24,R.drawable.gj_main_show_26,
+            R.drawable.gj_main_show_28,R.drawable.gj_main_show_29,R.drawable.gj_main_show_30};
     private int[] positionRes = {R.drawable.gj_icon_hot_unlock,R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_bom_notice};
     private int showIndex = 0;
 
@@ -113,6 +120,10 @@ public class MainView extends LinearLayout{
         }else{
             imgShow.setClickable(false);
         }
+    }
+
+    public void setCurClickIndex(int index){
+        imgShow.setClickable(false);
     }
 
     public void updateShow(int index){

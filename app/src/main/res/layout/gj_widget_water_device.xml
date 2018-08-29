@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:src="@drawable/gj_device_bg_2"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/img_start"
+        android:src="@drawable/gj_device_start"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:layout_width="@dimen/DIMEN_170dp"
+        android:layout_height="@dimen/DIMEN_170dp" />
+
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/img_a"
+        android:src="@drawable/gj_device_a"
+        android:scaleType="fitXY"
+        android:layout_width="@dimen/DIMEN_120dp"
+        android:layout_height="@dimen/DIMEN_120dp"
+        android:layout_marginLeft="@dimen/DIMEN_130dp"
+        android:layout_marginTop="@dimen/DIMEN_130dp"
+         />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/img_b"
+        android:src="@drawable/gj_device_b"
+        android:scaleType="fitXY"
+        android:layout_width="@dimen/DIMEN_120dp"
+        android:layout_height="@dimen/DIMEN_120dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/DIMEN_130dp"
+        android:layout_marginRight="@dimen/DIMEN_110dp"
+         />
+
+</RelativeLayout>

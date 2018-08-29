@@ -6,7 +6,8 @@
               android:orientation="vertical">
 
     <com.third.zoom.guanjia.widget.NavTopView
-        android:background="#c2c2c2"
+        android:id="@+id/topView"
+        android:background="@color/txt_focus"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_28dp">
     </com.third.zoom.guanjia.widget.NavTopView>
@@ -42,6 +43,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </com.third.zoom.guanjia.widget.WaitingView>
+
+        <com.third.zoom.guanjia.widget.SelectWaterDeviceView
+            android:visibility="gone"
+            android:id="@+id/waterDeviceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.third.zoom.guanjia.widget.SelectWaterDeviceView>
 
     </RelativeLayout>
 

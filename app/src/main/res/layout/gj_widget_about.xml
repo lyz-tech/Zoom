@@ -7,8 +7,9 @@
 
 
     <LinearLayout
+        android:background="@color/txt_bg_about"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/DIMEN_60dp"
+        android:layout_height="@dimen/DIMEN_30dp"
         android:orientation="horizontal">
 
 
@@ -34,10 +35,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="水机说明"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_15sp" />
+                android:textColor="#000000"
+                android:textSize="@dimen/DIMEN_12sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_gj_eh_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,6 +49,13 @@
                 android:textSize="@dimen/DIMEN_10sp" />
 
         </LinearLayout>
+
+        <View
+            android:background="@color/txt_bg_about_deliver"
+            android:layout_marginBottom="@dimen/DIMEN_5dp"
+            android:layout_marginTop="@dimen/DIMEN_5dp"
+            android:layout_width="@dimen/DIMEN_1dp"
+            android:layout_height="match_parent"></View>
 
         <LinearLayout
             android:id="@+id/ll2"
@@ -62,10 +71,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="专利证书"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_15sp" />
+                android:textColor="#000000"
+                android:textSize="@dimen/DIMEN_12sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_gj_eh_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,6 +85,13 @@
                 android:textSize="@dimen/DIMEN_10sp" />
 
         </LinearLayout>
+
+        <View
+            android:background="@color/txt_bg_about_deliver"
+            android:layout_marginBottom="@dimen/DIMEN_5dp"
+            android:layout_marginTop="@dimen/DIMEN_5dp"
+            android:layout_width="@dimen/DIMEN_1dp"
+            android:layout_height="match_parent"></View>
 
         <LinearLayout
             android:id="@+id/ll3"
@@ -90,10 +107,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="氢与健康"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_15sp" />
+                android:textColor="#000000"
+                android:textSize="@dimen/DIMEN_12sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_gj_eh_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,6 +121,13 @@
                 android:textSize="@dimen/DIMEN_10sp" />
 
         </LinearLayout>
+
+        <View
+            android:background="@color/txt_bg_about_deliver"
+            android:layout_marginBottom="@dimen/DIMEN_5dp"
+            android:layout_marginTop="@dimen/DIMEN_5dp"
+            android:layout_width="@dimen/DIMEN_1dp"
+            android:layout_height="match_parent"></View>
 
         <LinearLayout
             android:id="@+id/ll4"
@@ -118,10 +143,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="售后维修"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_15sp" />
+                android:textColor="#000000"
+                android:textSize="@dimen/DIMEN_12sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_gj_eh_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,6 +157,13 @@
                 android:textSize="@dimen/DIMEN_10sp" />
 
         </LinearLayout>
+
+        <View
+            android:background="@color/txt_bg_about_deliver"
+            android:layout_marginBottom="@dimen/DIMEN_5dp"
+            android:layout_marginTop="@dimen/DIMEN_5dp"
+            android:layout_width="@dimen/DIMEN_1dp"
+            android:layout_height="match_parent"></View>
 
         <LinearLayout
             android:id="@+id/ll5"
@@ -146,10 +179,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="产品系列"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_15sp" />
+                android:textColor="#000000"
+                android:textSize="@dimen/DIMEN_12sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_gj_eh_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -159,6 +193,13 @@
                 android:textSize="@dimen/DIMEN_10sp" />
 
         </LinearLayout>
+
+        <View
+            android:background="@color/txt_bg_about_deliver"
+            android:layout_marginBottom="@dimen/DIMEN_5dp"
+            android:layout_marginTop="@dimen/DIMEN_5dp"
+            android:layout_width="@dimen/DIMEN_1dp"
+            android:layout_height="match_parent"></View>
 
         <LinearLayout
             android:id="@+id/ll6"
@@ -174,10 +215,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="设置权限"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_15sp" />
+                android:textColor="#000000"
+                android:textSize="@dimen/DIMEN_12sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_gj_eh_6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

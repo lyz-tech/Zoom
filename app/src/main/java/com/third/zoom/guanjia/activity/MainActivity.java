@@ -19,7 +19,9 @@ import com.third.zoom.R;
 import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.BmvSelectListener;
+import com.third.zoom.common.listener.NormalListener;
 import com.third.zoom.common.serial.SerialInterface;
+import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.common.utils.SystemUtil;
 import com.third.zoom.guanjia.bean.DeviceDetailStatus;
 import com.third.zoom.guanjia.handler.GJProHandler;
@@ -28,7 +30,9 @@ import com.third.zoom.guanjia.utils.GJProUtil;
 import com.third.zoom.guanjia.utils.IntentUtils;
 import com.third.zoom.guanjia.widget.AboutGJView;
 import com.third.zoom.guanjia.widget.MainView;
+import com.third.zoom.guanjia.widget.NavTopView;
 import com.third.zoom.guanjia.widget.SelectHotWaterView;
+import com.third.zoom.guanjia.widget.SelectWaterDeviceView;
 import com.third.zoom.guanjia.widget.WaitingView;
 
 import java.util.Timer;
@@ -69,6 +73,8 @@ public class MainActivity extends BaseActivity {
     private SelectHotWaterView selectHotWaterView;
     private AboutGJView aboutGJView;
     private WaitingView waitingView;
+    private SelectWaterDeviceView waterDeviceView;
+    private NavTopView navTopView;
 
     @Override
     protected void toHandleMessage(Message msg) {
@@ -117,6 +123,8 @@ public class MainActivity extends BaseActivity {
         selectHotWaterView = (SelectHotWaterView) findViewById(R.id.selectHotWaterView);
         aboutGJView = (AboutGJView) findViewById(R.id.aboutView);
         waitingView = (WaitingView) findViewById(R.id.waitingView);
+        waterDeviceView = (SelectWaterDeviceView) findViewById(R.id.waterDeviceView);
+        navTopView = (NavTopView) findViewById(R.id.topView);
     }
 
     @Override
@@ -126,6 +134,32 @@ public class MainActivity extends BaseActivity {
 //        SerialInterface.serialInit(this);
 //        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
 
+        init1();
+    }
+
+    private void init1(){
+        PreferenceUtils.init(this);
+        boolean isBootFirst = PreferenceUtils.getBoolean("isBootFirst",true);
+        if(isBootFirst){
+            navTopView.setVisibility(View.GONE);
+            waterDeviceView.setVisibility(View.VISIBLE);
+            waterDeviceView.setOnListener(new NormalListener() {
+                @Override
+                public void onActive(Object object) {
+                    int type = (int) object;
+                    PreferenceUtils.commitBoolean("isBootFirst",false);
+                    PreferenceUtils.commitInt("waterType",type);
+                    init2();
+                }
+            });
+        }else{
+            init2();
+        }
+    }
+
+    private void init2(){
+        waterDeviceView.setVisibility(View.GONE);
+        navTopView.setVisibility(View.VISIBLE);
         mainView.setBmvListener(new BmvSelectListener() {
             @Override
             public void itemSelectOpen(int position) {
@@ -145,6 +179,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void itemSelectClose(int position) {
                 sendActiveAction();
+                if(position == 0){
+                    mainView.setCurClickIndex(-1);
+                }
                 Log.e("ZM", "itemSelectClose = " + position);
                 mainView.updateShow(0);
                 if (position == 1) {
@@ -277,16 +314,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
-        if(isSending){
-            return true;
-        }
-        dialogShow(dialogMessage);
-        proTimer(false);
-        sendProTime = System.currentTimeMillis();
-        isSending = true;
-        String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
-        proTempString = pro;
-        Log.e("ZM","PRO = " + pro);
+//        if(isSending){
+//            return true;
+//        }
+//        dialogShow(dialogMessage);
+//        proTimer(false);
+//        sendProTime = System.currentTimeMillis();
+//        isSending = true;
+//        String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
+//        proTempString = pro;
+//        Log.e("ZM","PRO = " + pro);
         //        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
         return isSending;
     }

@@ -9,8 +9,8 @@
     <ImageView
         android:id="@+id/tab_icon"
         android:src="@drawable/apk"
-        android:layout_width="@dimen/DIMEN_45dp"
-        android:layout_height="@dimen/DIMEN_45dp"
+        android:layout_width="@dimen/DIMEN_40dp"
+        android:layout_height="@dimen/DIMEN_40dp"
     />
 
     <TextView

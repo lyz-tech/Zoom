@@ -30,9 +30,10 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6;
     private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6;
 
-    private int[] resId1 = {R.drawable.gj_about_tab1_1,R.drawable.gj_about_tab1_2};
-    private int[] resId2 = {R.drawable.gj_about_tab2_1,R.drawable.gj_about_tab2_2};
-    private int[] resId3 = {R.drawable.gj_about_tab3_1,R.drawable.gj_about_tab3_2};
+    private int[] resId1 = {R.drawable.gj_about_tab1_1,R.drawable.gj_about_tab1_2,R.drawable.gj_about_tab1_3,R.drawable.gj_about_tab1_4,
+            R.drawable.gj_about_tab1_5,R.drawable.gj_about_tab1_6,R.drawable.gj_about_tab1_7};
+    private int[] resId2 = {R.drawable.gj_about_tab2_1,R.drawable.gj_about_tab2_2,R.drawable.gj_about_tab2_3,R.drawable.gj_about_tab2_4};
+    private int[] resId3 = {R.drawable.gj_about_tab3_1,R.drawable.gj_about_tab3_2,R.drawable.gj_about_tab3_3,R.drawable.gj_about_tab3_4};
     private int[] resId4 = {R.drawable.gj_about_tab4_1,R.drawable.gj_about_tab4_2};
     private int[] resId5 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
     private int[] resId6 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
@@ -251,18 +252,18 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     }
 
     private void changeTextColor(int index){
-        txtZh1.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtEh1.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtZh2.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtEh2.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtZh3.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtEh3.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtZh4.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtEh4.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtZh5.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtEh5.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtZh6.setTextColor(getResources().getColor(R.color.txt_normal));
-        txtEh6.setTextColor(getResources().getColor(R.color.txt_normal));
+        txtZh1.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtEh1.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtZh2.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtEh2.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtZh3.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtEh3.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtZh4.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtEh4.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtZh5.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtEh5.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtZh6.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtEh6.setTextColor(getResources().getColor(R.color.txt_normal2));
         switch (index){
             case 1:
                 txtZh1.setTextColor(getResources().getColor(R.color.txt_focus));

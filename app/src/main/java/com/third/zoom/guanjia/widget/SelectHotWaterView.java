@@ -25,13 +25,16 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             "80度水温适宜冲泡醇香咖啡等",
             "95度水温适宜冲泡各种茶类等"};
 
+    private int defaultResId = R.drawable.gj_hot_select;
+    private int[] resId = {R.drawable.gj_hot_select_50,R.drawable.gj_hot_select_65,R.drawable.gj_hot_select_95,R.drawable.gj_hot_select_95};
+
     private int openResId = R.drawable.gj_shape_cir_textview_red;
     private int closeResId = R.drawable.gj_shape_cir_textview;
 
     private Context mContext;
     private RelativeLayout rlBack;
     private ImageView imgBack;
-    private TextView txtNotice;
+    private ImageView txtNotice;
     private TextView txtTH50;
     private TextView txtTH65;
     private TextView txtTH85;
@@ -59,8 +62,8 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
     private void initView(){
         View view = View.inflate(mContext, R.layout.gj_widget_select_hot,this);
         rlBack = (RelativeLayout) view.findViewById(R.id.rl_back);
-        txtNotice = (TextView) view.findViewById(R.id.txt_notice);
-        txtNotice.setText(DEFAULT_TEXT);
+        txtNotice = (ImageView) view.findViewById(R.id.txt_notice);
+        txtNotice.setImageResource(defaultResId);
         imgBack = (ImageView) findViewById(R.id.img_back);
 
         txtTH50 = (TextView) view.findViewById(R.id.txt_th_50);
@@ -114,7 +117,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             TextView item = tabs.get(i);
             if(currentIndex == i){
                 currentIndex = -1;
-                txtNotice.setText(DEFAULT_TEXT);
+                txtNotice.setImageResource(defaultResId);
                 item.setBackgroundResource(closeResId);
                 if(bmvSelectListener != null){
                     bmvSelectListener.itemSelectClose(i);
@@ -129,7 +132,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             if((Integer)v.getTag() == i){
                 currentIndex = i;
                 item.setBackgroundResource(openResId);
-                txtNotice.setText(waterNotice[i]);
+                txtNotice.setImageResource(resId[i]);
                 if(bmvSelectListener != null){
                     bmvSelectListener.itemSelectOpen(i);
                 }

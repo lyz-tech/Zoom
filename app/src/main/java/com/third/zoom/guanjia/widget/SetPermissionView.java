@@ -56,7 +56,7 @@ public class SetPermissionView extends RelativeLayout{
             public void onClick(View v) {
                 IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
                 permissionRoot.setVisibility(GONE);
-                setTimeView.setVisibility(VISIBLE);
+                passwordView.setVisibility(VISIBLE);
             }
         });
 

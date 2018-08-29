@@ -9,7 +9,12 @@
     <color name="tab_focus">#34c7bb</color>
 
     <color name="txt_normal">#c2c2c2</color>
+    <color name="txt_normal2">#000000</color>
     <color name="txt_focus">#0186ff</color>
+
+
+    <color name="txt_bg_about">#770186ff</color>
+    <color name="txt_bg_about_deliver">#ffffff</color>
 
     <color name="txt_tab_normal">#d1d1d1</color>
 
