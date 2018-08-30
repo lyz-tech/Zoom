@@ -307,10 +307,10 @@
 
             <ImageView
                 android:id="@+id/img_back"
-                android:layout_width="@dimen/DIMEN_10dp"
-                android:layout_height="@dimen/DIMEN_16dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/gj_selecter_icon_back" />
+                android:background="@drawable/gj_selecter_icon_back_2"
+                android:layout_width="@dimen/DIMEN_30dp"
+                android:layout_height="@dimen/DIMEN_30dp" />
 
         </RelativeLayout>
 

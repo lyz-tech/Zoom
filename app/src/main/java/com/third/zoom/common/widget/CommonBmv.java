@@ -58,13 +58,13 @@ public class CommonBmv extends LinearLayout implements View.OnClickListener {
 
     private void initData(){
         deviceBar.setTabIcon(R.drawable.gj_icon_tab_hot,R.drawable.gj_icon_tab_hot_press);
-        deviceBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
+        deviceBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal_2),getResources().getColor(R.color.txt_focus_2));
 
         shoppingBar.setTabIcon(R.drawable.gj_icon_tab_normal,R.drawable.gj_icon_tab_normal_press);
-        shoppingBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
+        shoppingBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal_2),getResources().getColor(R.color.txt_focus_2));
 
         communityBar.setTabIcon(R.drawable.gj_icon_tab_about,R.drawable.gj_icon_tab_about_press);
-        communityBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));
+        communityBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal_2),getResources().getColor(R.color.txt_focus_2));
 
 //        mineBar.setTabIcon(R.drawable.gj_icon_tab_about,R.drawable.gj_icon_tab_about_press);
 //        mineBar.setTitleColor(getResources().getColor(R.color.txt_tab_normal),getResources().getColor(R.color.txt_focus));

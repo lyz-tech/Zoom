@@ -3,7 +3,7 @@
     android:shape="oval"
     android:useLevel="false">
 
-    <solid android:color="#c3c2c2" />
+    <solid android:color="@color/txt_tab_normal_2" />
 
     <size
         android:width="@dimen/DIMEN_20dp"
