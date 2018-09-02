@@ -179,12 +179,13 @@ public class MainActivity extends BaseActivity {
             @Override
             public void itemSelectClose(int position) {
                 sendActiveAction();
-                if(position == 0){
+                if(position == 0 ){
                     mainView.setCurClickIndex(-1);
                 }
                 Log.e("ZM", "itemSelectClose = " + position);
                 mainView.updateShow(0);
                 if (position == 1) {
+                    mainView.setCurClickIndex(-1);
                     sendPro(false, GJProUtil.DEFAULT_NORMAL_WATER_TH,
                             GJProUtil.DEFAULT_WATER_ML);
                 }

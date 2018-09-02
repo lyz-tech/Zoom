@@ -90,14 +90,22 @@ public class MainView extends LinearLayout{
         imgPre.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateShow(-1);
+                if(curClickIndex == 1 ){
+                    updateNormalShow(-1);
+                }else{
+                    updateShow(-1);
+                }
             }
         });
 
         imgNext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateShow(1);
+                if(curClickIndex == 1 ){
+                    updateNormalShow(1);
+                }else{
+                    updateShow(1);
+                }
             }
         });
     }
@@ -130,6 +138,7 @@ public class MainView extends LinearLayout{
     }
 
     public void setCurClickIndex(int index){
+        curClickIndex = index;
         imgShow.setClickable(false);
     }
 
@@ -148,6 +157,7 @@ public class MainView extends LinearLayout{
 
     public void updateShow(int index){
         mHandler.removeMessages(WHAT_UPDATE_SHOW);
+        mHandler.removeMessages(WHAT_UPDATE_NORMAL_SHOW);
         showIndex = showIndex + index;
         if(showIndex >= showRes.length){
             showIndex = 0;
