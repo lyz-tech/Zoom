@@ -26,7 +26,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             "95度水温适宜冲泡各种茶类等"};
 
     private int defaultResId = R.drawable.gj_hot_select;
-    private int[] resId = {R.drawable.gj_hot_select_50,R.drawable.gj_hot_select_65,R.drawable.gj_hot_select_95,R.drawable.gj_hot_select_95};
+    private int[] resId = {R.drawable.gj_hot_select_50,R.drawable.gj_hot_select_65,R.drawable.gj_hot_select_80,R.drawable.gj_hot_select_95};
 
     private int openResId = R.drawable.gj_shape_cir_textview_red;
     private int closeResId = R.drawable.gj_shape_cir_textview;

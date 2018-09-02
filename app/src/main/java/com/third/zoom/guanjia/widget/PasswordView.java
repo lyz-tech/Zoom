@@ -21,7 +21,7 @@ import com.third.zoom.guanjia.utils.IntentUtils;
 public class PasswordView extends LinearLayout implements View.OnClickListener {
 
     private Context context;
-    private Button btnCancel;
+    private Button btnCancel,btnOk;
     private TextView txtInputPwd;
     private TextView txtPwd1,txtPwd2,txtPwd3,txtPwd4,txtPwd5,txtPwd6,txtPwd7,txtPwd8,txtPwd9,txtPwd0;
 
@@ -48,6 +48,7 @@ public class PasswordView extends LinearLayout implements View.OnClickListener {
         View view = View.inflate(context, R.layout.gj_widget_password,this);
         txtInputPwd = (TextView) view.findViewById(R.id.txt_pwd_input);
         btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+        btnOk = (Button) view.findViewById(R.id.btn_ok);
         txtPwd0 = (TextView) view.findViewById(R.id.txt_pwd_0);
         txtPwd1 = (TextView) view.findViewById(R.id.txt_pwd_1);
         txtPwd2 = (TextView) view.findViewById(R.id.txt_pwd_2);
@@ -75,6 +76,38 @@ public class PasswordView extends LinearLayout implements View.OnClickListener {
 
     public void setCancelOnClickListener(OnClickListener onClickListener){
         btnCancel.setOnClickListener(onClickListener);
+    }
+
+    public void setOkOnClickListener(OnClickListener onClickListener){
+        btnOk.setOnClickListener(onClickListener);
+    }
+
+    public boolean isHasEdit(){
+        if(TextUtils.isEmpty(passwordText)){
+            return true;
+        }else{
+            passwordText = "";
+            txtInputPwd.setText(passwordText);
+            return false;
+        }
+    }
+
+    public boolean isPwdTrue(){
+        if(!TextUtils.isEmpty(passwordText)){
+            if(passwordText.length() == 6){
+                if(passwordText.equals(DEFAULT_PASSWORD)){
+                    passwordText = "";
+                    txtInputPwd.setText(passwordText);
+                    toastError("密码正确");
+                    return true;
+                }else{
+                    passwordText = "";
+                    txtInputPwd.setText(passwordText);
+                    toastError("密码错误，请重新输入");
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -117,10 +150,9 @@ public class PasswordView extends LinearLayout implements View.OnClickListener {
             txtInputPwd.setText(passwordText);
             if(passwordText.length() == 6){
                 if(passwordText.equals(DEFAULT_PASSWORD)){
+                    btnOk.performClick();
                     passwordText = "";
                     txtInputPwd.setText(passwordText);
-                    btnCancel.performClick();
-                    toastError("密码正确");
                 }else{
                     passwordText = "";
                     txtInputPwd.setText(passwordText);
@@ -136,6 +168,5 @@ public class PasswordView extends LinearLayout implements View.OnClickListener {
     private void toastError(String error){
         Toast.makeText(context,error, Toast.LENGTH_LONG).show();
     }
-
 
 }

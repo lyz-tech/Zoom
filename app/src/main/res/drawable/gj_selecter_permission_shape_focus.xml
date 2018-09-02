@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    android:useLevel="false">
+
+    <solid android:color="@color/txt_focus_2" />
+
+    <!-- 四个角的弧度 -->
+    <corners
+        android:bottomLeftRadius="@dimen/DIMEN_10dp"
+        android:bottomRightRadius="@dimen/DIMEN_10dp"
+        android:topLeftRadius="@dimen/DIMEN_10dp"
+        android:topRightRadius="@dimen/DIMEN_10dp" />
+    <!-- padding：TextView里面的文字与TextView边界的间隔 -->
+
+
+</shape>

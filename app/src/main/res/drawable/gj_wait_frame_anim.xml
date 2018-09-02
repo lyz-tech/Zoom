@@ -7,12 +7,12 @@
     <!-- duration代表每张图片的播放时间 ,定义一个持续时间为50毫秒的动画帧 -->
     <item
         android:drawable="@drawable/gj_wait_frame1"
-        android:duration="2000"/>
+        android:duration="10000"/>
     <item
         android:drawable="@drawable/gj_wait_frame2"
-        android:duration="2000"/>
+        android:duration="10000"/>
     <item
         android:drawable="@drawable/gj_wait_frame3"
-        android:duration="2000"/>
+        android:duration="10000"/>
 
 </animation-list>

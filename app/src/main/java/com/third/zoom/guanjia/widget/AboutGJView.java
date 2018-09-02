@@ -1,11 +1,15 @@
 package com.third.zoom.guanjia.widget;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.DimenRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,17 +30,23 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private LinearLayout circles;
     private SetPermissionView setPermissionView;
     private ImageView imgPre,imgNext;
-    private LinearLayout ll1,ll2,ll3,ll4,ll5,ll6;
+    private RelativeLayout ll1;
+    private LinearLayout ll2,ll3,ll4,ll5,ll6;
     private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6;
     private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6;
+    private ImageView imgDown;
 
-    private int[] resId1 = {R.drawable.gj_about_tab1_1,R.drawable.gj_about_tab1_2,R.drawable.gj_about_tab1_4,
-            R.drawable.gj_about_tab1_5,R.drawable.gj_about_tab1_6,R.drawable.gj_about_tab1_7};
+    private int[] resId1 = {R.drawable.gj_about_tab1_1,R.drawable.gj_about_tab1_2,R.drawable.gj_about_tab1_3};
     private int[] resId2 = {R.drawable.gj_about_tab2_1,R.drawable.gj_about_tab2_2,R.drawable.gj_about_tab2_3,R.drawable.gj_about_tab2_4};
     private int[] resId3 = {R.drawable.gj_about_tab3_1,R.drawable.gj_about_tab3_2,R.drawable.gj_about_tab3_3,R.drawable.gj_about_tab3_4};
     private int[] resId4 = {R.drawable.gj_about_tab4_1,R.drawable.gj_about_tab4_2};
     private int[] resId5 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
     private int[] resId6 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
+
+    private int[] resId11 = {R.drawable.gj_about_tab1_1_1};
+    private int[] resId12 = {R.drawable.gj_about_tab1_1_2};
+    private int[] resId13 = {R.drawable.gj_about_tab1_1_3_1,R.drawable.gj_about_tab1_1_3_2,
+            R.drawable.gj_about_tab1_1_3_3,R.drawable.gj_about_tab1_1_3_4,};
 
     private AboutPageAdapter aboutPageAdapter;
     private int[] imgResIds;
@@ -67,7 +77,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         rlBack = (RelativeLayout) view.findViewById(R.id.rl_back);
         imgPre = (ImageView) view.findViewById(R.id.gj_about_img_pre);
         imgNext = (ImageView) view.findViewById(R.id.gj_about_img_next);
-        ll1 = (LinearLayout) view.findViewById(R.id.ll1);
+        ll1 = (RelativeLayout) view.findViewById(R.id.ll1);
         ll2 = (LinearLayout) view.findViewById(R.id.ll2);
         ll3 = (LinearLayout) view.findViewById(R.id.ll3);
         ll4 = (LinearLayout) view.findViewById(R.id.ll4);
@@ -85,9 +95,11 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         txtEh4 = (TextView) view.findViewById(R.id.txt_gj_eh_4);
         txtEh5 = (TextView) view.findViewById(R.id.txt_gj_eh_5);
         txtEh6 = (TextView) view.findViewById(R.id.txt_gj_eh_6);
+        imgDown = (ImageView) view.findViewById(R.id.img_about_down);
     }
 
     private void initData() {
+
         ll1.setOnClickListener(this);
         ll2.setOnClickListener(this);
         ll3.setOnClickListener(this);
@@ -146,8 +158,10 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             }
         });
 
-
-        ll1.performClick();
+        changeView(1);
+        imgResIds = resId1;
+        changeTextColor(1);
+        updateData(imgResIds);
     }
 
     private RelativeLayout rlBack;
@@ -157,6 +171,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         rlBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
                 imgBack.performClick();
             }
         });
@@ -198,10 +215,12 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll1:
-                changeView(1);
-                imgResIds = resId1;
-                changeTextColor(1);
-                updateData(imgResIds);
+//                changeView(1);
+//                imgResIds = resId1;
+//                changeTextColor(1);
+//                updateData(imgResIds);
+                popupWindowView();
+                activePopupWindow(v);
                 break;
             case R.id.ll2:
                 changeView(2);
@@ -290,6 +309,102 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                 txtEh6.setTextColor(getResources().getColor(R.color.txt_focus));
                 break;
         }
+    }
+
+    private String[] txtRes = {"水机说明","滤芯介绍","滤芯监测","安全责任"};
+    private int resIndex = 0;
+    private PopupWindow popupWindow;
+    private void popupWindowView(){
+        View view = View.inflate(context,R.layout.gj_widget_popup,null);
+        TextView txt1 = (TextView) view.findViewById(R.id.txt_popup_1);
+        txt1.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activePopupWindow(view);
+                resIndex = 0;
+                changePopText(resIndex);
+            }
+        });
+        if(resIndex == 0){
+            txt1.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
+        }else{
+            txt1.setTextColor(context.getResources().getColor(R.color.txt_black));
+        }
+        TextView txt2 = (TextView) view.findViewById(R.id.txt_popup_2);
+        txt2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activePopupWindow(view);
+                resIndex = 1;
+                changePopText(resIndex);
+            }
+        });
+        if(resIndex == 1){
+            txt2.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
+        }else{
+            txt2.setTextColor(context.getResources().getColor(R.color.txt_black));
+        }
+        TextView txt3 = (TextView) view.findViewById(R.id.txt_popup_3);
+        txt3.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activePopupWindow(view);
+                resIndex = 2;
+                changePopText(resIndex);
+            }
+        });
+        if(resIndex == 2){
+            txt3.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
+        }else{
+            txt3.setTextColor(context.getResources().getColor(R.color.txt_black));
+        }
+        TextView txt4 = (TextView) view.findViewById(R.id.txt_popup_4);
+        txt4.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activePopupWindow(view);
+                resIndex = 3;
+                changePopText(resIndex);
+            }
+        });
+        if(resIndex == 3){
+            txt4.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
+        }else{
+            txt4.setTextColor(context.getResources().getColor(R.color.txt_black));
+        }
+        popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        // 实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0x00FFFFFF);
+        //设置弹出窗体的背景
+        this.setBackgroundDrawable(dw);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(false);
+
+    }
+
+    private void activePopupWindow(View view){
+        if(popupWindow.isShowing()){
+            popupWindow.dismiss();
+        }else{
+            popupWindow.showAsDropDown(view);
+        }
+    }
+
+    private void changePopText(int index){
+        changeView(1);
+
+        changeTextColor(1);
+        txtZh1.setText(txtRes[index]);
+        if(index == 0){
+            imgResIds = resId1;
+        }else if(index == 1){
+            imgResIds = resId11;
+        }else if(index == 2){
+            imgResIds = resId12;
+        }else if(index == 3){
+            imgResIds = resId13;
+        }
+        updateData(imgResIds);
     }
 
 }

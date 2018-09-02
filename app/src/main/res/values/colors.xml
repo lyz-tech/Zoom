@@ -22,4 +22,6 @@
     <color name="txt_tab_normal_2">#0e8fe9</color>
     <color name="txt_focus_2">#0e20e9</color>
 
+    <color name="txt_black">#000000</color>
+
 </resources>

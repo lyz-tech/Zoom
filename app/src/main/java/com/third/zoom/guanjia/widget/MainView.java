@@ -20,8 +20,9 @@ import com.third.zoom.common.widget.CommonBmvItem;
 
 public class MainView extends LinearLayout{
 
-    private static final int UPDATE_SHOW_TIME  = 5 * 1000;
+    private static final int UPDATE_SHOW_TIME  = 10 * 1000;
     private static final int WHAT_UPDATE_SHOW = 1;
+    private static final int WHAT_UPDATE_NORMAL_SHOW = 2;
 
     private Context mContext;
     private ImageView imgShow;
@@ -32,16 +33,16 @@ public class MainView extends LinearLayout{
     /**
      * 主页轮播图
      */
-    private int[] showRes = {R.drawable.gj_main_show_3,R.drawable.gj_main_show_3,
+    private int[] showRes = {R.drawable.gj_main_show_0,R.drawable.gj_main_show_00,R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_3,
             R.drawable.gj_main_show_4,R.drawable.gj_main_show_5,R.drawable.gj_main_show_6,R.drawable.gj_main_show_7,
-            R.drawable.gj_main_show_9,R.drawable.gj_main_show_10,R.drawable.gj_main_show_11,
-            R.drawable.gj_main_show_15,
-            R.drawable.gj_main_show_16,R.drawable.gj_main_show_18,
-            R.drawable.gj_main_show_20,R.drawable.gj_main_show_22,R.drawable.gj_main_show_23,
-            R.drawable.gj_main_show_24,R.drawable.gj_main_show_26,
-            R.drawable.gj_main_show_28,R.drawable.gj_main_show_29,R.drawable.gj_main_show_30};
-    private int[] positionRes = {R.drawable.gj_icon_hot_unlock,R.drawable.gj_icon_bom_notice,R.drawable.gj_icon_bom_notice};
+            R.drawable.gj_main_show_8,R.drawable.gj_main_show_9,R.drawable.gj_main_show_10,R.drawable.gj_main_show_11,
+            R.drawable.gj_main_show_15,R.drawable.gj_main_show_16,
+            R.drawable.gj_main_show_17,R.drawable.gj_main_show_18,R.drawable.gj_main_show_19,
+            R.drawable.gj_main_show_20,R.drawable.gj_main_show_21,R.drawable.gj_main_show_22};
+    private int[] positionRes = {R.drawable.gj_icon_hot_unlock,R.drawable.gj_main_show_29,R.drawable.gj_icon_bom_notice};
+    private int[] normalRes = {R.drawable.gj_main_show_29,R.drawable.gj_main_show_30};
     private int showIndex = 0;
+    private int normalShowIndex = 0;
 
     //当前点击index
     private int curClickIndex = -1;
@@ -52,6 +53,9 @@ public class MainView extends LinearLayout{
             switch (msg.what){
                 case WHAT_UPDATE_SHOW:
                     updateShow(1);
+                    break;
+                case WHAT_UPDATE_NORMAL_SHOW:
+                    updateNormalShow(1);
                     break;
             }
         }
@@ -87,7 +91,6 @@ public class MainView extends LinearLayout{
             @Override
             public void onClick(View v) {
                 updateShow(-1);
-
             }
         });
 
@@ -113,6 +116,7 @@ public class MainView extends LinearLayout{
 
     public void setPositionShow(int position){
         mHandler.removeMessages(WHAT_UPDATE_SHOW);
+        mHandler.removeMessages(WHAT_UPDATE_NORMAL_SHOW);
         imgShow.setImageResource(positionRes[position]);
         curClickIndex = position;
         if(curClickIndex == 0){
@@ -120,10 +124,26 @@ public class MainView extends LinearLayout{
         }else{
             imgShow.setClickable(false);
         }
+        if(curClickIndex == 1){
+            updateNormalShow(0);
+        }
     }
 
     public void setCurClickIndex(int index){
         imgShow.setClickable(false);
+    }
+
+    public void updateNormalShow(int index){
+        mHandler.removeMessages(WHAT_UPDATE_NORMAL_SHOW);
+        normalShowIndex = normalShowIndex + index;
+        if(normalShowIndex >= normalRes.length){
+            normalShowIndex = 0;
+        }
+        if(normalShowIndex < 0){
+            normalShowIndex = normalRes.length - 1;
+        }
+        imgShow.setImageResource(normalRes[normalShowIndex]);
+        mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_NORMAL_SHOW,UPDATE_SHOW_TIME);
     }
 
     public void updateShow(int index){

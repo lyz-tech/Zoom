@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/DIMEN_106dp"
+    android:layout_height="@dimen/DIMEN_123dp">
+
+    <View
+        android:background="@color/txt_bg_about_deliver"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:layout_height="@dimen/DIMEN_1dp"></View>
+
+    <TextView
+        android:id="@+id/txt_popup_1"
+        android:text="水机说明"
+        android:textSize="@dimen/DIMEN_12sp"
+        android:background="@color/txt_bg_about"
+        android:textColor="#000000"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:gravity="center"
+        android:layout_height="@dimen/DIMEN_30dp" />
+
+    <View
+        android:background="@color/txt_bg_about_deliver"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:layout_height="@dimen/DIMEN_1dp"></View>
+
+    <TextView
+        android:id="@+id/txt_popup_2"
+        android:text="滤芯介绍"
+        android:gravity="center"
+        android:background="@color/txt_bg_about"
+        android:textSize="@dimen/DIMEN_12sp"
+        android:textColor="#000000"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:layout_height="@dimen/DIMEN_30dp" />
+
+    <View
+        android:background="@color/txt_bg_about_deliver"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:layout_height="@dimen/DIMEN_1dp"></View>
+
+    <TextView
+        android:id="@+id/txt_popup_3"
+        android:text="滤芯监测"
+        android:gravity="center"
+        android:background="@color/txt_bg_about"
+        android:textSize="@dimen/DIMEN_12sp"
+        android:textColor="#000000"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:layout_height="@dimen/DIMEN_30dp" />
+
+    <View
+        android:background="@color/txt_bg_about_deliver"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:layout_height="@dimen/DIMEN_1dp"></View>
+
+    <TextView
+        android:id="@+id/txt_popup_4"
+        android:text="安全责任"
+        android:gravity="center"
+        android:background="@color/txt_bg_about"
+        android:textSize="@dimen/DIMEN_12sp"
+        android:textColor="#000000"
+        android:layout_width="@dimen/DIMEN_106dp"
+        android:layout_height="@dimen/DIMEN_30dp" />
+
+</LinearLayout>

@@ -1,255 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="vertical">
 
 
-    <LinearLayout
-        android:background="@color/txt_bg_about"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/DIMEN_30dp"
-        android:orientation="horizontal">
 
 
-        <!--<ImageView-->
-        <!--android:id="@+id/img_back"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:background="@drawable/gj_selecter_icon_back"-->
-        <!--android:layout_margin="@dimen/DIMEN_10dp"-->
-        <!--android:layout_width="@dimen/DIMEN_10dp"-->
-        <!--android:layout_height="@dimen/DIMEN_16dp" />-->
-
-        <LinearLayout
-            android:id="@+id/ll1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_gj_zh_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="水机说明"
-                android:textColor="#000000"
-                android:textSize="@dimen/DIMEN_12sp" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/txt_gj_eh_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Machine Instructions"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_10sp" />
-
-        </LinearLayout>
-
-        <View
-            android:background="@color/txt_bg_about_deliver"
-            android:layout_marginBottom="@dimen/DIMEN_5dp"
-            android:layout_marginTop="@dimen/DIMEN_5dp"
-            android:layout_width="@dimen/DIMEN_1dp"
-            android:layout_height="match_parent"></View>
-
-        <LinearLayout
-            android:id="@+id/ll2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_gj_zh_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="专利证书"
-                android:textColor="#000000"
-                android:textSize="@dimen/DIMEN_12sp" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/txt_gj_eh_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Patent description"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_10sp" />
-
-        </LinearLayout>
-
-        <View
-            android:background="@color/txt_bg_about_deliver"
-            android:layout_marginBottom="@dimen/DIMEN_5dp"
-            android:layout_marginTop="@dimen/DIMEN_5dp"
-            android:layout_width="@dimen/DIMEN_1dp"
-            android:layout_height="match_parent"></View>
-
-        <LinearLayout
-            android:id="@+id/ll3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_gj_zh_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="氢与健康"
-                android:textColor="#000000"
-                android:textSize="@dimen/DIMEN_12sp" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/txt_gj_eh_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Hydrogen-health"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_10sp" />
-
-        </LinearLayout>
-
-        <View
-            android:background="@color/txt_bg_about_deliver"
-            android:layout_marginBottom="@dimen/DIMEN_5dp"
-            android:layout_marginTop="@dimen/DIMEN_5dp"
-            android:layout_width="@dimen/DIMEN_1dp"
-            android:layout_height="match_parent"></View>
-
-        <LinearLayout
-            android:id="@+id/ll4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_gj_zh_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="售后维修"
-                android:textColor="#000000"
-                android:textSize="@dimen/DIMEN_12sp" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/txt_gj_eh_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="After-sale Repair"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_10sp" />
-
-        </LinearLayout>
-
-        <View
-            android:background="@color/txt_bg_about_deliver"
-            android:layout_marginBottom="@dimen/DIMEN_5dp"
-            android:layout_marginTop="@dimen/DIMEN_5dp"
-            android:layout_width="@dimen/DIMEN_1dp"
-            android:layout_height="match_parent"></View>
-
-        <LinearLayout
-            android:id="@+id/ll5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_gj_zh_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="产品系列"
-                android:textColor="#000000"
-                android:textSize="@dimen/DIMEN_12sp" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/txt_gj_eh_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Product Series"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_10sp" />
-
-        </LinearLayout>
-
-        <View
-            android:background="@color/txt_bg_about_deliver"
-            android:layout_marginBottom="@dimen/DIMEN_5dp"
-            android:layout_marginTop="@dimen/DIMEN_5dp"
-            android:layout_width="@dimen/DIMEN_1dp"
-            android:layout_height="match_parent"></View>
-
-        <LinearLayout
-            android:id="@+id/ll6"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_gj_zh_6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="设置权限"
-                android:textColor="#000000"
-                android:textSize="@dimen/DIMEN_12sp" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/txt_gj_eh_6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Set Permission"
-                android:textColor="#c2c2c2"
-                android:textSize="@dimen/DIMEN_10sp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></android.support.v4.view.ViewPager>
-
 
             <RelativeLayout
                 android:layout_width="@dimen/DIMEN_40dp"
@@ -322,4 +94,239 @@
 
     </RelativeLayout>
 
-</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:background="@color/txt_bg_about"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_30dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/ll1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_gj_zh_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="水机说明"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/DIMEN_12sp" />
+
+                <ImageView
+                    android:id="@+id/img_about_down"
+                    android:layout_marginBottom="@dimen/DIMEN_5dp"
+                    android:layout_marginRight="@dimen/DIMEN_5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/gj_widget_about_down"
+                    android:layout_width="@dimen/DIMEN_12dp"
+                    android:layout_height="@dimen/DIMEN_12dp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/txt_gj_eh_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Machine Instructions"
+                    android:textColor="#c2c2c2"
+                    android:textSize="@dimen/DIMEN_10sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:background="@color/txt_bg_about_deliver"
+                android:layout_marginBottom="@dimen/DIMEN_5dp"
+                android:layout_marginTop="@dimen/DIMEN_5dp"
+                android:layout_width="@dimen/DIMEN_1dp"
+                android:layout_height="match_parent"></View>
+
+            <LinearLayout
+                android:id="@+id/ll2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_gj_zh_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="专利证书"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/DIMEN_12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/txt_gj_eh_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Patent description"
+                    android:textColor="#c2c2c2"
+                    android:textSize="@dimen/DIMEN_10sp" />
+
+            </LinearLayout>
+
+            <View
+                android:background="@color/txt_bg_about_deliver"
+                android:layout_marginBottom="@dimen/DIMEN_5dp"
+                android:layout_marginTop="@dimen/DIMEN_5dp"
+                android:layout_width="@dimen/DIMEN_1dp"
+                android:layout_height="match_parent"></View>
+
+            <LinearLayout
+                android:id="@+id/ll3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_gj_zh_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="氢与健康"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/DIMEN_12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/txt_gj_eh_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Hydrogen-health"
+                    android:textColor="#c2c2c2"
+                    android:textSize="@dimen/DIMEN_10sp" />
+
+            </LinearLayout>
+
+            <View
+                android:background="@color/txt_bg_about_deliver"
+                android:layout_marginBottom="@dimen/DIMEN_5dp"
+                android:layout_marginTop="@dimen/DIMEN_5dp"
+                android:layout_width="@dimen/DIMEN_1dp"
+                android:layout_height="match_parent"></View>
+
+            <LinearLayout
+                android:id="@+id/ll4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_gj_zh_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="售后维修"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/DIMEN_12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/txt_gj_eh_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="After-sale Repair"
+                    android:textColor="#c2c2c2"
+                    android:textSize="@dimen/DIMEN_10sp" />
+
+            </LinearLayout>
+
+            <View
+                android:background="@color/txt_bg_about_deliver"
+                android:layout_marginBottom="@dimen/DIMEN_5dp"
+                android:layout_marginTop="@dimen/DIMEN_5dp"
+                android:layout_width="@dimen/DIMEN_1dp"
+                android:layout_height="match_parent"></View>
+
+            <LinearLayout
+                android:id="@+id/ll5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_gj_zh_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="产品系列"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/DIMEN_12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/txt_gj_eh_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Product Series"
+                    android:textColor="#c2c2c2"
+                    android:textSize="@dimen/DIMEN_10sp" />
+
+            </LinearLayout>
+
+            <View
+                android:background="@color/txt_bg_about_deliver"
+                android:layout_marginBottom="@dimen/DIMEN_5dp"
+                android:layout_marginTop="@dimen/DIMEN_5dp"
+                android:layout_width="@dimen/DIMEN_1dp"
+                android:layout_height="match_parent"></View>
+
+            <LinearLayout
+                android:id="@+id/ll6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_gj_zh_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="设置权限"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/DIMEN_12sp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/txt_gj_eh_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Set Permission"
+                    android:textColor="#c2c2c2"
+                    android:textSize="@dimen/DIMEN_10sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
