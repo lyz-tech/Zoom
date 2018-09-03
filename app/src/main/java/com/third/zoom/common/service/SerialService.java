@@ -187,9 +187,9 @@ public class SerialService extends Service {
         public void onReceive(Context context, Intent intent) {
             byte[] arrayExtra = intent.getByteArrayExtra(SerialInterface.EXTRA_NAME);
 
-//            YTProHandler.handleMessage(SerialUtils.bytes2HexString(arrayExtra));
+            YTProHandler.handleMessage(SerialUtils.bytes2HexString(arrayExtra));
 
-            GJProHandler.handleMessage(SerialUtils.bytes2HexString(arrayExtra));
+//            GJProHandler.handleMessage(SerialUtils.bytes2HexString(arrayExtra));
         }
 
     }

@@ -71,18 +71,20 @@ public class MainActivity extends BaseActivity {
     private static final int WHAT_PLAY_AD = 11;
     private static final int WHAT_PLAY_TEXT = 12;
 
+    private static final int WHAT_CURRENT_PLAY_TIME = 20;
+
     //记忆播放
     private static final String SP_KEY_PLAY_DIR = "playDir";
     private static final String SP_KEY_PLAY_PATH = "playPath";
     private static final String SP_KEY_PLAY_TIME = "playTime";
     //文件夹名
-    private String CURRENT_VIDEO_FILE_DIR = "VIDEO";
-    private static final String[] VIDEO_FILE_DIRS = {"VIDEO","VIDEO1","VIDEO2",
+    private String CURRENT_VIDEO_FILE_DIR = "VIDEO1";
+    private static final String[] VIDEO_FILE_DIRS = {"VIDEO1","VIDEO2",
             "VIDEO3","VIDEO4",
             "VIDEO5","VIDEO6",
             "VIDEO7","VIDEO8",
-            "VIDEO9","VIDEO10"};
-    private static final String DEFAULT_VIDEO_FILE_DIR = "VIDEO";
+            "VIDEO9","VIDEO10","VIDEO11","VIDEO12"};
+    private static final String DEFAULT_VIDEO_FILE_DIR = "VIDEO1";
     private static final String YT_AD_FILE_DIR = "AD";
     private static final String FIRST_PLAY_AD = "AD001";
     //配置数据
@@ -109,6 +111,8 @@ public class MainActivity extends BaseActivity {
     private MarqueeTextViewV2 ytAdTextView;
     private ImageView imgError;
 
+    //mnt/media
+
     @Override
     protected void toHandleMessage(Message msg) {
         switch (msg.what) {
@@ -120,6 +124,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case WHAT_PLAY_TEXT:
                 playText();
+                break;
+            case WHAT_CURRENT_PLAY_TIME:
+                sendCurrentTime();
                 break;
         }
     }
@@ -135,7 +142,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unRegisterYTProReceiver();
-//        SerialInterface.closeAllSerialPort();
+        SerialInterface.closeAllSerialPort();
     }
 
     @Override
@@ -149,10 +156,11 @@ public class MainActivity extends BaseActivity {
     protected void initDataAfterFindView() {
         PreferenceUtils.init(this);
 
-//        SerialInterface.serialInit(this);
-//        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,2000);
+        SerialInterface.serialInit(this);
+        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,2000);
 
-        configFileInit();
+        ytFileRootPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        configFileInit(ytFileRootPath);
 
         parseFile();
 
@@ -160,6 +168,8 @@ public class MainActivity extends BaseActivity {
         ytTextViewOnCompletionListener();
         setOnErrorListener();
         registerYTProReceiver();
+
+        mHandler.sendEmptyMessageDelayed(WHAT_CURRENT_PLAY_TIME,5000);
     }
 
 
@@ -228,17 +238,17 @@ public class MainActivity extends BaseActivity {
     /**
      * 配置文件初始化
      */
-    private void configFileInit(){
-        ytFileRootPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File videoFile = new File(ytFileRootPath,CURRENT_VIDEO_FILE_DIR);
+    private void configFileInit(String rootPath){
+
+        File videoFile = new File(rootPath,CURRENT_VIDEO_FILE_DIR);
         if(videoFile == null || !videoFile.exists()){
             videoFile.mkdirs();
         }
-        File adFile = new File(ytFileRootPath,YT_AD_FILE_DIR);
+        File adFile = new File(rootPath,YT_AD_FILE_DIR);
         if(adFile == null || !adFile.exists()){
             adFile.mkdirs();
         }
-        File ytFile = new File(ytFileRootPath,"YTBus");
+        File ytFile = new File(rootPath,"YTBus");
         if(ytFile == null || !ytFile.exists()){
             ytFile.mkdirs();
         }
@@ -248,6 +258,7 @@ public class MainActivity extends BaseActivity {
      * 解析配置文件
      */
     private String YTBusConfigFilePath = "/YTBus/ytConfig.xml";
+    private String PLAY_VIDEO_PATH = "";
     private void parseFile(){
         String lastDir = PreferenceUtils.getString(SP_KEY_PLAY_DIR,"");
         if(TextUtils.isEmpty(lastDir)){
@@ -261,6 +272,30 @@ public class MainActivity extends BaseActivity {
             AD_TIME = Integer.valueOf(playDataBean.getAdDuration()) * 1000;
             TEXT_TIME = Integer.valueOf(playDataBean.getTextDuration()) * 1000;
             textContent = playDataBean.getTextContent();
+            PLAY_VIDEO_PATH = playDataBean.getPlayVideoPath();
+
+            //判断盘是否存在,不存在默认为内部
+//            if(!TextUtils.isEmpty(PLAY_VIDEO_PATH)){
+//                String[] mountPaths = MountUtils.getStorageList(this);
+//                if(mountPaths != null && mountPaths.length > 1){
+//                    String mountPath = mountPaths[1];
+//                    ytFileRootPath = mountPath;
+//                    configFileInit(ytFileRootPath);
+//                    tempPlayPath = PreferenceUtils.getString(SP_KEY_PLAY_PATH, "");
+//                    tempPlayPosition = PreferenceUtils.getInt(SP_KEY_PLAY_TIME, 0);
+//                    if(!TextUtils.isEmpty(tempPlayPath)){
+//                        if(!tempPlayPath.contains(PLAY_VIDEO_PATH)){
+//                            CURRENT_VIDEO_FILE_DIR = DEFAULT_VIDEO_FILE_DIR;
+//                            tempPlayPath = "";
+//                            tempPlayPosition = 0;
+//                            PreferenceUtils.commitString(SP_KEY_PLAY_DIR,"");
+//                            PreferenceUtils.commitString(SP_KEY_PLAY_PATH,"");
+//                            PreferenceUtils.commitInt(SP_KEY_PLAY_TIME,0);
+//                        }
+//                    }
+//                }
+//            }
+
         }catch (FileNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(this,"配置文件有问题，请检查！",Toast.LENGTH_LONG).show();
@@ -409,6 +444,8 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+
 
     /**
      * 打开串口
@@ -626,17 +663,17 @@ public class MainActivity extends BaseActivity {
             Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
             return;
         }
-        if(index >= 20 && index <= 30){
+        if(index >= 20 && index <= 31){
             index = index - 20;
             String dirName = VIDEO_FILE_DIRS[index];
             File videoFile = new File(ytFileRootPath, dirName);
             File[] videoFiles = videoFile.listFiles();
             if(videoFiles == null || videoFiles.length == 0){
-                someError("当前文件夹没有视频文件！");
+                Toast.makeText(this,"当前文件夹没有视频文件,请重新选择",Toast.LENGTH_LONG).show();
             }else{
                 String urlPath = getRandomVideoPath(dirName);
                 if(TextUtils.isEmpty(urlPath)){
-                    someError("当前文件夹没有视频文件！");
+                    Toast.makeText(this,"当前文件夹没有视频文件,请重新选择",Toast.LENGTH_LONG).show();
                     return;
                 }
                 CURRENT_VIDEO_FILE_DIR = dirName;
@@ -783,34 +820,40 @@ public class MainActivity extends BaseActivity {
             }
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_1) {
-            selectVideoDir(21);
+            selectVideoDir(20);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_2) {
-            selectVideoDir(22);
+            selectVideoDir(21);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_3) {
-            selectVideoDir(23);
+            selectVideoDir(22);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_4) {
-            selectVideoDir(24);
+            selectVideoDir(23);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_5) {
-            selectVideoDir(25);
+            selectVideoDir(24);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_6) {
-            selectVideoDir(26);
+            selectVideoDir(25);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_7) {
-            selectVideoDir(27);
+            selectVideoDir(26);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_8) {
-            selectVideoDir(28);
+            selectVideoDir(27);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_9) {
-            selectVideoDir(29);
+            selectVideoDir(28);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_0) {
-            selectVideoDir(20);
+            selectVideoDir(29);
+            return true;
+        }else if (keyCode == KeyEvent.KEYCODE_STAR) {
+            selectVideoDir(30);
+            return true;
+        }else if (keyCode == 10002) {
+            selectVideoDir(31);
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
             if(isADVideo(ytVideoView.getVideoPath())){
@@ -829,4 +872,15 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    private void sendCurrentTime(){
+        if(ytVideoView != null && ytVideoView.isPlaying()){
+            long time = ytVideoView.getCurrentPosition() / 1000l;
+
+//            SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,"ff");
+        }
+        mHandler.sendEmptyMessageDelayed(WHAT_CURRENT_PLAY_TIME,1000);
+    }
+
+
 }

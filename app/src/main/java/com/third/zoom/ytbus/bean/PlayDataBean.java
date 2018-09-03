@@ -22,6 +22,17 @@ public class PlayDataBean {
     //字幕内容
     private String textContent;
 
+    //字幕内容
+    private String playVideoPath;
+
+    public String getPlayVideoPath() {
+        return playVideoPath;
+    }
+
+    public void setPlayVideoPath(String playVideoPath) {
+        this.playVideoPath = playVideoPath;
+    }
+
     public String getDefaultSerialPort() {
         return defaultSerialPort;
     }

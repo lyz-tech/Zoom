@@ -67,6 +67,9 @@ public class ParseFileUtil {
 
                             }else if(xmlPullParser.getName().equals("PLAY_TEXT_CONTENT")){
                                 playDataBean.setTextContent(xmlPullParser.nextText());
+
+                            }else if(xmlPullParser.getName().equals("PLAY_VIDEO_PATH")){
+                                playDataBean.setPlayVideoPath(xmlPullParser.nextText());
                             }
                         }
                         break;
