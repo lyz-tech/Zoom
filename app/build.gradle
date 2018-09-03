@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.third.zoom"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -19,14 +19,14 @@ android {
     }
     sourceSets{
         main{
-            jniLibs.srcDirs=['libs']
+            jniLibs.srcDirs=['src/main/jniLibs']
         }
     }
 
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
