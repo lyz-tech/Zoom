@@ -24,6 +24,7 @@ import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.MarqueeCompletedListener;
 import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.utils.KeyEventUtils;
+import com.third.zoom.common.utils.MountUtils;
 import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.common.utils.SpaceFileUtil;
 import com.third.zoom.common.widget.MarqueeTextViewV2;
@@ -83,7 +84,8 @@ public class MainActivity extends BaseActivity {
             "VIDEO3","VIDEO4",
             "VIDEO5","VIDEO6",
             "VIDEO7","VIDEO8",
-            "VIDEO9","VIDEO10","VIDEO11","VIDEO12"};
+            "VIDEO9","VIDEO10",
+            "VIDEO11","VIDEO12"};
     private static final String DEFAULT_VIDEO_FILE_DIR = "VIDEO1";
     private static final String YT_AD_FILE_DIR = "AD";
     private static final String FIRST_PLAY_AD = "AD001";
@@ -275,26 +277,26 @@ public class MainActivity extends BaseActivity {
             PLAY_VIDEO_PATH = playDataBean.getPlayVideoPath();
 
             //判断盘是否存在,不存在默认为内部
-//            if(!TextUtils.isEmpty(PLAY_VIDEO_PATH)){
-//                String[] mountPaths = MountUtils.getStorageList(this);
-//                if(mountPaths != null && mountPaths.length > 1){
-//                    String mountPath = mountPaths[1];
-//                    ytFileRootPath = mountPath;
-//                    configFileInit(ytFileRootPath);
-//                    tempPlayPath = PreferenceUtils.getString(SP_KEY_PLAY_PATH, "");
-//                    tempPlayPosition = PreferenceUtils.getInt(SP_KEY_PLAY_TIME, 0);
-//                    if(!TextUtils.isEmpty(tempPlayPath)){
-//                        if(!tempPlayPath.contains(PLAY_VIDEO_PATH)){
-//                            CURRENT_VIDEO_FILE_DIR = DEFAULT_VIDEO_FILE_DIR;
-//                            tempPlayPath = "";
-//                            tempPlayPosition = 0;
-//                            PreferenceUtils.commitString(SP_KEY_PLAY_DIR,"");
-//                            PreferenceUtils.commitString(SP_KEY_PLAY_PATH,"");
-//                            PreferenceUtils.commitInt(SP_KEY_PLAY_TIME,0);
-//                        }
-//                    }
-//                }
-//            }
+            if(!TextUtils.isEmpty(PLAY_VIDEO_PATH)){
+                String[] mountPaths = MountUtils.getStorageList(this);
+                if(mountPaths != null && mountPaths.length > 1){
+                    String mountPath = mountPaths[1];
+                    ytFileRootPath = mountPath;
+                    configFileInit(ytFileRootPath);
+                    tempPlayPath = PreferenceUtils.getString(SP_KEY_PLAY_PATH, "");
+                    tempPlayPosition = PreferenceUtils.getInt(SP_KEY_PLAY_TIME, 0);
+                    if(!TextUtils.isEmpty(tempPlayPath)){
+                        if(!tempPlayPath.contains(PLAY_VIDEO_PATH)){
+                            CURRENT_VIDEO_FILE_DIR = DEFAULT_VIDEO_FILE_DIR;
+                            tempPlayPath = "";
+                            tempPlayPosition = 0;
+                            PreferenceUtils.commitString(SP_KEY_PLAY_DIR,"");
+                            PreferenceUtils.commitString(SP_KEY_PLAY_PATH,"");
+                            PreferenceUtils.commitInt(SP_KEY_PLAY_TIME,0);
+                        }
+                    }
+                }
+            }
 
         }catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -455,7 +457,7 @@ public class MainActivity extends BaseActivity {
             if(playDataBean != null){
                 String serialPort = playDataBean.getDefaultSerialPort();
                 String serialRate = playDataBean.getDefaultSerialRate();
-//                SerialInterface.USEING_PORT = serialPort;
+                SerialInterface.USEING_PORT = serialPort;
                 SerialInterface.USEING_RATE = Integer.valueOf(serialRate);
                 SerialInterface.openSerialPort(SerialInterface.USEING_PORT,SerialInterface.USEING_RATE);
                 SerialInterface.changeActionReceiver(SerialInterface.getActions(SerialInterface.USEING_PORT));
