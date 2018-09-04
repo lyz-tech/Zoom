@@ -84,5 +84,14 @@ public class SerialUtils {
 
 		return Integer.toHexString(CRCVal);
 	}
-	
+
+
+	public static byte[] putInt(int val) {
+		byte[] b = new byte[4];
+		b[0] = (byte) (val >>> 24);
+		b[1] = (byte) (val >>> 16);
+		b[2] = (byte) (val >>> 8);
+		b[3] = (byte) (val >>> 0);
+		return b;
+	}
 }

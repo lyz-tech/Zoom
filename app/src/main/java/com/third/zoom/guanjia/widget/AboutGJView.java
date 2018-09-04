@@ -2,7 +2,6 @@ package com.third.zoom.guanjia.widget;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.DimenRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -14,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.third.zoom.R;
+import com.third.zoom.common.listener.NormalListener;
+import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.guanjia.adapter.AboutPageAdapter;
 import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.utils.IntentUtils;
@@ -44,7 +45,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private int[] resId6 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
 
     private int[] resId11 = {R.drawable.gj_about_tab1_1_1};
-    private int[] resId12 = {R.drawable.gj_about_tab1_1_2};
+    private int[] resId12 = {R.drawable.gj_about_tab1_1_3};
     private int[] resId13 = {R.drawable.gj_about_tab1_1_3_1,R.drawable.gj_about_tab1_1_3_2,
             R.drawable.gj_about_tab1_1_3_3,R.drawable.gj_about_tab1_1_3_4,};
 
@@ -52,6 +53,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private int[] imgResIds;
     private ImageView[] tips;
     private ImageView imageView;
+
+    private RelativeLayout rlChangeDevice;
+    private ImageView imgDevice,imgChangeBack;
 
     public AboutGJView(Context context) {
         this(context, null);
@@ -96,10 +100,12 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         txtEh5 = (TextView) view.findViewById(R.id.txt_gj_eh_5);
         txtEh6 = (TextView) view.findViewById(R.id.txt_gj_eh_6);
         imgDown = (ImageView) view.findViewById(R.id.img_about_down);
+        rlChangeDevice = (RelativeLayout) view.findViewById(R.id.rl_change_device);
+        imgDevice = (ImageView) view.findViewById(R.id.img_device);
+        imgChangeBack = (ImageView) view.findViewById(R.id.img_change_back);
     }
 
     private void initData() {
-
         ll1.setOnClickListener(this);
         ll2.setOnClickListener(this);
         ll3.setOnClickListener(this);
@@ -155,6 +161,22 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                     index = 0;
                 }
                 viewPager.setCurrentItem(index);
+            }
+        });
+
+        permissionViewSetListener();
+
+        imgDevice.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        imgChangeBack.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rlChangeDevice.setVisibility(GONE);
             }
         });
 
@@ -373,12 +395,21 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             txt4.setTextColor(context.getResources().getColor(R.color.txt_black));
         }
         popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-        // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(0x00FFFFFF);
         //设置弹出窗体的背景
-        this.setBackgroundDrawable(dw);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setFocusable(false);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00FFFFFF));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchInterceptor(new OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -405,6 +436,27 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             imgResIds = resId13;
         }
         updateData(imgResIds);
+    }
+
+    private void permissionViewSetListener(){
+        setPermissionView.setNormalListener(new NormalListener() {
+            @Override
+            public void onActive(Object object) {
+                if(object == 1){
+                    resId12[0] = R.drawable.gj_about_tab1_1_4;
+                    resIndex = 2;
+                    changePopText(2);
+                }else if(object == 2){
+                    rlChangeDevice.setVisibility(VISIBLE);
+                    int waterType = PreferenceUtils.getInt("waterType",1);
+                    if(waterType == 1){
+                        imgDevice.setImageResource(R.drawable.gj_device_a);
+                    }else if(waterType == 2){
+                        imgDevice.setImageResource(R.drawable.gj_device_b);
+                    }
+                }
+            }
+        });
     }
 
 }

@@ -245,4 +245,17 @@ public class TimeFormatUtil {
         return calendar.getTime();
     }
 
+    /**
+     *
+     * @param mss
+     * @return 该毫秒数转换为 * hours * minutes * seconds 后的格式
+     * @author fy.zhang
+     */
+    public static String[] formatDuring(long mss) {
+        long hours = (mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+        long minutes = (mss % (1000 * 60 * 60)) / (1000 * 60);
+        long seconds = (mss % (1000 * 60)) / 1000;
+        return new String[]{hours+"",minutes+"",seconds+""};
+    }
+
 }

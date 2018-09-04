@@ -2,13 +2,9 @@ package com.third.zoom.guanjia.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.third.zoom.R;
+import com.third.zoom.common.listener.NormalListener;
 import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.utils.IntentUtils;
 
@@ -31,6 +28,7 @@ public class SetPermissionView extends RelativeLayout{
     private Button btnTime;
     private Button btnPassword;
 
+    private int type;
 
     public SetPermissionView(Context context) {
         this(context, null);
@@ -59,6 +57,7 @@ public class SetPermissionView extends RelativeLayout{
             @Override
             public void onClick(View v) {
                 IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
+                type = 1;
                 dialogShow();
             }
         });
@@ -67,6 +66,7 @@ public class SetPermissionView extends RelativeLayout{
             @Override
             public void onClick(View v) {
                 IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
+                type = 2;
                 dialogShow();
             }
         });
@@ -112,7 +112,13 @@ public class SetPermissionView extends RelativeLayout{
             public void onClick(View view) {
                 if(passwordView.isPwdTrue()){
                     dialogDismiss();
-                    dialogShow2();
+                    if(type == 1){
+                        dialogShow2();
+                    }else if(type == 2){
+                        if(normalListener != null){
+                            normalListener.onActive(2);
+                        }
+                    }
                 }
             }
         });
@@ -155,6 +161,9 @@ public class SetPermissionView extends RelativeLayout{
             @Override
             public void onClick(View view) {
                 dialogDismiss2();
+                if(normalListener != null){
+                    normalListener.onActive(1);
+                }
             }
         });
         builder.setView(capView);
@@ -169,6 +178,7 @@ public class SetPermissionView extends RelativeLayout{
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
             DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
             lp.width = (int) (d.widthPixels * 0.5); // 宽度设置为屏幕的0.8
+//            lp.height = (int) (d.heightPixels * 0.5); // 宽度设置为屏幕的0.8
             dialogWindow.setAttributes(lp);
         }
     }
@@ -178,5 +188,13 @@ public class SetPermissionView extends RelativeLayout{
             normalDialog2.dismiss();
         }
     }
+
+    private NormalListener normalListener;
+    public void setNormalListener(NormalListener normalListener){
+        this.normalListener = normalListener;
+    }
+
+
+
 
 }

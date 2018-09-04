@@ -23,6 +23,7 @@ import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.MarqueeCompletedListener;
 import com.third.zoom.common.serial.SerialInterface;
+import com.third.zoom.common.serial.SerialUtils;
 import com.third.zoom.common.utils.KeyEventUtils;
 import com.third.zoom.common.utils.MountUtils;
 import com.third.zoom.common.utils.PreferenceUtils;
@@ -304,6 +305,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
     //开机播放AD001
     private void playFirstAD(){
         String[] temps = {".mp4", ".rmvb", ".avi", ".flv", ".mkv"};
@@ -490,7 +492,7 @@ public class MainActivity extends BaseActivity {
             String action = intent.getAction();
             if(Contans.INTENT_YT_COM.equals(action)){
                 int comValue = intent.getIntExtra("comValue",-1);
-                handleCom(comValue);
+//                handleCom(comValue);
             }
         }
     }
@@ -665,29 +667,34 @@ public class MainActivity extends BaseActivity {
             Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
             return;
         }
-        if(index >= 20 && index <= 31){
-            index = index - 20;
-            String dirName = VIDEO_FILE_DIRS[index];
-            File videoFile = new File(ytFileRootPath, dirName);
-            File[] videoFiles = videoFile.listFiles();
-            if(videoFiles == null || videoFiles.length == 0){
-                Toast.makeText(this,"当前文件夹没有视频文件,请重新选择",Toast.LENGTH_LONG).show();
-            }else{
-                String urlPath = getRandomVideoPath(dirName);
-                if(TextUtils.isEmpty(urlPath)){
+        try {
+            if(index >= 20 && index <= 31){
+                index = index - 20;
+                String dirName = VIDEO_FILE_DIRS[index];
+                File videoFile = new File(ytFileRootPath, dirName);
+                File[] videoFiles = videoFile.listFiles();
+                if(videoFiles == null || videoFiles.length == 0){
                     Toast.makeText(this,"当前文件夹没有视频文件,请重新选择",Toast.LENGTH_LONG).show();
-                    return;
+                }else{
+                    String urlPath = getRandomVideoPath(dirName);
+                    if(TextUtils.isEmpty(urlPath)){
+                        Toast.makeText(this,"当前文件夹没有视频文件,请重新选择",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    CURRENT_VIDEO_FILE_DIR = dirName;
+                    PreferenceUtils.commitString(SP_KEY_PLAY_DIR,dirName);
+                    ytVideoView.setVideoPath(urlPath);
+                    tempPlayPath = urlPath;
+                    tempPlayPosition = 0;
+                    PreferenceUtils.commitString(SP_KEY_PLAY_PATH, tempPlayPath);
+                    PreferenceUtils.commitInt(SP_KEY_PLAY_TIME, tempPlayPosition);
+                    Toast.makeText(this,"切换到文件夹 " + CURRENT_VIDEO_FILE_DIR,Toast.LENGTH_LONG).show();
                 }
-                CURRENT_VIDEO_FILE_DIR = dirName;
-                PreferenceUtils.commitString(SP_KEY_PLAY_DIR,dirName);
-                ytVideoView.setVideoPath(urlPath);
-                tempPlayPath = urlPath;
-                tempPlayPosition = 0;
-                PreferenceUtils.commitString(SP_KEY_PLAY_PATH, tempPlayPath);
-                PreferenceUtils.commitInt(SP_KEY_PLAY_TIME, tempPlayPosition);
-                Toast.makeText(this,"切换到文件夹 " + CURRENT_VIDEO_FILE_DIR,Toast.LENGTH_LONG).show();
             }
+        }catch (Exception e){
+            Log.e("ZM",e.getMessage());
         }
+
     }
 
     /**
@@ -877,7 +884,9 @@ public class MainActivity extends BaseActivity {
 
     private void sendCurrentTime(){
         if(ytVideoView != null && ytVideoView.isPlaying()){
-            long time = ytVideoView.getCurrentPosition() / 1000l;
+            int time = ytVideoView.getCurrentPosition();
+            byte[] timeBytes = SerialUtils.putInt(time);
+            String hexStirng = SerialUtils.bytes2HexString(timeBytes);
 
 //            SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,"ff");
         }

@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.third.zoom.common.utils.FileUtils;
+
 /**
  * 作者：Sky on 2018/3/5.
  * 用途：视频播放控件：暂停、播放、记忆、音量控制
@@ -177,7 +179,7 @@ public class YTVideoView extends SurfaceView {
 
 		@Override
 		public boolean onError(MediaPlayer mp, int what, int extra) {
-			
+			FileUtils.saveFileForError("what = " + what + "---extra = " + extra);
 			if (mOnErrorListener != null) {
 				mOnErrorListener.onError(mp, what, extra);
 				return true;
