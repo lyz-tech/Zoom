@@ -455,7 +455,7 @@ public class MainActivity extends BaseActivity {
             if(playDataBean != null){
                 String serialPort = playDataBean.getDefaultSerialPort();
                 String serialRate = playDataBean.getDefaultSerialRate();
-                SerialInterface.USEING_PORT = serialPort;
+//                SerialInterface.USEING_PORT = serialPort;
                 SerialInterface.USEING_RATE = Integer.valueOf(serialRate);
                 SerialInterface.openSerialPort(SerialInterface.USEING_PORT,SerialInterface.USEING_RATE);
                 SerialInterface.changeActionReceiver(SerialInterface.getActions(SerialInterface.USEING_PORT));

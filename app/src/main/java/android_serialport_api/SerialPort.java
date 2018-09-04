@@ -44,8 +44,6 @@ public class SerialPort {
 			try {
 				/* Missing read/write permission, trying to chmod the file */
 				Process su;
-//				su = Runtime.getRuntime().exec("/system/bin/su");
-				//TODO H6
 				su = Runtime.getRuntime().exec("/system/xbin/su");
 				String cmd = "chmod 666 " + device.getAbsolutePath() + "\n"
 						+ "exit\n";
