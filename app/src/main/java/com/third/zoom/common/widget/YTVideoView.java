@@ -114,6 +114,7 @@ public class YTVideoView extends SurfaceView {
 				mPlayer = new MediaPlayer();
 			}
 			if(mPlayer != null){
+				mPlayer.stop();
 				mPlayer.reset();
 				mPlayer.setOnPreparedListener(mPreparedListener);
 				mPlayer.setOnCompletionListener(mCompletionListener);
@@ -283,7 +284,7 @@ public class YTVideoView extends SurfaceView {
 	public void seekTo(int currentPosition) {
 		if (mPlayer != null) {
 			playPosition = currentPosition;
-			mPlayer.seekTo(currentPosition);
+//			mPlayer.seekTo(currentPosition);
 		}
 	}
 

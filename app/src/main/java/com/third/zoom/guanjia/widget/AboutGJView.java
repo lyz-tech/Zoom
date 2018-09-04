@@ -442,11 +442,11 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         setPermissionView.setNormalListener(new NormalListener() {
             @Override
             public void onActive(Object object) {
-                if(object == 1){
+                if((int)object == 1){
                     resId12[0] = R.drawable.gj_about_tab1_1_4;
                     resIndex = 2;
                     changePopText(2);
-                }else if(object == 2){
+                }else if((int)object == 2){
                     rlChangeDevice.setVisibility(VISIBLE);
                     int waterType = PreferenceUtils.getInt("waterType",1);
                     if(waterType == 1){

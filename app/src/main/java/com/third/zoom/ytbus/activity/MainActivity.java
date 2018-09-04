@@ -459,7 +459,7 @@ public class MainActivity extends BaseActivity {
             if(playDataBean != null){
                 String serialPort = playDataBean.getDefaultSerialPort();
                 String serialRate = playDataBean.getDefaultSerialRate();
-                SerialInterface.USEING_PORT = serialPort;
+//                SerialInterface.USEING_PORT = serialPort;
                 SerialInterface.USEING_RATE = Integer.valueOf(serialRate);
                 SerialInterface.openSerialPort(SerialInterface.USEING_PORT,SerialInterface.USEING_RATE);
                 SerialInterface.changeActionReceiver(SerialInterface.getActions(SerialInterface.USEING_PORT));
@@ -888,7 +888,7 @@ public class MainActivity extends BaseActivity {
             byte[] timeBytes = SerialUtils.putInt(time);
             String hexStirng = SerialUtils.bytes2HexString(timeBytes);
 
-//            SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,"ff");
+            SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,"ff"+hexStirng);
         }
         mHandler.sendEmptyMessageDelayed(WHAT_CURRENT_PLAY_TIME,1000);
     }
