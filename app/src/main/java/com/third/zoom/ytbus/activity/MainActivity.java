@@ -311,13 +311,13 @@ public class MainActivity extends BaseActivity {
         String[] temps = {".mp4", ".rmvb", ".avi", ".flv", ".mkv"};
         String exist = "";
         for (String temp : temps) {
-            File ad001 = new File(ytFileRootPath + "/" + YT_AD_FILE_DIR + "/" + FIRST_PLAY_AD + temp);
+            File ad001 = new File(ytFileRootPath, YT_AD_FILE_DIR + "/" + FIRST_PLAY_AD + temp);
             if(ad001 != null && ad001.exists()){
                 exist = temp;
                 break;
             }
         }
-        File ad001 = new File(ytFileRootPath + "/" + YT_AD_FILE_DIR + "/" + FIRST_PLAY_AD + exist);
+        File ad001 = new File(ytFileRootPath , YT_AD_FILE_DIR + "/" + FIRST_PLAY_AD + exist);
         if(ad001 != null && ad001.exists()){
             ytVideoView.setVideoPath(ad001.getAbsolutePath());
         }else {
@@ -459,7 +459,7 @@ public class MainActivity extends BaseActivity {
             if(playDataBean != null){
                 String serialPort = playDataBean.getDefaultSerialPort();
                 String serialRate = playDataBean.getDefaultSerialRate();
-//                SerialInterface.USEING_PORT = serialPort;
+                SerialInterface.USEING_PORT = serialPort;
                 SerialInterface.USEING_RATE = Integer.valueOf(serialRate);
                 SerialInterface.openSerialPort(SerialInterface.USEING_PORT,SerialInterface.USEING_RATE);
                 SerialInterface.changeActionReceiver(SerialInterface.getActions(SerialInterface.USEING_PORT));
