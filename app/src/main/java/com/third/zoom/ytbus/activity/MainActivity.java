@@ -287,7 +287,7 @@ public class MainActivity extends BaseActivity {
                     tempPlayPath = PreferenceUtils.getString(SP_KEY_PLAY_PATH, "");
                     tempPlayPosition = PreferenceUtils.getInt(SP_KEY_PLAY_TIME, 0);
                     if(!TextUtils.isEmpty(tempPlayPath)){
-                        if(!tempPlayPath.contains(PLAY_VIDEO_PATH)){
+                        if(!tempPlayPath.contains(ytFileRootPath)){
                             CURRENT_VIDEO_FILE_DIR = DEFAULT_VIDEO_FILE_DIR;
                             tempPlayPath = "";
                             tempPlayPosition = 0;
@@ -295,6 +295,14 @@ public class MainActivity extends BaseActivity {
                             PreferenceUtils.commitString(SP_KEY_PLAY_PATH,"");
                             PreferenceUtils.commitInt(SP_KEY_PLAY_TIME,0);
                         }
+                    }else{
+                        tempPlayPosition = 0;
+                        PreferenceUtils.commitInt(SP_KEY_PLAY_TIME,0);
+                    }
+                }else{
+                    String cvfd = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
+                    if(TextUtils.isEmpty(cvfd)){
+                        CURRENT_VIDEO_FILE_DIR = DEFAULT_VIDEO_FILE_DIR;
                     }
                 }
             }
@@ -333,7 +341,7 @@ public class MainActivity extends BaseActivity {
         imgError.setVisibility(View.GONE);
         tempPlayPosition = ytVideoView.getCurrentPosition();
         Log.e("ZM","当前保存位置 = " + tempPlayPosition);
-        if(tempPlayPosition < 10000){
+        if(tempPlayPosition < 5000){
             tempPlayPosition = 0;
         }
         tempPlayPath = ytVideoView.getVideoPath();

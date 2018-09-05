@@ -180,7 +180,7 @@ public class YTVideoView extends SurfaceView {
 
 		@Override
 		public boolean onError(MediaPlayer mp, int what, int extra) {
-			FileUtils.saveFileForError("what = " + what + "---extra = " + extra);
+//			FileUtils.saveFileForError("what = " + what + "---extra = " + extra);
 			if (mOnErrorListener != null) {
 				mOnErrorListener.onError(mp, what, extra);
 				return true;
