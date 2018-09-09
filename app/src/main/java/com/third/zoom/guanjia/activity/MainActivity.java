@@ -35,8 +35,12 @@ import com.third.zoom.guanjia.widget.SelectHotWaterView;
 import com.third.zoom.guanjia.widget.SelectWaterDeviceView;
 import com.third.zoom.guanjia.widget.WaitingView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.SimpleFormatter;
 
 import static com.third.zoom.guanjia.utils.Contans.INTENT_GJ_ACTION_ACTIVE;
 
@@ -114,6 +118,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unRegisterGJProReceiver();
+        unRegistTimeReceiver();
 //        SerialInterface.closeAllSerialPort();
     }
 
@@ -130,6 +135,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initDataAfterFindView() {
         registerGJProReceiver();
+        registTimeReceiver();
 
 //        SerialInterface.serialInit(this);
 //        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
@@ -149,6 +155,8 @@ public class MainActivity extends BaseActivity {
                     int type = (int) object;
                     PreferenceUtils.commitBoolean("isBootFirst",false);
                     PreferenceUtils.commitInt("waterType",type);
+                    PreferenceUtils.commitLong("waterTime",System.currentTimeMillis());
+                    saveTime = System.currentTimeMillis();
                     init2();
                 }
             });
@@ -238,6 +246,7 @@ public class MainActivity extends BaseActivity {
                 mainView.setVisibility(View.VISIBLE);
                 aboutGJView.setVisibility(View.GONE);
                 mainView.updateShow(0);
+                changeTime();
             }
         });
 
@@ -573,5 +582,43 @@ public class MainActivity extends BaseActivity {
         deviceDetailStatus = GJProUtil.parseData(data);
     }
 
+    private TimeChangeReceiver timeChangeReceiver;
+    private void registTimeReceiver(){
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_DATE_CHANGED);//设置了系统时区
+        timeChangeReceiver = new TimeChangeReceiver();
+        registerReceiver(timeChangeReceiver, intentFilter);
+    }
 
+    private void unRegistTimeReceiver(){
+        unregisterReceiver(timeChangeReceiver);
+    }
+
+    private long saveTime = 0;
+    private int currentType = 1;
+    private class TimeChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            changeTime();
+        }
+    }
+
+
+    private void changeTime(){
+        saveTime = PreferenceUtils.getLong("waterTime",0);
+        currentType = PreferenceUtils.getInt("waterType",1);
+        long curnTime = System.currentTimeMillis();
+        long indexTime = curnTime - saveTime;
+        int last = (int) (indexTime / (24 * 60 * 60 * 1000));
+        if(last >= 0 && last < 180){
+            if(currentType == 1){
+                navTopView.setWaterTime(120 - last );
+                aboutGJView.setLVTime(currentType,120 - last );
+            }else{
+                navTopView.setWaterTime(180 - last );
+                aboutGJView.setLVTime(currentType,180 - last);
+            }
+
+        }
+    }
 }

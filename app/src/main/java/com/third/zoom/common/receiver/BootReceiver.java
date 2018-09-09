@@ -20,7 +20,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e("ZM","收到开机广播");
-        Intent _intent = new Intent(context, com.third.zoom.ytbus.activity.MainActivity.class);
+        Intent _intent = new Intent(context, com.third.zoom.guanjia.activity.MainActivity.class);
         _intent.setAction(Intent.ACTION_MAIN);
         _intent.addCategory(Intent.CATEGORY_DEFAULT);
         PendingIntent mRestartIntent = PendingIntent.getActivity(

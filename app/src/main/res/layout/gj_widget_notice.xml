@@ -9,7 +9,7 @@
         android:layout_height="@dimen/DIMEN_25sp"
         android:background="@color/txt_focus"
         android:gravity="center"
-        android:text="滤芯更换"
+        android:text="温馨提示"
         android:textColor="#ffffff"
         android:textSize="@dimen/DIMEN_13sp" />
 
@@ -17,21 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_150dp">
 
-        <ImageView
-            android:id="@+id/img_cap"
-            android:layout_width="@dimen/DIMEN_45dp"
-            android:layout_height="@dimen/DIMEN_90dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/gj_widget_permission_lx_change" />
-
         <TextView
-            android:layout_marginTop="@dimen/DIMEN_10dp"
-            android:layout_below="@id/img_cap"
-            android:layout_width="match_parent"
+            android:id="@+id/txt_message"
+            android:text="您选择的是家庭机"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="0%"
-            android:textSize="@dimen/DIMEN_12sp" />
+            android:textColor="#000000"
+            android:textSize="@dimen/DIMEN_18sp" />
 
     </RelativeLayout>
 
@@ -46,7 +39,7 @@
             android:layout_width="@dimen/DIMEN_50dp"
             android:layout_height="@dimen/DIMEN_30dp"
             android:layout_alignParentRight="true"
-            android:text="重置"
+            android:text="确定"
             android:textColor="#aa000000"
             android:textSize="@dimen/DIMEN_8sp" />
 

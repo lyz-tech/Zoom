@@ -1,11 +1,16 @@
 package com.third.zoom.guanjia.widget;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -57,6 +62,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private RelativeLayout rlChangeDevice;
     private ImageView imgDevice,imgChangeBack;
 
+    private int currentType = 1;
+
     public AboutGJView(Context context) {
         this(context, null);
     }
@@ -106,6 +113,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     }
 
     private void initData() {
+        PreferenceUtils.init(context);
         ll1.setOnClickListener(this);
         ll2.setOnClickListener(this);
         ll3.setOnClickListener(this);
@@ -169,7 +177,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         imgDevice.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                normalDialog2();
+                dialogShow2();
             }
         });
 
@@ -179,6 +188,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                 rlChangeDevice.setVisibility(GONE);
             }
         });
+
+        initLVTime();
 
         changeView(1);
         imgResIds = resId1;
@@ -449,14 +460,117 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                 }else if((int)object == 2){
                     rlChangeDevice.setVisibility(VISIBLE);
                     int waterType = PreferenceUtils.getInt("waterType",1);
-                    if(waterType == 1){
+                    if(waterType == 2){
+                        currentType = 1;
                         imgDevice.setImageResource(R.drawable.gj_device_a);
-                    }else if(waterType == 2){
+                    }else if(waterType == 1){
+                        currentType = 2;
                         imgDevice.setImageResource(R.drawable.gj_device_b);
                     }
                 }
             }
         });
+    }
+
+    private AlertDialog normalDialog2;
+    private void normalDialog2(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final View capView = View.inflate(context,R.layout.gj_widget_notice,null);
+        TextView txtMessage = (TextView) capView.findViewById(R.id.txt_message);
+        if(currentType == 1){
+            txtMessage.setText("您选择的是共享机");
+        }else{
+            txtMessage.setText("您选择的是家庭机");
+        }
+        Button btnCancel = (Button) capView.findViewById(R.id.btn_cancel);
+        Button btnOk = (Button) capView.findViewById(R.id.btn_ok);
+        btnCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogDismiss2();
+            }
+        });
+        btnOk.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogDismiss2();
+                if(normalListener != null){
+                    normalListener.onActive(1);
+                }
+                PreferenceUtils.commitInt("waterType",currentType);
+                PreferenceUtils.commitLong("waterTime",System.currentTimeMillis());
+                rlChangeDevice.setVisibility(GONE);
+                imgBack.performClick();
+            }
+        });
+        builder.setView(capView);
+
+        normalDialog2 = builder.create();
+    }
+
+    private void dialogShow2(){
+        if(!normalDialog2.isShowing()){
+            normalDialog2.show();
+            Window dialogWindow = normalDialog2.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+            lp.width = (int) (d.widthPixels * 0.5); // 宽度设置为屏幕的0.8
+//            lp.height = (int) (d.heightPixels * 0.5); // 宽度设置为屏幕的0.8
+            dialogWindow.setAttributes(lp);
+        }
+    }
+
+    private void dialogDismiss2(){
+        if(normalDialog2.isShowing()){
+            normalDialog2.dismiss();
+        }
+    }
+
+    private NormalListener normalListener;
+    public void setNormalListener(NormalListener normalListener){
+        this.normalListener = normalListener;
+    }
+
+    public void setLVTime(int type ,int lvTime){
+        if(type == 1){
+           if(lvTime > 80){
+               resId12[0] = R.drawable.gj_about_tab1_1_4;
+               setPermissionView.setLVTime(1);
+           }else if(lvTime > 40){
+               resId12[0] = R.drawable.gj_about_tab1_1_2;
+               setPermissionView.setLVTime(2);
+           }else{
+               resId12[0] = R.drawable.gj_about_tab1_1_3;
+               setPermissionView.setLVTime(3);
+           }
+        }else{
+            if(lvTime > 120){
+                resId12[0] = R.drawable.gj_about_tab1_1_4;
+                setPermissionView.setLVTime(1);
+            }else if(lvTime > 60){
+                resId12[0] = R.drawable.gj_about_tab1_1_2;
+                setPermissionView.setLVTime(2);
+            }else{
+                resId12[0] = R.drawable.gj_about_tab1_1_4;
+                setPermissionView.setLVTime(3);
+            }
+        }
+    }
+
+    private void initLVTime(){
+        int currentType = PreferenceUtils.getInt("waterType",1);
+        long curnTime = System.currentTimeMillis();
+        long indexTime = curnTime - PreferenceUtils.getLong("waterTime",0);
+        int last = (int) (indexTime / (24 * 60 * 60 * 1000));
+        if(last < 0 || last > 180){
+            last = 0;
+        }
+        if(currentType == 1){
+            setLVTime(currentType,120 - last);
+        }else{
+            setLVTime(currentType,180 - last);
+        }
+
     }
 
 }

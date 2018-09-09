@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -91,7 +92,7 @@ public class SetPermissionView extends RelativeLayout{
 //        });
 
         normalDialog();
-        normalDialog2();
+
     }
 
 
@@ -113,6 +114,7 @@ public class SetPermissionView extends RelativeLayout{
                 if(passwordView.isPwdTrue()){
                     dialogDismiss();
                     if(type == 1){
+                        normalDialog2();
                         dialogShow2();
                     }else if(type == 2){
                         if(normalListener != null){
@@ -151,6 +153,8 @@ public class SetPermissionView extends RelativeLayout{
         final View capView = View.inflate(context,R.layout.gj_widget_lx_change,null);
         Button btnCancel = (Button) capView.findViewById(R.id.btn_cancel);
         Button btnOk = (Button) capView.findViewById(R.id.btn_ok);
+        ImageView imgCap = (ImageView) capView.findViewById(R.id.img_cap);
+        imgCap.setImageResource(resId);
         btnCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,7 +198,16 @@ public class SetPermissionView extends RelativeLayout{
         this.normalListener = normalListener;
     }
 
-
+    private int resId = R.drawable.gj_widget_permission_lx_change;
+    public void setLVTime(int type){
+        if(type == 1){
+            resId = R.drawable.gj_widget_permission_lx_change2;
+        }else if(type == 2){
+            resId = R.drawable.gj_widget_permission_lx_change3;
+        }else{
+            resId = R.drawable.gj_widget_permission_lx_change;
+        }
+    }
 
 
 }

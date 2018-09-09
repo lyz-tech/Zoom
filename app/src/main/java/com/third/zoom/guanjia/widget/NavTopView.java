@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.third.zoom.R;
+import com.third.zoom.common.utils.PreferenceUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,6 +75,25 @@ public class NavTopView extends RelativeLayout{
 
     private void initData(){
         updateTime();
+        PreferenceUtils.init(mContext);
+        long saveTime = PreferenceUtils.getLong("waterTime",0);
+        int currentType = PreferenceUtils.getInt("waterType",1);
+        long curnTime = System.currentTimeMillis();
+        long indexTime = curnTime - saveTime;
+        int last = (int) (indexTime / 24 * 60 * 60 * 1000);
+        if(last > 0 && last < 180){
+            if(currentType == 1){
+                setWaterTime(120 - last );
+            }else{
+                setWaterTime(180 - last );
+            }
+        }else{
+            if(currentType == 1){
+                setWaterTime(120);
+            }else{
+                setWaterTime(180);
+            }
+        }
     }
 
     private void updateTime(){
@@ -84,8 +104,8 @@ public class NavTopView extends RelativeLayout{
         mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_TIME,UPDATE_TIME);
     }
 
-    private void setWaterTime(int waterTime){
-        txtWaterTime.setText(waterTime + "");
+    public void setWaterTime(int waterTime){
+        txtWaterTime.setText(waterTime + "日");
     }
 
     private void setWaterCap(int waterCap){
