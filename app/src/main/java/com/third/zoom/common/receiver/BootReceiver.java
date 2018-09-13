@@ -27,6 +27,6 @@ public class BootReceiver extends BroadcastReceiver {
                 context.getApplicationContext(), 0, _intent,
                 Intent.FLAG_ACTIVITY_NEW_TASK);
         AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 4000, mRestartIntent);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis(), mRestartIntent);
     }
 }

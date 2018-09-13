@@ -177,7 +177,7 @@ public class MainActivity extends BaseActivity {
         setOnErrorListener();
         registerYTProReceiver();
 
-        mHandler.sendEmptyMessageDelayed(WHAT_CURRENT_PLAY_TIME,5000);
+
     }
 
 
@@ -197,6 +197,7 @@ public class MainActivity extends BaseActivity {
      * 取消message，记录播放路径跟位置
      */
     private void doOnPauseThings() {
+        mHandler.removeMessages(WHAT_CURRENT_PLAY_TIME);
         runADTimer(false);
         runTextTimer(false);
         if (ytVideoView != null) {
@@ -215,6 +216,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void doOnResumeThings() {
+        mHandler.sendEmptyMessageDelayed(WHAT_CURRENT_PLAY_TIME,3000);
         tempPlayPath = PreferenceUtils.getString(SP_KEY_PLAY_PATH, "");
         tempPlayPosition = PreferenceUtils.getInt(SP_KEY_PLAY_TIME, 0);
         runTextTimer(true);
@@ -901,6 +903,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void sendCurrentTime(){
+        mHandler.removeMessages(WHAT_CURRENT_PLAY_TIME);
         if(ytVideoView != null && ytVideoView.isPlaying()){
             int time = ytVideoView.getCurrentPosition();
             byte[] timeBytes = SerialUtils.putInt(time);
