@@ -114,6 +114,11 @@ public class MainActivity extends BaseActivity {
     private MarqueeTextViewV2 ytAdTextView;
     private ImageView imgError;
 
+    private String TEXT_NOTICE = "Advertisement is on now,Please try later!";
+    private String NOT_VIDEO = "No video files found, please check!";
+    private String NOT_CONFIG_XML = "There is a problem in the configuration file. Please check it!";
+    private String NOT_TEXT_CONTENT = "No subtitle is found, please check!";
+
     //mnt/media
 
     @Override
@@ -223,7 +228,7 @@ public class MainActivity extends BaseActivity {
                 if (TextUtils.isEmpty(tempPlayPath)) {
                     String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
-                        someError("未找到视频文件，请检查！");
+                        someError(NOT_VIDEO);
                         return;
                     }else{
                         ytVideoView.setVideoPath(next);
@@ -309,7 +314,7 @@ public class MainActivity extends BaseActivity {
 
         }catch (FileNotFoundException e) {
             e.printStackTrace();
-            Toast.makeText(this,"配置文件有问题，请检查！",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,NOT_CONFIG_XML,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -329,7 +334,7 @@ public class MainActivity extends BaseActivity {
         if(ad001 != null && ad001.exists()){
             ytVideoView.setVideoPath(ad001.getAbsolutePath());
         }else {
-            someError("未找到AD001视频文件,请检查！");
+            someError(NOT_VIDEO);
         }
     }
 
@@ -376,7 +381,7 @@ public class MainActivity extends BaseActivity {
     private void playText(){
         Log.e("ZM","播放字幕");
         if(TextUtils.isEmpty(textContent)){
-            textContent = "未找到字幕内容，请检查！";
+            textContent = NOT_TEXT_CONTENT;
         }
         ytAdTextView.setVisibility(View.VISIBLE);
         ytAdTextView.setContent(textContent);
@@ -413,7 +418,7 @@ public class MainActivity extends BaseActivity {
                     if(TextUtils.isEmpty(tempPlayPath)){
                         String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                         if(TextUtils.isEmpty(next)){
-                            someError("未找到视频文件，请检查！");
+                            someError(NOT_VIDEO);
                         }else{
                             ytVideoView.setVideoPath(next);
                         }
@@ -427,7 +432,7 @@ public class MainActivity extends BaseActivity {
                         }else{
                             String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                             if(TextUtils.isEmpty(next)){
-                                someError("未找到视频文件，请检查！");
+                                someError(NOT_VIDEO);
                             }else{
                                 ytVideoView.setVideoPath(next);
                             }
@@ -437,7 +442,7 @@ public class MainActivity extends BaseActivity {
                     Log.e("ZM","播放默认视频");
                     String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
-                        someError("未找到视频文件，请检查！");
+                        someError(NOT_VIDEO);
                         ytVideoView.changePath("");
                     }else{
                         ytVideoView.setVideoPath(next);
@@ -512,7 +517,7 @@ public class MainActivity extends BaseActivity {
      */
     private void handleCom(int comValue){
         if(isADVideo(ytVideoView.getVideoPath())){
-            Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,TEXT_NOTICE,Toast.LENGTH_LONG).show();
             return;
         }
         switch (comValue){
@@ -572,7 +577,7 @@ public class MainActivity extends BaseActivity {
         runADTimer(true);
         String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
         if(TextUtils.isEmpty(next)){
-            someError("未找到视频文件，请检查！");
+            someError(NOT_VIDEO);
             return;
         }else{
             ytVideoView.setVideoPath(next);
@@ -613,7 +618,7 @@ public class MainActivity extends BaseActivity {
             String next = fileList.get(index);
             ytVideoView.setVideoPath(next);
         }else{
-            someError("未找到视频文件，请检查！");
+            someError(NOT_VIDEO);
         }
     }
 
@@ -672,7 +677,7 @@ public class MainActivity extends BaseActivity {
 
     private void selectVideoDir(int index){
         if(isADVideo(ytVideoView.getVideoPath())){
-            Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,TEXT_NOTICE,Toast.LENGTH_LONG).show();
             return;
         }
         try {
@@ -682,11 +687,11 @@ public class MainActivity extends BaseActivity {
                 File videoFile = new File(ytFileRootPath, dirName);
                 File[] videoFiles = videoFile.listFiles();
                 if(videoFiles == null || videoFiles.length == 0){
-                    Toast.makeText(this,"当前文件夹没有视频文件,请重新选择",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,NOT_VIDEO,Toast.LENGTH_LONG).show();
                 }else{
                     String urlPath = getRandomVideoPath(dirName);
                     if(TextUtils.isEmpty(urlPath)){
-                        Toast.makeText(this,"当前文件夹没有视频文件,请重新选择",Toast.LENGTH_LONG).show();
+                        Toast.makeText(this,NOT_VIDEO,Toast.LENGTH_LONG).show();
                         return;
                     }
                     CURRENT_VIDEO_FILE_DIR = dirName;
@@ -696,7 +701,7 @@ public class MainActivity extends BaseActivity {
                     tempPlayPosition = 0;
                     PreferenceUtils.commitString(SP_KEY_PLAY_PATH, tempPlayPath);
                     PreferenceUtils.commitInt(SP_KEY_PLAY_TIME, tempPlayPosition);
-                    Toast.makeText(this,"切换到文件夹 " + CURRENT_VIDEO_FILE_DIR,Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Switch to folder " + CURRENT_VIDEO_FILE_DIR,Toast.LENGTH_LONG).show();
                 }
             }
         }catch (Exception e){
@@ -811,16 +816,21 @@ public class MainActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.e("ZM","onKeyDown = " + keyCode);
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (System.currentTimeMillis() - timeLimit < 1500) {
-                finish();
-            } else {
-                timeLimit = System.currentTimeMillis();
-                Toast.makeText(this,"再按一次退出应用",Toast.LENGTH_LONG).show();
+//            if (System.currentTimeMillis() - timeLimit < 1500) {
+//                finish();
+//            } else {
+//                timeLimit = System.currentTimeMillis();
+//                Toast.makeText(this,"再按一次退出应用",Toast.LENGTH_LONG).show();
+//            }
+            if(isADVideo(ytVideoView.getVideoPath())){
+                Toast.makeText(this,TEXT_NOTICE,Toast.LENGTH_LONG).show();
+                return true;
             }
+            toFileSystem();
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
             if(isADVideo(ytVideoView.getVideoPath())){
-                Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,TEXT_NOTICE,Toast.LENGTH_LONG).show();
                 return true;
             }
             if(!isFileActivity){
@@ -829,7 +839,7 @@ public class MainActivity extends BaseActivity {
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
             if(isADVideo(ytVideoView.getVideoPath())){
-                Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,TEXT_NOTICE,Toast.LENGTH_LONG).show();
                 return true;
             }
             if(!isFileActivity){
@@ -874,14 +884,14 @@ public class MainActivity extends BaseActivity {
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
             if(isADVideo(ytVideoView.getVideoPath())){
-                Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,TEXT_NOTICE,Toast.LENGTH_LONG).show();
                 return true;
             }
             doHandle05();
             return true;
         }else if (keyCode == KeyEvent.KEYCODE_MENU) {
             if(isADVideo(ytVideoView.getVideoPath())){
-                Toast.makeText(this,"当前正在播放广告，不允许操作！",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,TEXT_NOTICE,Toast.LENGTH_LONG).show();
                 return true;
             }
             toFileSystem();

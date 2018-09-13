@@ -114,7 +114,7 @@ public class FileSystemActivity extends BaseActivity{
 
     private void selectSpace(){
         PreferenceUtils.commitString("selectPath","");
-        txtTitle.setText("文件管理器");
+        txtTitle.setText("File manager");
         fileDetailAdapter.updateDatas(spaceFiles);
         recyclerView.scrollToPosition(0);
     }
@@ -155,10 +155,10 @@ public class FileSystemActivity extends BaseActivity{
                         String relPath = path.replace(urlPath,"");
                         mIntent.putExtra("selectPath", path);
                         setResult(1, mIntent);
-                        Toast.makeText(FileSystemActivity.this,"选择了:" + relPath,Toast.LENGTH_LONG).show();
+                        Toast.makeText(FileSystemActivity.this,"Select:" + relPath,Toast.LENGTH_LONG).show();
                         finish();
                     }else{
-                        Toast.makeText(FileSystemActivity.this,"只能选择视频文件!",Toast.LENGTH_LONG).show();
+                        Toast.makeText(FileSystemActivity.this,"You can only select video files!",Toast.LENGTH_LONG).show();
                     }
                 }
             }
