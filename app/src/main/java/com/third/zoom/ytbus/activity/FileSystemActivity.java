@@ -8,6 +8,7 @@ import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.third.zoom.R;
 import com.third.zoom.common.base.ActivityFragmentInject;
 import com.third.zoom.common.base.BaseActivity;
+import com.third.zoom.common.utils.MountUtils;
 import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.common.utils.SpaceFileUtil;
 import com.third.zoom.ytbus.adapter.FileDetailAdapter;
@@ -104,12 +106,15 @@ public class FileSystemActivity extends BaseActivity{
 
     List<String> spaceFiles = new ArrayList<>();
     private void intFiles(){
-        spaceFiles.add("/mnt/sata");
-        spaceFiles.add(Environment.getExternalStorageDirectory().getAbsolutePath());
-        spaceFiles.add("/mnt/usbhost0");
-        spaceFiles.add("/mnt/usbhost1");
-        spaceFiles.add("/mnt/usbhost2");
-        spaceFiles.add("/mnt/usbhost3");
+        String[] mountPaths = MountUtils.getStorageList(this);
+        if(mountPaths != null && mountPaths.length > 0){
+            for (int i = 0; i < mountPaths.length; i++) {
+                Log.e("ZM","mountPaths = " + mountPaths[i]);
+                spaceFiles.add(mountPaths[i]);
+            }
+        }else{
+            spaceFiles.add(Environment.getExternalStorageDirectory().getAbsolutePath());
+        }
     }
 
     private void selectSpace(){
@@ -141,12 +146,12 @@ public class FileSystemActivity extends BaseActivity{
         fileDetailAdapter.setItemClickListener(new FileDetailAdapter.ItemClickListener() {
             @Override
             public void onClick(String path) {
-                if(firstFlag){
-                    firstFlag = false;
-                    urlPath = path;
-                }
                 File file = new File(path);
                 if(file != null && file.isDirectory()){
+                    if(firstFlag){
+                        firstFlag = false;
+                        urlPath = path;
+                    }
                     updateData(path);
                 }else{
                     int type = SpaceFileUtil.getFileType(path);
@@ -166,6 +171,10 @@ public class FileSystemActivity extends BaseActivity{
     }
 
     private void updateData(String path){
+        if(TextUtils.isEmpty(path)){
+            Toast.makeText(FileSystemActivity.this,"some error,please try...",Toast.LENGTH_LONG).show();
+            return;
+        }
         PreferenceUtils.commitString("selectPath",path);
         txtTitle.setText(path);
         currentPath = path;

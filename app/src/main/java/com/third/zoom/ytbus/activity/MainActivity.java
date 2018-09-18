@@ -24,6 +24,7 @@ import com.third.zoom.common.base.BaseActivity;
 import com.third.zoom.common.listener.MarqueeCompletedListener;
 import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.serial.SerialUtils;
+import com.third.zoom.common.utils.FileUtils;
 import com.third.zoom.common.utils.KeyEventUtils;
 import com.third.zoom.common.utils.MountUtils;
 import com.third.zoom.common.utils.PreferenceUtils;
@@ -114,10 +115,10 @@ public class MainActivity extends BaseActivity {
     private MarqueeTextViewV2 ytAdTextView;
     private ImageView imgError;
 
-    private String TEXT_NOTICE = "Advertisement is on now,Please try later!";
-    private String NOT_VIDEO = "No video files found, please check!";
-    private String NOT_CONFIG_XML = "There is a problem in the configuration file. Please check it!";
-    private String NOT_TEXT_CONTENT = "No subtitle is found, please check!";
+    private String TEXT_NOTICE = "Advertisement is on now,Please try later";
+    private String NOT_VIDEO = "No video files found, please check";
+    private String NOT_CONFIG_XML = "There is a problem in the configuration file. Please check it";
+    private String NOT_TEXT_CONTENT = "No subtitle is found, please check";
 
     //mnt/media
 
@@ -230,7 +231,7 @@ public class MainActivity extends BaseActivity {
                 if (TextUtils.isEmpty(tempPlayPath)) {
                     String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
-                        someError(NOT_VIDEO);
+                        someError(NOT_VIDEO + "233");
                         return;
                     }else{
                         ytVideoView.setVideoPath(next);
@@ -336,7 +337,14 @@ public class MainActivity extends BaseActivity {
         if(ad001 != null && ad001.exists()){
             ytVideoView.setVideoPath(ad001.getAbsolutePath());
         }else {
-            someError(NOT_VIDEO);
+//            someError(NOT_VIDEO + "339");
+            String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
+            if(TextUtils.isEmpty(next)){
+                someError(NOT_VIDEO + "343");
+                ytVideoView.changePath("");
+            }else{
+                ytVideoView.setVideoPath(next);
+            }
         }
     }
 
@@ -420,7 +428,7 @@ public class MainActivity extends BaseActivity {
                     if(TextUtils.isEmpty(tempPlayPath)){
                         String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                         if(TextUtils.isEmpty(next)){
-                            someError(NOT_VIDEO);
+                            someError(NOT_VIDEO + "423");
                         }else{
                             ytVideoView.setVideoPath(next);
                         }
@@ -434,7 +442,7 @@ public class MainActivity extends BaseActivity {
                         }else{
                             String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                             if(TextUtils.isEmpty(next)){
-                                someError(NOT_VIDEO);
+                                someError(NOT_VIDEO + "437");
                             }else{
                                 ytVideoView.setVideoPath(next);
                             }
@@ -444,7 +452,7 @@ public class MainActivity extends BaseActivity {
                     Log.e("ZM","播放默认视频");
                     String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
                     if(TextUtils.isEmpty(next)){
-                        someError(NOT_VIDEO);
+                        someError(NOT_VIDEO + "447");
                         ytVideoView.changePath("");
                     }else{
                         ytVideoView.setVideoPath(next);
@@ -579,7 +587,7 @@ public class MainActivity extends BaseActivity {
         runADTimer(true);
         String next = getRandomVideoPath(CURRENT_VIDEO_FILE_DIR);
         if(TextUtils.isEmpty(next)){
-            someError(NOT_VIDEO);
+            someError(NOT_VIDEO + "582");
             return;
         }else{
             ytVideoView.setVideoPath(next);
@@ -620,7 +628,7 @@ public class MainActivity extends BaseActivity {
             String next = fileList.get(index);
             ytVideoView.setVideoPath(next);
         }else{
-            someError(NOT_VIDEO);
+            someError(NOT_VIDEO + "623");
         }
     }
 
@@ -716,6 +724,7 @@ public class MainActivity extends BaseActivity {
      * 找不到资源
      */
     private void someError(String error){
+        FileUtils.saveFileForError(error);
         imgError.setVisibility(View.VISIBLE);
         Toast.makeText(this,error,Toast.LENGTH_LONG).show();
     }
@@ -909,7 +918,7 @@ public class MainActivity extends BaseActivity {
             byte[] timeBytes = SerialUtils.putInt(time);
             String hexStirng = SerialUtils.bytes2HexString(timeBytes);
 
-            SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,"ff"+hexStirng);
+            SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,"AABBCCDD"+hexStirng);
         }
         mHandler.sendEmptyMessageDelayed(WHAT_CURRENT_PLAY_TIME,1000);
     }
