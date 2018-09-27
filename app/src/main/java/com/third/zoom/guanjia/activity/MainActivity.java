@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.third.zoom.guanjia.bean.DeviceDetailStatus;
 import com.third.zoom.guanjia.handler.GJProHandler;
 import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.utils.GJProUtil;
+import com.third.zoom.guanjia.utils.GJProV2Util;
 import com.third.zoom.guanjia.utils.IntentUtils;
 import com.third.zoom.guanjia.widget.AboutGJView;
 import com.third.zoom.guanjia.widget.MainView;
@@ -35,12 +37,8 @@ import com.third.zoom.guanjia.widget.SelectHotWaterView;
 import com.third.zoom.guanjia.widget.SelectWaterDeviceView;
 import com.third.zoom.guanjia.widget.WaitingView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.SimpleFormatter;
 
 import static com.third.zoom.guanjia.utils.Contans.INTENT_GJ_ACTION_ACTIVE;
 
@@ -96,7 +94,7 @@ public class MainActivity extends BaseActivity {
                 operation2();
                 break;
             case WHAT_PRO_HANDLER:
-                proTimerHandler();
+//                proTimerHandler();
                 break;
             case WHAT_DIALOG_DISMISS:
                 dialogDismiss();
@@ -117,9 +115,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mHandler.removeMessages(WHAT_DATA_REPEAT);
         unRegisterGJProReceiver();
         unRegistTimeReceiver();
-//        SerialInterface.closeAllSerialPort();
+        SerialInterface.closeAllSerialPort();
     }
 
     @Override
@@ -137,8 +136,8 @@ public class MainActivity extends BaseActivity {
         registerGJProReceiver();
         registTimeReceiver();
 
-//        SerialInterface.serialInit(this);
-//        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
+        SerialInterface.serialInit(this);
+        mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
 
         init1();
     }
@@ -215,7 +214,7 @@ public class MainActivity extends BaseActivity {
             public void itemSelectOpen(int position) {
                 sendActiveAction();
                 Log.e("ZM", "itemSelectOpen = " + position);
-                sendPro(false, GJProUtil.getWaterThByPosition(position),
+                sendPro(true, GJProUtil.getWaterThByPosition(position),
                         GJProUtil.DEFAULT_WATER_ML);
             }
 
@@ -324,6 +323,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
+        String pro = GJProV2Util.getWaterPro(isOpen,waterTh,waterMl);
+        mHandler.removeMessages(WHAT_DATA_REPEAT);
+        proTempString = pro;
+        if(!TextUtils.isEmpty(pro)){
+            SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+            mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,500);
+        }
 //        if(isSending){
 //            return true;
 //        }
@@ -334,7 +340,7 @@ public class MainActivity extends BaseActivity {
 //        String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
 //        proTempString = pro;
 //        Log.e("ZM","PRO = " + pro);
-        //        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+//        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
         return isSending;
     }
 
@@ -568,8 +574,7 @@ public class MainActivity extends BaseActivity {
      * 轮询获取状态数据
      */
     private void sendWaterData(){
-        String pro = GJProUtil.getWaterDataPro();
-        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
+        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,proTempString);
         mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,500);
     }
 
