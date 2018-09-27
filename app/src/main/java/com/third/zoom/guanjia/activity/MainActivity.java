@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.third.zoom.R;
@@ -31,6 +34,7 @@ import com.third.zoom.guanjia.utils.GJProUtil;
 import com.third.zoom.guanjia.utils.GJProV2Util;
 import com.third.zoom.guanjia.utils.IntentUtils;
 import com.third.zoom.guanjia.widget.AboutGJView;
+import com.third.zoom.guanjia.widget.ErrorView;
 import com.third.zoom.guanjia.widget.MainView;
 import com.third.zoom.guanjia.widget.NavTopView;
 import com.third.zoom.guanjia.widget.SelectHotWaterView;
@@ -63,8 +67,6 @@ public class MainActivity extends BaseActivity {
     private static final int WHAT_NOT_OPERATION = 10;
     private static final int WHAT_NOT_OPERATION_1 = 11;
     private static final int WHAT_NOT_OPERATION_2 = 12;
-    private static final int WHAT_PRO_HANDLER = 13;
-    private static final int WHAT_DIALOG_DISMISS = 14;
     private static final int WHAT_DATA_REPEAT = 15;
 
     private static final long DEFAULT_TIME = 3 * 60 * 1000;
@@ -77,6 +79,10 @@ public class MainActivity extends BaseActivity {
     private WaitingView waitingView;
     private SelectWaterDeviceView waterDeviceView;
     private NavTopView navTopView;
+    private ErrorView errorView;
+
+    private boolean isSending = false;  //是否正在发送协议
+    private String proTempString = "";
 
     @Override
     protected void toHandleMessage(Message msg) {
@@ -92,12 +98,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case WHAT_NOT_OPERATION_2:
                 operation2();
-                break;
-            case WHAT_PRO_HANDLER:
-//                proTimerHandler();
-                break;
-            case WHAT_DIALOG_DISMISS:
-                dialogDismiss();
                 break;
             case WHAT_DATA_REPEAT:
                 sendWaterData();
@@ -129,6 +129,7 @@ public class MainActivity extends BaseActivity {
         waitingView = (WaitingView) findViewById(R.id.waitingView);
         waterDeviceView = (SelectWaterDeviceView) findViewById(R.id.waterDeviceView);
         navTopView = (NavTopView) findViewById(R.id.topView);
+        errorView = (ErrorView) findViewById(R.id.errorView);
     }
 
     @Override
@@ -140,6 +141,8 @@ public class MainActivity extends BaseActivity {
         mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
 
         init1();
+
+        changeTime();
     }
 
     private void init1(){
@@ -252,77 +255,15 @@ public class MainActivity extends BaseActivity {
         runOperationTimer();
 
         normalDialog();
-    }
 
-
-    /**
-     * 发送协议
-     * @param isOpen 出水、停水
-     * @param waterTh 水温
-     * @param waterMl 水容量
-     */
-    private long sendProTime = 0;   //用来记录当前发送的时间
-    private boolean isSending = false;  //是否正在发送协议
-    private boolean isNeed = false;
-    private String newTempString = "";
-    private String proTempString = "";
-    private synchronized boolean sendPro2(boolean isOpen, int waterTh, int waterMl) {
-        //错误不允许出水
-        if(deviceDetailStatus == null){
-            dialogShow("通讯异常");
-            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
-            isSending = false;
-            return false;
-        }
-        int error0 = deviceDetailStatus.getError0();
-        if(error0 != 0){
-            dialogShow("错误提示");
-            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
-            isSending = false;
-            return false;
-        }
-        int error1 = deviceDetailStatus.getError1();
-        if(error1 != 0){
-            dialogShow("错误提示");
-            mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
-            isSending = false;
-            return false;
-        }
-
-        //显示对话框
-        dialogShow(dialogMessage);
-
-        //查看当前出水状态，1代表出水中、0代表没动作
-        int status = deviceDetailStatus.getStatus();
-        if(status >= 1){
-            //当前正在出水中、需要先停止。
-            String pro = GJProUtil.getWaterPro(false,deviceDetailStatus.getTh(),deviceDetailStatus.getCap());
-            //        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
-            proTempString = pro;
-            isSending = true;
-            proTimer(false);
-            if(isOpen){
-                isNeed = true;
-                String newPro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
-                newTempString = newPro;
-            }
-        }else{
-            //当前处于停水状态,如果需要出水，发送协议，否则不操作
-            if(isOpen){
-                String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
-//                    SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
-                proTempString = pro;
-                isSending = true;
-                proTimer(false);
-            }else{
-                dialogDismiss();
-                isSending = false;
-            }
-        }
-        return isSending;
+        initLVDialogView();
     }
 
     private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
+        if(exitDay <= 15){
+            showLVDialog(exitDay);
+            return false;
+        }
         String pro = GJProV2Util.getWaterPro(isOpen,waterTh,waterMl);
         mHandler.removeMessages(WHAT_DATA_REPEAT);
         proTempString = pro;
@@ -330,17 +271,6 @@ public class MainActivity extends BaseActivity {
             SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
             mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,500);
         }
-//        if(isSending){
-//            return true;
-//        }
-//        dialogShow(dialogMessage);
-//        proTimer(false);
-//        sendProTime = System.currentTimeMillis();
-//        isSending = true;
-//        String pro = GJProUtil.getWaterPro(isOpen,waterTh,waterMl);
-//        proTempString = pro;
-//        Log.e("ZM","PRO = " + pro);
-//        SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,pro);
         return isSending;
     }
 
@@ -462,7 +392,6 @@ public class MainActivity extends BaseActivity {
         IntentUtils.sendBroadcast(MainActivity.this, INTENT_GJ_ACTION_ACTIVE);
     }
 
-
     /**
      * 打开串口
      */
@@ -473,7 +402,6 @@ public class MainActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
-
 
     private long timeLimit = 0;
     @Override
@@ -491,64 +419,7 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
-    private Timer proTimer;
-    private void proTimer(boolean cancel){
-        if(proTimer != null){
-            proTimer.cancel();
-            proTimer = null;
-        }
-        if(cancel){
-            return;
-        }
-        proTimer = new Timer();
-        proTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                mHandler.sendEmptyMessage(WHAT_PRO_HANDLER);
-            }
-        },200);
-    }
-
-    /**
-     * 100ms没收到返回、继续发送，三次后提示错误
-     */
-    private int sendTimes = 0;
-    private void proTimerHandler(){
-        if(isSending){
-            //重复发送pro、重新定时
-            if(sendTimes > 2){
-                //dialog消失,次数清0。提示错误
-                isSending = false;
-                sendTimes = 0;
-                dialogShow(dialogMessageFail);
-                mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
-            }else{
-                Log.e("ZM","重复发送 = " + proTempString);
-                sendTimes++;
-                proTimer(false);
-                SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,proTempString);
-            }
-        }else{
-            //dialog消失
-            if(isNeed){
-                isNeed = false;
-                proTempString = newTempString;
-                newTempString = "";
-//                SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,proTempString);
-                isSending = true;
-                proTimer(false);
-            }else{
-                dialogShow(dialogMessageSuccess);
-                mHandler.sendEmptyMessageDelayed(WHAT_DIALOG_DISMISS,1000);
-            }
-        }
-    }
-
     private AlertDialog normalDialog;
-    private String dialogMessage = "正在处理中,请稍后...";
-    private String dialogMessageSuccess = "处理成功";
-    private String dialogMessageFail = "处理失败";
     private void normalDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("温馨提示");
@@ -591,6 +462,7 @@ public class MainActivity extends BaseActivity {
     private void registTimeReceiver(){
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);//设置了系统时区
+        intentFilter.addAction(Contans.INTENT_GJ_ACTION_LV_SET);//设置了系统时区
         timeChangeReceiver = new TimeChangeReceiver();
         registerReceiver(timeChangeReceiver, intentFilter);
     }
@@ -600,7 +472,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private long saveTime = 0;
-    private int currentType = 1;
+    private int currentType = 2;
     private class TimeChangeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -608,22 +480,78 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
+    private static final int DEFAULT_HOME_DAY = 180;
+    private static final int DEFAULT_SHARE_DAY = 120;
+    private static final int DEFAULT_EXIT_DAY = 15;
+    private int exitDay = 100;
     private void changeTime(){
         saveTime = PreferenceUtils.getLong("waterTime",0);
         currentType = PreferenceUtils.getInt("waterType",1);
         long curnTime = System.currentTimeMillis();
         long indexTime = curnTime - saveTime;
         int last = (int) (indexTime / (24 * 60 * 60 * 1000));
-        if(last >= 0 && last < 180){
+        if(last >= 0){
             if(currentType == 1){
-                navTopView.setWaterTime(120 - last );
-                aboutGJView.setLVTime(currentType,120 - last );
+                navTopView.setWaterTime(DEFAULT_SHARE_DAY - last);
+                aboutGJView.setLVTime(currentType,DEFAULT_SHARE_DAY - last );
+                if(DEFAULT_SHARE_DAY - last <= DEFAULT_EXIT_DAY){
+                    exitDay = DEFAULT_SHARE_DAY - last;
+                    showLVDialog(DEFAULT_SHARE_DAY - last);
+                }
             }else{
-                navTopView.setWaterTime(180 - last );
-                aboutGJView.setLVTime(currentType,180 - last);
+                navTopView.setWaterTime(DEFAULT_HOME_DAY - last );
+                aboutGJView.setLVTime(currentType,DEFAULT_HOME_DAY - last);
+                if(DEFAULT_HOME_DAY - last <= DEFAULT_EXIT_DAY){
+                    exitDay = DEFAULT_HOME_DAY - last;
+                    showLVDialog(DEFAULT_HOME_DAY - last);
+                }
             }
-
         }
     }
+
+    private  AlertDialog LVDialog;
+    private String LV_HEAD = "滤芯将在 ";
+    private String LV_END = " 天后到期，到期后水机将停止工作，请尽快联系我们的工作人员对产氢设备进行更换！";
+    private TextView lvTextView;
+    private void initLVDialogView(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View capView = View.inflate(this, R.layout.gj_widget_lv_notice,null);
+        lvTextView = (TextView) capView.findViewById(R.id.txt_message);
+        lvTextView.setText(LV_HEAD + DEFAULT_EXIT_DAY + LV_END);
+        Button btnCancel = (Button) capView.findViewById(R.id.btn_cancel);
+        btnCancel.setVisibility(View.GONE);
+        Button btnOk = (Button) capView.findViewById(R.id.btn_ok);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lvDialogDismiss();
+            }
+        });
+        builder.setView(capView);
+        LVDialog = builder.create();
+    }
+
+    public void showLVDialog(int day){
+        if(!LVDialog.isShowing()){
+            if(day < 0){
+                day = 0;
+            }
+            lvTextView.setText(LV_HEAD + day + LV_END);
+            LVDialog.show();
+            Window dialogWindow = LVDialog.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            DisplayMetrics d = getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+            lp.width = (int) (d.widthPixels * 0.5); // 宽度设置为屏幕的0.8
+//            lp.height = (int) (d.heightPixels * 0.5); // 宽度设置为屏幕的0.8
+            dialogWindow.setAttributes(lp);
+        }
+    }
+
+    public void lvDialogDismiss(){
+        if(LVDialog.isShowing()){
+            LVDialog.dismiss();
+        }
+    }
+
+
 }

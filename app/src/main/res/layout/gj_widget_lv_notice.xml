@@ -13,21 +13,33 @@
         android:textColor="#ffffff"
         android:textSize="@dimen/DIMEN_13sp" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="@dimen/DIMEN_150dp">
 
         <TextView
-            android:id="@+id/txt_message"
-            android:text="您选择的是家庭机"
+            android:layout_marginBottom="@dimen/DIMEN_10dp"
+            android:text="请即时更换滤芯"
             android:gravity="center"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="@dimen/DIMEN_18sp" />
 
-    </RelativeLayout>
+        <TextView
+            android:layout_marginLeft="@dimen/DIMEN_20dp"
+            android:layout_marginRight="@dimen/DIMEN_20dp"
+            android:id="@+id/txt_message"
+            android:text="滤芯将在天15后到期，到期后水机将停止工作，请尽快联系我们的工作人员对产氢设备进行更换！"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="@dimen/DIMEN_15sp" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_marginRight="@dimen/DIMEN_5dp"

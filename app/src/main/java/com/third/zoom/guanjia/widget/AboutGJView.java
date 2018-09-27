@@ -2,6 +2,7 @@ package com.third.zoom.guanjia.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -457,6 +458,10 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                     resId12[0] = R.drawable.gj_about_tab1_1_4;
                     resIndex = 2;
                     changePopText(2);
+                    PreferenceUtils.init(context);
+                    PreferenceUtils.commitLong("waterTime",System.currentTimeMillis());
+                    Intent toLv = new Intent(Contans.INTENT_GJ_ACTION_LV_SET);
+                    context.sendBroadcast(toLv);
                 }else if((int)object == 2){
                     rlChangeDevice.setVisibility(VISIBLE);
                     int waterType = PreferenceUtils.getInt("waterType",1);
@@ -532,27 +537,27 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     }
 
     public void setLVTime(int type ,int lvTime){
-        if(type == 1){
-           if(lvTime > 80){
+        if(type == 2){
+           if(lvTime > 120){
                resId12[0] = R.drawable.gj_about_tab1_1_4;
-               setPermissionView.setLVTime(1);
-           }else if(lvTime > 40){
+               setPermissionView.setLVTime(1,(float) lvTime / (float)180);
+           }else if(lvTime > 60){
                resId12[0] = R.drawable.gj_about_tab1_1_2;
-               setPermissionView.setLVTime(2);
+               setPermissionView.setLVTime(2,(float)lvTime/ (float)180);
            }else{
                resId12[0] = R.drawable.gj_about_tab1_1_3;
-               setPermissionView.setLVTime(3);
+               setPermissionView.setLVTime(3,(float)lvTime / (float)180);
            }
         }else{
-            if(lvTime > 120){
+            if(lvTime > 80){
                 resId12[0] = R.drawable.gj_about_tab1_1_4;
-                setPermissionView.setLVTime(1);
-            }else if(lvTime > 60){
+                setPermissionView.setLVTime(1,(float)lvTime/ (float)120);
+            }else if(lvTime > 40){
                 resId12[0] = R.drawable.gj_about_tab1_1_2;
-                setPermissionView.setLVTime(2);
+                setPermissionView.setLVTime(2,(float)lvTime/ (float)120);
             }else{
-                resId12[0] = R.drawable.gj_about_tab1_1_4;
-                setPermissionView.setLVTime(3);
+                resId12[0] = R.drawable.gj_about_tab1_1_3;
+                setPermissionView.setLVTime(3,(float)lvTime/ (float)120);
             }
         }
     }

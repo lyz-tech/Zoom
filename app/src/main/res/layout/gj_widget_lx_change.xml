@@ -25,6 +25,7 @@
             android:src="@drawable/gj_widget_permission_lx_change" />
 
         <TextView
+            android:id="@+id/txt_percent"
             android:layout_marginTop="@dimen/DIMEN_10dp"
             android:layout_below="@id/img_cap"
             android:layout_width="match_parent"

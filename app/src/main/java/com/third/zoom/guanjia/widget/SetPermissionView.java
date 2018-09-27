@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
 import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.utils.IntentUtils;
+
+import java.text.DecimalFormat;
 
 /**
  * 作者：Sky on 2018/7/16.
@@ -131,6 +134,7 @@ public class SetPermissionView extends RelativeLayout{
 
     private void dialogShow(){
         if(!normalDialog.isShowing()){
+
             normalDialog.show();
             Window dialogWindow = normalDialog.getWindow();
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
@@ -148,9 +152,11 @@ public class SetPermissionView extends RelativeLayout{
 
 
     private AlertDialog normalDialog2;
+    private  TextView txtPercent;
     private void normalDialog2(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final View capView = View.inflate(context,R.layout.gj_widget_lx_change,null);
+        txtPercent = (TextView) capView.findViewById(R.id.txt_percent);
         Button btnCancel = (Button) capView.findViewById(R.id.btn_cancel);
         Button btnOk = (Button) capView.findViewById(R.id.btn_ok);
         ImageView imgCap = (ImageView) capView.findViewById(R.id.img_cap);
@@ -177,6 +183,9 @@ public class SetPermissionView extends RelativeLayout{
 
     private void dialogShow2(){
         if(!normalDialog2.isShowing()){
+            if(txtPercent != null){
+                txtPercent.setText(lvTime + "%");
+            }
             normalDialog2.show();
             Window dialogWindow = normalDialog2.getWindow();
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
@@ -199,7 +208,10 @@ public class SetPermissionView extends RelativeLayout{
     }
 
     private int resId = R.drawable.gj_widget_permission_lx_change;
-    public void setLVTime(int type){
+    private String lvTime = "";
+    DecimalFormat df = new DecimalFormat("0.0");
+    public void setLVTime(int type,float lvTime){
+        this.lvTime = df.format(lvTime * 100);
         if(type == 1){
             resId = R.drawable.gj_widget_permission_lx_change2;
         }else if(type == 2){

@@ -11,5 +11,6 @@ public interface Contans {
 
     String INTENT_GJ_ACTION_PRO_COME = "gj.intent.action.pro.come";
 
+    String INTENT_GJ_ACTION_LV_SET = "gj.intent.action.lv.set";
 }
 

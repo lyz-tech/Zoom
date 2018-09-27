@@ -105,7 +105,11 @@ public class NavTopView extends RelativeLayout{
     }
 
     public void setWaterTime(int waterTime){
-        txtWaterTime.setText(waterTime + "日");
+        if(waterTime < 0){
+            txtWaterTime.setText("0日");
+        }else{
+            txtWaterTime.setText(waterTime + "日");
+        }
     }
 
     private void setWaterCap(int waterCap){
