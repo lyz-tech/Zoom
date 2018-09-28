@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity {
     private static final int WHAT_NOT_OPERATION_1 = 11;
     private static final int WHAT_NOT_OPERATION_2 = 12;
     private static final int WHAT_DATA_REPEAT = 15;
+    private static final int WHAT_DATA_TEST= 16;
 
     private static final long DEFAULT_TIME = 3 * 60 * 1000;
     private static final long DEFAULT_TIME_1 = 1 * 60 * 1000;
@@ -102,6 +103,14 @@ public class MainActivity extends BaseActivity {
             case WHAT_DATA_REPEAT:
                 sendWaterData();
                 break;
+            case WHAT_DATA_TEST:
+                if(errorView.getVisibility() != View.VISIBLE){
+                    errorView.setVisibility(View.VISIBLE);
+                }else{
+                    errorView.setVisibility(View.GONE);
+                }
+                mHandler.sendEmptyMessageDelayed(WHAT_DATA_TEST,10000);
+                break;
         }
     }
 
@@ -129,7 +138,7 @@ public class MainActivity extends BaseActivity {
         waitingView = (WaitingView) findViewById(R.id.waitingView);
         waterDeviceView = (SelectWaterDeviceView) findViewById(R.id.waterDeviceView);
         navTopView = (NavTopView) findViewById(R.id.topView);
-//        errorView = (ErrorView) findViewById(R.id.errorView);
+        errorView = (ErrorView) findViewById(R.id.errorView);
     }
 
     @Override
@@ -145,6 +154,7 @@ public class MainActivity extends BaseActivity {
         initLVDialogView();
 
         changeTime();
+
     }
 
     private void init1(){
@@ -300,14 +310,14 @@ public class MainActivity extends BaseActivity {
                 operation(true);
                 runOperationTimer();
             }else if(action.equals(Contans.INTENT_GJ_ACTION_PRO_COME)){
-                String comValue = intent.getStringExtra("comValue");
-                if(comValue != null && comValue.equals(GJProHandler.RESPONSE)){
-                    //发送协议成功
-                    isSending = false;
-                }else if(comValue != null && comValue.length() == GJProHandler.STATUS_LENGTH){
-                    //状态返回
-                    handleWaterData(comValue);
-                }
+//                String comValue = intent.getStringExtra("comValue");
+//                if(comValue != null && comValue.equals(GJProHandler.RESPONSE)){
+//                    //发送协议成功
+//                    isSending = false;
+//                }else if(comValue != null && comValue.length() == GJProHandler.STATUS_LENGTH){
+//                    //状态返回
+//                    handleWaterData(comValue);
+//                }
             }
         }
     }

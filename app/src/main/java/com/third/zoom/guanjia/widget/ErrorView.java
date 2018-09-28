@@ -56,7 +56,7 @@ public class ErrorView extends RelativeLayout {
 
     private void initView(){
         View view = View.inflate(mContext, R.layout.gj_widget_error,this);
-        imgError = (ImageView) view.findViewById(R.id.img_error);
+        imgError = (ImageView) view.findViewById(R.id.img_waring);
         txtMessage = (TextView) view.findViewById(R.id.txt_error);
     }
 
@@ -65,14 +65,18 @@ public class ErrorView extends RelativeLayout {
     }
 
     private void change(){
-        if(flag){
-            flag = false;
-            imgError.setVisibility(GONE);
-        }else{
-            flag = true;
-            imgError.setVisibility(VISIBLE);
+        if(imgError != null){
+            if(flag){
+                flag = false;
+                imgError.setVisibility(GONE);
+                txtMessage.setVisibility(GONE);
+            }else{
+                flag = true;
+                imgError.setVisibility(VISIBLE);
+                txtMessage.setVisibility(VISIBLE);
+            }
         }
-        mHandler.sendEmptyMessageDelayed(WHAT_CHANGE,1000);
+        mHandler.sendEmptyMessageDelayed(WHAT_CHANGE,800);
     }
 
 }
