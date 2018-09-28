@@ -35,6 +35,17 @@
             android:text="机 型 更 换"
             android:textSize="@dimen/DIMEN_15sp"/>
 
+        <Button
+            android:textColor="#ffffff"
+            android:background="@drawable/gj_selecter_permission"
+            android:id="@+id/btn_wifi"
+            android:layout_width="@dimen/DIMEN_120dp"
+            android:layout_height="@dimen/DIMEN_40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/DIMEN_30dp"
+            android:text="WIFI 设 置"
+            android:textSize="@dimen/DIMEN_15sp"/>
+
         <View android:layout_width="match_parent"
               android:layout_height="0dp"
               android:layout_weight="1">

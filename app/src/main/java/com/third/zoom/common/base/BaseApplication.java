@@ -1,6 +1,7 @@
 package com.third.zoom.common.base;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.tencent.bugly.Bugly;
 
@@ -14,6 +15,7 @@ public class BaseApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        Bugly.init(getApplicationContext(), "注册时申请的APPID", false);
+        Log.e("ZM","BaseApplication onCreate");
+        Bugly.init(getApplicationContext(), "689b89055a", false);
     }
 }

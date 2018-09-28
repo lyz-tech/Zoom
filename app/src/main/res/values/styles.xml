@@ -11,6 +11,14 @@
     <style name="AppTheme.NoBar">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <item name="android:windowBackground">@drawable/gj_device_bg_2</item>
     </style>
+
+    <style name="AppStartLoadTranslucent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 
 </resources>

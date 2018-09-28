@@ -1,7 +1,5 @@
 package com.third.zoom.common.receiver;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,12 +18,12 @@ public class BootReceiver extends BroadcastReceiver {
         Intent _intent = new Intent(context, com.third.zoom.guanjia.activity.MainActivity.class);
         _intent.setAction(Intent.ACTION_MAIN);
         _intent.addCategory(Intent.CATEGORY_DEFAULT);
-//        _intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        context.startActivity(_intent);
-        PendingIntent mRestartIntent = PendingIntent.getActivity(
-                context.getApplicationContext(), 0, _intent,
-                Intent.FLAG_ACTIVITY_NEW_TASK);
-        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis(), mRestartIntent);
+        _intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(_intent);
+//        PendingIntent mRestartIntent = PendingIntent.getActivity(
+//                context.getApplicationContext(), 0, _intent,
+//                Intent.FLAG_ACTIVITY_NEW_TASK);
+//        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+//        mgr.set(AlarmManager.RTC, System.currentTimeMillis(), mRestartIntent);
     }
 }

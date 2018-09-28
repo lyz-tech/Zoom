@@ -51,12 +51,12 @@
             android:layout_height="match_parent">
         </com.third.zoom.guanjia.widget.SelectWaterDeviceView>
 
-        <com.third.zoom.guanjia.widget.ErrorView
-            android:visibility="gone"
-            android:id="@+id/errorView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.third.zoom.guanjia.widget.ErrorView>
+        <!--<com.third.zoom.guanjia.widget.ErrorView-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/errorView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+        <!--</com.third.zoom.guanjia.widget.ErrorView>-->
 
     </RelativeLayout>
 

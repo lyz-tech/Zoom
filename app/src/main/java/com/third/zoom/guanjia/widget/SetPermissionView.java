@@ -2,6 +2,8 @@ package com.third.zoom.guanjia.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -31,6 +33,7 @@ public class SetPermissionView extends RelativeLayout{
     private LinearLayout permissionRoot;
     private Button btnTime;
     private Button btnPassword;
+    private Button btnWifi;
 
     private int type;
 
@@ -54,6 +57,7 @@ public class SetPermissionView extends RelativeLayout{
         permissionRoot = (LinearLayout) view.findViewById(R.id.permission_root);
         btnTime = (Button) view.findViewById(R.id.btn_time);
         btnPassword = (Button) view.findViewById(R.id.btn_password);
+        btnWifi = (Button) view.findViewById(R.id.btn_wifi);
     }
 
     private void initData() {
@@ -72,6 +76,13 @@ public class SetPermissionView extends RelativeLayout{
                 IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
                 type = 2;
                 dialogShow();
+            }
+        });
+
+        btnWifi.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
             }
         });
 

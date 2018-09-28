@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity {
         waitingView = (WaitingView) findViewById(R.id.waitingView);
         waterDeviceView = (SelectWaterDeviceView) findViewById(R.id.waterDeviceView);
         navTopView = (NavTopView) findViewById(R.id.topView);
-        errorView = (ErrorView) findViewById(R.id.errorView);
+//        errorView = (ErrorView) findViewById(R.id.errorView);
     }
 
     @Override
@@ -141,6 +141,8 @@ public class MainActivity extends BaseActivity {
         mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
 
         init1();
+
+        initLVDialogView();
 
         changeTime();
     }
@@ -256,7 +258,7 @@ public class MainActivity extends BaseActivity {
 
         normalDialog();
 
-        initLVDialogView();
+        changeTime();
     }
 
     private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
@@ -494,14 +496,14 @@ public class MainActivity extends BaseActivity {
             if(currentType == 1){
                 navTopView.setWaterTime(DEFAULT_SHARE_DAY - last);
                 aboutGJView.setLVTime(currentType,DEFAULT_SHARE_DAY - last );
-                if(DEFAULT_SHARE_DAY - last <= DEFAULT_EXIT_DAY){
+                if(DEFAULT_SHARE_DAY - last <= DEFAULT_EXIT_DAY && saveTime != 0){
                     exitDay = DEFAULT_SHARE_DAY - last;
                     showLVDialog(DEFAULT_SHARE_DAY - last);
                 }
             }else{
                 navTopView.setWaterTime(DEFAULT_HOME_DAY - last );
                 aboutGJView.setLVTime(currentType,DEFAULT_HOME_DAY - last);
-                if(DEFAULT_HOME_DAY - last <= DEFAULT_EXIT_DAY){
+                if(DEFAULT_HOME_DAY - last <= DEFAULT_EXIT_DAY && saveTime != 0){
                     exitDay = DEFAULT_HOME_DAY - last;
                     showLVDialog(DEFAULT_HOME_DAY - last);
                 }

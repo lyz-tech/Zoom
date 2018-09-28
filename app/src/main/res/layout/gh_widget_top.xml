@@ -36,6 +36,7 @@
         android:text="15:50"/>
 
     <TextView
+        android:visibility="gone"
         android:textSize="@dimen/DIMEN_15sp"
         android:textColor="#ffffff"
         android:layout_marginLeft="@dimen/DIMEN_20dp"
@@ -53,7 +54,8 @@
         android:id="@+id/txt_water_time"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toLeftOf="@id/txt_water_cap"
+        android:layout_marginRight="@dimen/DIMEN_20dp"
+        android:layout_alignParentRight="true"
         android:gravity="center"
         android:text="66天"/>
 
