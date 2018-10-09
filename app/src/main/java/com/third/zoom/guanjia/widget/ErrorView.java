@@ -1,8 +1,6 @@
 package com.third.zoom.guanjia.widget;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -12,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.third.zoom.R;
-import com.third.zoom.common.listener.NormalListener;
 
 /**
  * Created by Alienware on 2018/8/30.
@@ -77,6 +74,10 @@ public class ErrorView extends RelativeLayout {
             }
         }
         mHandler.sendEmptyMessageDelayed(WHAT_CHANGE,800);
+    }
+
+    public void setErrorMessage(String msg){
+        txtMessage.setText(msg);
     }
 
 }

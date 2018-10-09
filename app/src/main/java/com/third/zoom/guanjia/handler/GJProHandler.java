@@ -20,13 +20,25 @@ public class GJProHandler {
     public static String RESPONSE = "CC";
     public static  int STATUS_LENGTH = 18 * 2;
 
+    public static String ERROR_NONE = "00";
+    public static String ERROR_IN_OPEN = "01";
+    public static String ERROR_IN_CLOSE = "02";
+    public static String ERROR_OUT_OPEN = "04";
+    public static String ERROR_OUT_CLOSE = "08";
+    public static String ERROR_FLOW_METER = "10";
+
     public GJProHandler(Context context){
         this.context = context;
     }
 
-    public void handleMessage(String buf){
-        Log.e("ZM", buf);
-        toHandler(buf);
+    private String tempString = "";
+    public synchronized void handleMessage(String buf){
+        tempString = tempString + buf;
+        if(tempString.length() == 8 *2){
+            Log.e("ZM", "tempString = " + tempString);
+            toHandler(tempString);
+            tempString = "";
+        }
     }
 
     private void toHandler(String data){

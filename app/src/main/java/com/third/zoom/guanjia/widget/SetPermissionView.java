@@ -34,6 +34,7 @@ public class SetPermissionView extends RelativeLayout{
     private Button btnTime;
     private Button btnPassword;
     private Button btnWifi;
+    private ImageView imgBack;
 
     private int type;
 
@@ -58,6 +59,7 @@ public class SetPermissionView extends RelativeLayout{
         btnTime = (Button) view.findViewById(R.id.btn_time);
         btnPassword = (Button) view.findViewById(R.id.btn_password);
         btnWifi = (Button) view.findViewById(R.id.btn_wifi);
+        imgBack = (ImageView) view.findViewById(R.id.img_change_back);
     }
 
     private void initData() {
@@ -230,6 +232,10 @@ public class SetPermissionView extends RelativeLayout{
         }else{
             resId = R.drawable.gj_widget_permission_lx_change;
         }
+    }
+
+    public void setBackListener(OnClickListener onClickListener){
+        imgBack.setOnClickListener(onClickListener);
     }
 
 

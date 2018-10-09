@@ -190,6 +190,17 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             }
         });
 
+
+        setPermissionView.setBackListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(popupWindow != null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
+                imgBack.performClick();
+            }
+        });
+
         initLVTime();
 
         changeView(1);
@@ -205,7 +216,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         rlBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(popupWindow.isShowing()){
+                if(popupWindow != null && popupWindow.isShowing()){
                     popupWindow.dismiss();
                 }
                 imgBack.performClick();

@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity {
     private static final int WHAT_NOT_OPERATION_2 = 12;
     private static final int WHAT_DATA_REPEAT = 15;
     private static final int WHAT_DATA_TEST= 16;
+    private static final int WHAT_DATA_SEND_NORMAL= 17;
 
     private static final long DEFAULT_TIME = 3 * 60 * 1000;
     private static final long DEFAULT_TIME_1 = 1 * 60 * 1000;
@@ -111,13 +112,18 @@ public class MainActivity extends BaseActivity {
                 }
                 mHandler.sendEmptyMessageDelayed(WHAT_DATA_TEST,10000);
                 break;
+            case WHAT_DATA_SEND_NORMAL:
+                SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,GJProV2Util.getNormalPro());
+                break;
         }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState, persistentState);
     }
 
@@ -149,9 +155,12 @@ public class MainActivity extends BaseActivity {
         SerialInterface.serialInit(this);
         mHandler.sendEmptyMessageDelayed(WHAT_OPEN_SERIAL,1500);
 
-        init1();
+//        proTempString = GJProV2Util.getNormalPro();
+//        mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,6000);
 
         initLVDialogView();
+
+        init1();
 
         changeTime();
 
@@ -310,14 +319,16 @@ public class MainActivity extends BaseActivity {
                 operation(true);
                 runOperationTimer();
             }else if(action.equals(Contans.INTENT_GJ_ACTION_PRO_COME)){
-//                String comValue = intent.getStringExtra("comValue");
-//                if(comValue != null && comValue.equals(GJProHandler.RESPONSE)){
-//                    //发送协议成功
-//                    isSending = false;
-//                }else if(comValue != null && comValue.length() == GJProHandler.STATUS_LENGTH){
-//                    //状态返回
-//                    handleWaterData(comValue);
-//                }
+                String comValue = intent.getStringExtra("comValue");
+                if(TextUtils.isEmpty(comValue)){
+                    return;
+                }
+
+                //CC 01 10 22 32 00 00 65
+                if(comValue.length() > 6){
+                    String error = comValue.substring(4,6);
+//                    errorHandle(error);
+                }
             }
         }
     }
@@ -458,7 +469,7 @@ public class MainActivity extends BaseActivity {
      */
     private void sendWaterData(){
         SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,proTempString);
-        mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,500);
+        mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,600);
     }
 
     /**
@@ -506,15 +517,15 @@ public class MainActivity extends BaseActivity {
             if(currentType == 1){
                 navTopView.setWaterTime(DEFAULT_SHARE_DAY - last);
                 aboutGJView.setLVTime(currentType,DEFAULT_SHARE_DAY - last );
+                exitDay = DEFAULT_SHARE_DAY - last;
                 if(DEFAULT_SHARE_DAY - last <= DEFAULT_EXIT_DAY && saveTime != 0){
-                    exitDay = DEFAULT_SHARE_DAY - last;
                     showLVDialog(DEFAULT_SHARE_DAY - last);
                 }
             }else{
                 navTopView.setWaterTime(DEFAULT_HOME_DAY - last );
                 aboutGJView.setLVTime(currentType,DEFAULT_HOME_DAY - last);
+                exitDay = DEFAULT_HOME_DAY - last;
                 if(DEFAULT_HOME_DAY - last <= DEFAULT_EXIT_DAY && saveTime != 0){
-                    exitDay = DEFAULT_HOME_DAY - last;
                     showLVDialog(DEFAULT_HOME_DAY - last);
                 }
             }
@@ -565,5 +576,39 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
+    /**
+     * 错误处理
+     * @param error
+     */
+    private void errorHandle(String error){
+        Log.e("ZM","PRO = " + error);
+        String result  = "";
+        if(error.equals(GJProHandler.ERROR_IN_OPEN)){
+            result = "进水温度传感器开路(-20℃以下)";
+            errorView.setVisibility(View.VISIBLE);
+            errorView.setErrorMessage(result);
+        }else if(error.equals(GJProHandler.ERROR_IN_CLOSE)){
+            result = "进水温度传感器短路(50℃以上)";
+            errorView.setErrorMessage(result);
+            errorView.setVisibility(View.VISIBLE);
+        }else if(error.equals(GJProHandler.ERROR_OUT_OPEN)){
+            result = "出水温度传感器开路(-20℃以下)";
+            errorView.setVisibility(View.VISIBLE);
+            errorView.setErrorMessage(result);
+        }else if(error.equals(GJProHandler.ERROR_OUT_CLOSE)){
+            result = "出水温度传感器短路(50℃以上)";
+            errorView.setVisibility(View.VISIBLE);
+            errorView.setErrorMessage(result);
+        }else if(error.equals(GJProHandler.ERROR_FLOW_METER)){
+            result = "设定温度不为 0℃时，1 秒之内无流量或流量超过 1200cc/min";
+            errorView.setVisibility(View.VISIBLE);
+            errorView.setErrorMessage(result);
+        }else if(error.equals(GJProHandler.ERROR_NONE)){
+            //没有错误
+            errorView.setVisibility(View.GONE);
+        }
+
+    }
 
 }

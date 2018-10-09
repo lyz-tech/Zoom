@@ -16,6 +16,6 @@ public class BaseApplication extends Application{
     public void onCreate() {
         super.onCreate();
         Log.e("ZM","BaseApplication onCreate");
-        Bugly.init(getApplicationContext(), "689b89055a", false);
+        Bugly.init(getApplicationContext(), "06c5b21dff", false);
     }
 }

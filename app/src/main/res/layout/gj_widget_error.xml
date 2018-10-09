@@ -20,7 +20,10 @@
         android:textColor="#ff0000"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/DIMEN_25sp"
-        android:layout_width="wrap_content"
+        android:paddingLeft="@dimen/DIMEN_20dp"
+        android:paddingRight="@dimen/DIMEN_20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

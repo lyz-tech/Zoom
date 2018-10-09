@@ -30,17 +30,21 @@ public class GJProV2Util {
         if(isOpen){
             GJGpioUtil.writeGpio(GJGpioUtil.GPIO_ON);
             //常温水不发协议
-            if(waterTh != 0){
-                String data1 = Integer.toHexString(waterTh);
-                String sum = Integer.toHexString(waterTh + 1);
-                pro = PRO_START + PRO_MODE + data1 + PRO_DATA_2345 + sum;
-            }
+            String data1 = Integer.toHexString(waterTh);
+            String sum = Integer.toHexString(waterTh + 1);
+            pro = PRO_START + PRO_MODE + data1 + PRO_DATA_2345 + sum;
         }else{
             GJGpioUtil.writeGpio(GJGpioUtil.GPIO_OFF);
+//            String data1 = "00";
+//            pro = PRO_START + PRO_MODE + data1 + PRO_DATA_2345 + "01";
         }
         return pro;
     }
 
+    public static String getNormalPro(){
+        String data1 = "00";
+        return PRO_START + PRO_MODE + data1 + PRO_DATA_2345 + "01";
+    }
 
 
 }
