@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * 作者：Sky on 2018/7/16.
  * 用途：关于page
@@ -34,7 +36,8 @@ public class AboutPageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
-        imageView.setImageResource(imageUrls[position]);
+//        imageView.setImageResource(imageUrls[position]);
+        Glide.with(context).load(imageUrls[position]).into(imageView);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         container.addView(imageView);
         return imageView;

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.BmvSelectListener;
 
@@ -63,7 +64,8 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
         View view = View.inflate(mContext, R.layout.gj_widget_select_hot,this);
         rlBack = (RelativeLayout) view.findViewById(R.id.rl_back);
         txtNotice = (ImageView) view.findViewById(R.id.txt_notice);
-        txtNotice.setImageResource(defaultResId);
+        Glide.with(mContext).load(defaultResId).into(txtNotice);
+//        txtNotice.setImageResource(defaultResId);
         imgBack = (ImageView) findViewById(R.id.img_back);
 
         txtTH50 = (TextView) view.findViewById(R.id.txt_th_50);
@@ -117,7 +119,8 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             TextView item = tabs.get(i);
             if(currentIndex == i){
                 currentIndex = -1;
-                txtNotice.setImageResource(defaultResId);
+                Glide.with(mContext).load(defaultResId).into(txtNotice);
+//                txtNotice.setImageResource(defaultResId);
                 item.setBackgroundResource(closeResId);
                 if(bmvSelectListener != null){
                     bmvSelectListener.itemSelectClose(i);
@@ -132,7 +135,8 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             if((Integer)v.getTag() == i){
                 currentIndex = i;
                 item.setBackgroundResource(openResId);
-                txtNotice.setImageResource(resId[i]);
+                Glide.with(mContext).load(resId[i]).into(txtNotice);
+//                txtNotice.setImageResource(resId[i]);
                 if(bmvSelectListener != null){
                     bmvSelectListener.itemSelectOpen(i);
                 }

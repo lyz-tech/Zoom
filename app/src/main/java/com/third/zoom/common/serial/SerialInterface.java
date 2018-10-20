@@ -9,8 +9,10 @@ import com.third.zoom.common.service.SerialService;
 public class SerialInterface {
 
 	public static final String EXTRA_NAME = "extra_name";
+	//gj
 	public static String USEING_PORT = "/dev/ttyS1";
 	public static int USEING_RATE = 2400;
+
 
 	/**
 	 * 初始化 

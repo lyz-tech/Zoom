@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.BmvSelectListener;
 import com.third.zoom.common.widget.CommonBmv;
@@ -125,7 +126,8 @@ public class MainView extends LinearLayout{
     public void setPositionShow(int position){
         mHandler.removeMessages(WHAT_UPDATE_SHOW);
         mHandler.removeMessages(WHAT_UPDATE_NORMAL_SHOW);
-        imgShow.setImageResource(positionRes[position]);
+        Glide.with(mContext).load(positionRes[position]).into(imgShow);
+//        imgShow.setImageResource(positionRes[position]);
         curClickIndex = position;
         if(curClickIndex == 0){
             imgShow.setClickable(true);
@@ -151,7 +153,8 @@ public class MainView extends LinearLayout{
         if(normalShowIndex < 0){
             normalShowIndex = normalRes.length - 1;
         }
-        imgShow.setImageResource(normalRes[normalShowIndex]);
+        Glide.with(mContext).load(normalRes[normalShowIndex]).into(imgShow);
+//        imgShow.setImageResource(normalRes[normalShowIndex]);
         mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_NORMAL_SHOW,UPDATE_SHOW_TIME);
     }
 
@@ -165,7 +168,9 @@ public class MainView extends LinearLayout{
         if(showIndex < 0){
             showIndex = showRes.length - 1;
         }
-        imgShow.setImageResource(showRes[showIndex]);
+
+        Glide.with(mContext).load(showRes[showIndex]).into(imgShow);
+//        imgShow.setImageResource(showRes[showIndex]);
         mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_SHOW,UPDATE_SHOW_TIME);
     }
 

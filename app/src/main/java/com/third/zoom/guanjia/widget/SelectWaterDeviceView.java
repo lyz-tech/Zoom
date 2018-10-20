@@ -6,12 +6,11 @@ import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
-import com.third.zoom.common.utils.PreferenceUtils;
 
 /**
  * Created by Alienware on 2018/8/30.
@@ -55,7 +54,8 @@ public class SelectWaterDeviceView extends RelativeLayout {
             @Override
             public void onClick(View view) {
                 imgStart.setVisibility(View.GONE);
-                imgBg.setImageResource(R.drawable.gj_device_bg_3);
+//                imgBg.setImageResource(R.drawable.gj_device_bg_3);
+                Glide.with(mContext).load(R.drawable.gj_device_bg_3).into(imgBg);
                 imgA.setVisibility(VISIBLE);
                 imgB.setVisibility(VISIBLE);
             }
@@ -95,7 +95,8 @@ public class SelectWaterDeviceView extends RelativeLayout {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 imgStart.setVisibility(View.VISIBLE);
-                imgBg.setImageResource(R.drawable.gj_device_bg_2);
+                Glide.with(mContext).load(R.drawable.gj_device_bg_2).into(imgBg);
+//                imgBg.setImageResource(R.drawable.gj_device_bg_2);
                 imgA.setVisibility(GONE);
                 imgB.setVisibility(GONE);
                 dialogDismiss();
