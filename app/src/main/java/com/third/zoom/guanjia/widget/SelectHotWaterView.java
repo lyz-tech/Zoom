@@ -24,7 +24,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
     private String[] waterNotice = {"50度水温适宜冲泡奶粉、蜂蜜等",
             "65度水温适宜冲泡生粉及芝麻糊等",
             "80度水温适宜冲泡醇香咖啡等",
-            "95度水温适宜冲泡各种茶类等"};
+            "90度水温适宜冲泡各种茶类等"};
 
     private int defaultResId = R.drawable.gj_hot_select;
     private int[] resId = {R.drawable.gj_hot_select_50,R.drawable.gj_hot_select_65,R.drawable.gj_hot_select_80,R.drawable.gj_hot_select_95};

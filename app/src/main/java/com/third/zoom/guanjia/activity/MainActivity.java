@@ -170,8 +170,9 @@ public class MainActivity extends BaseActivity {
         PreferenceUtils.init(this);
         boolean isBootFirst = PreferenceUtils.getBoolean("isBootFirst",true);
         if(isBootFirst){
-            navTopView.setVisibility(View.GONE);
             waterDeviceView.setVisibility(View.VISIBLE);
+            mainView.setVisibility(View.GONE);
+            navTopView.setVisibility(View.GONE);
             waterDeviceView.setOnListener(new NormalListener() {
                 @Override
                 public void onActive(Object object) {
@@ -191,6 +192,7 @@ public class MainActivity extends BaseActivity {
     private void init2(){
         waterDeviceView.setVisibility(View.GONE);
         navTopView.setVisibility(View.VISIBLE);
+        mainView.setVisibility(View.VISIBLE);
         mainView.setBmvListener(new BmvSelectListener() {
             @Override
             public void itemSelectOpen(int position) {

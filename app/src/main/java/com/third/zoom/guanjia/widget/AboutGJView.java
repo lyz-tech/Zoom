@@ -38,9 +38,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private SetPermissionView setPermissionView;
     private ImageView imgPre,imgNext;
     private RelativeLayout ll1;
-    private LinearLayout ll2,ll3,ll4,ll5,ll6;
-    private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6;
-    private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6;
+    private LinearLayout ll2,ll3,ll4,ll5,ll6,ll7;
+    private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6,txtZh7;
+    private TextView txtEh1,txtEh2,txtEh3,txtEh4,txtEh5,txtEh6,txtEh7;
     private ImageView imgDown;
 
     private int[] resId1 = {R.drawable.gj_about_tab1_1,R.drawable.gj_about_tab1_2,R.drawable.gj_about_tab1_3};
@@ -48,7 +48,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private int[] resId3 = {R.drawable.gj_about_tab3_1,R.drawable.gj_about_tab3_2,R.drawable.gj_about_tab3_3,R.drawable.gj_about_tab3_4};
     private int[] resId4 = {R.drawable.gj_about_tab4_1,R.drawable.gj_about_tab4_2};
     private int[] resId5 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
-    private int[] resId6 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
+    private int[] resId7 = {R.drawable.gj_about_tab5_1};
 
     private int[] resId11 = {R.drawable.gj_about_tab1_1_1};
     private int[] resId12 = {R.drawable.gj_about_tab1_1_3};
@@ -61,7 +61,15 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private ImageView imageView;
 
     private RelativeLayout rlChangeDevice;
-    private ImageView imgDevice,imgChangeBack;
+    private ImageView imgChangeBack;
+    private ImageView imgTypeSelect;
+    private RelativeLayout rlPay;
+    private RelativeLayout rlTc;
+
+    private ImageView imgTypeA;
+    private ImageView imgTypeB;
+    private ImageView imgTypeC;
+    private int selectFlag = 1;
 
     private int currentType = 1;
 
@@ -95,22 +103,31 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         ll4 = (LinearLayout) view.findViewById(R.id.ll4);
         ll5 = (LinearLayout) view.findViewById(R.id.ll5);
         ll6 = (LinearLayout) view.findViewById(R.id.ll6);
+        ll7 = (LinearLayout) view.findViewById(R.id.ll7);
         txtZh1 = (TextView) view.findViewById(R.id.txt_gj_zh_1);
         txtZh2 = (TextView) view.findViewById(R.id.txt_gj_zh_2);
         txtZh3 = (TextView) view.findViewById(R.id.txt_gj_zh_3);
         txtZh4 = (TextView) view.findViewById(R.id.txt_gj_zh_4);
         txtZh5 = (TextView) view.findViewById(R.id.txt_gj_zh_5);
         txtZh6 = (TextView) view.findViewById(R.id.txt_gj_zh_6);
+        txtZh7 = (TextView) view.findViewById(R.id.txt_gj_zh_7);
         txtEh1 = (TextView) view.findViewById(R.id.txt_gj_eh_1);
         txtEh2 = (TextView) view.findViewById(R.id.txt_gj_eh_2);
         txtEh3 = (TextView) view.findViewById(R.id.txt_gj_eh_3);
         txtEh4 = (TextView) view.findViewById(R.id.txt_gj_eh_4);
         txtEh5 = (TextView) view.findViewById(R.id.txt_gj_eh_5);
         txtEh6 = (TextView) view.findViewById(R.id.txt_gj_eh_6);
+        txtEh7 = (TextView) view.findViewById(R.id.txt_gj_eh_7);
         imgDown = (ImageView) view.findViewById(R.id.img_about_down);
         rlChangeDevice = (RelativeLayout) view.findViewById(R.id.rl_change_device);
-        imgDevice = (ImageView) view.findViewById(R.id.img_device);
+//        imgDevice = (ImageView) view.findViewById(R.id.img_device);
         imgChangeBack = (ImageView) view.findViewById(R.id.img_change_back);
+        rlPay = (RelativeLayout) view.findViewById(R.id.rl_pay);
+        imgTypeSelect = (ImageView) view.findViewById(R.id.img_tc_select);
+        rlTc = (RelativeLayout) view.findViewById(R.id.rl_tc);
+        imgTypeA = (ImageView) view.findViewById(R.id.img_tc_a);
+        imgTypeB = (ImageView) view.findViewById(R.id.img_tc_b);
+        imgTypeC = (ImageView) view.findViewById(R.id.img_tc_c);
     }
 
     private void initData() {
@@ -121,6 +138,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         ll4.setOnClickListener(this);
         ll5.setOnClickListener(this);
         ll6.setOnClickListener(this);
+        ll7.setOnClickListener(this);
 
         viewPager.setOffscreenPageLimit(0);
         aboutPageAdapter = new AboutPageAdapter(context, imgResIds);
@@ -175,21 +193,69 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
 
         permissionViewSetListener();
 
-        imgDevice.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                normalDialog2();
-                dialogShow2();
-            }
-        });
+//        imgDevice.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                normalDialog2();
+//                dialogShow2();
+//            }
+//        });
 
         imgChangeBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                rlTc.setVisibility(GONE);
+                rlPay.setVisibility(GONE);
                 rlChangeDevice.setVisibility(GONE);
             }
         });
 
+        imgTypeA.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFlag = 1;
+                imgTypeA.setSelected(true);
+                imgTypeB.setSelected(false);
+                imgTypeC.setSelected(false);
+            }
+        });
+
+        imgTypeB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFlag = 2;
+                imgTypeA.setSelected(false);
+                imgTypeB.setSelected(true);
+                imgTypeC.setSelected(false);
+            }
+        });
+
+        imgTypeC.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFlag = 3;
+                imgTypeA.setSelected(false);
+                imgTypeB.setSelected(false);
+                imgTypeC.setSelected(true);
+            }
+        });
+
+        imgTypeSelect.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlTc.setVisibility(GONE);
+                rlPay.setVisibility(VISIBLE);
+            }
+        });
+
+        rlPay.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlTc.setVisibility(GONE);
+                rlPay.setVisibility(GONE);
+                rlChangeDevice.setVisibility(GONE);
+            }
+        });
 
         setPermissionView.setBackListener(new OnClickListener() {
             @Override
@@ -291,6 +357,12 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                 changeTextColor(5);
                 updateData(imgResIds);
                 break;
+            case R.id.ll7:
+                imgResIds = resId7;
+                changeTextColor(7);
+                changeView(7);
+                updateData(imgResIds);
+                break;
             case R.id.ll6:
                 changeTextColor(6);
                 changeView(6);
@@ -328,6 +400,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         txtEh5.setTextColor(getResources().getColor(R.color.txt_normal2));
         txtZh6.setTextColor(getResources().getColor(R.color.txt_normal2));
         txtEh6.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtZh7.setTextColor(getResources().getColor(R.color.txt_normal2));
+        txtEh7.setTextColor(getResources().getColor(R.color.txt_normal2));
         switch (index){
             case 1:
                 txtZh1.setTextColor(getResources().getColor(R.color.txt_focus));
@@ -352,6 +426,10 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             case 6:
                 txtZh6.setTextColor(getResources().getColor(R.color.txt_focus));
                 txtEh6.setTextColor(getResources().getColor(R.color.txt_focus));
+                break;
+            case 7:
+                txtZh7.setTextColor(getResources().getColor(R.color.txt_focus));
+                txtEh7.setTextColor(getResources().getColor(R.color.txt_focus));
                 break;
         }
     }
@@ -475,14 +553,17 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                     context.sendBroadcast(toLv);
                 }else if((int)object == 2){
                     rlChangeDevice.setVisibility(VISIBLE);
-                    int waterType = PreferenceUtils.getInt("waterType",1);
-                    if(waterType == 2){
-                        currentType = 1;
-                        imgDevice.setImageResource(R.drawable.gj_device_a);
-                    }else if(waterType == 1){
-                        currentType = 2;
-                        imgDevice.setImageResource(R.drawable.gj_device_b);
-                    }
+                    rlTc.setVisibility(VISIBLE);
+                    imgTypeA.performClick();
+                    selectFlag = 1;
+//                    int waterType = PreferenceUtils.getInt("waterType",1);
+//                    if(waterType == 2){
+//                        currentType = 1;
+//                        imgDevice.setImageResource(R.drawable.gj_device_a);
+//                    }else if(waterType == 1){
+//                        currentType = 2;
+//                        imgDevice.setImageResource(R.drawable.gj_device_b);
+//                    }
                 }
             }
         });

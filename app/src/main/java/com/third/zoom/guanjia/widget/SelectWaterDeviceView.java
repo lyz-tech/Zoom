@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -23,6 +24,17 @@ public class SelectWaterDeviceView extends RelativeLayout {
     private ImageView imgStart;
     private ImageView imgA;
     private ImageView imgB;
+    private RelativeLayout rlTypeSelect;
+    private RelativeLayout rlZbxt;
+    private ImageView imgTypeA;
+    private ImageView imgTypeB;
+    private ImageView imgTypeC;
+    private Button btnSelect;
+    private ImageView tcSelect;
+    private RelativeLayout rlPay;
+    private RelativeLayout rlPayAfter;
+
+    private int selectFlag = 1;
 
     public SelectWaterDeviceView(Context context) {
         this(context, null);
@@ -45,6 +57,15 @@ public class SelectWaterDeviceView extends RelativeLayout {
         imgStart = (ImageView) view.findViewById(R.id.img_start);
         imgA = (ImageView) view.findViewById(R.id.img_a);
         imgB = (ImageView) view.findViewById(R.id.img_b);
+        rlZbxt = (RelativeLayout) view.findViewById(R.id.rl_zbms);
+        rlTypeSelect = (RelativeLayout) view.findViewById(R.id.rl_type_select);
+        imgTypeA = (ImageView) view.findViewById(R.id.img_tc_a);
+        imgTypeB = (ImageView) view.findViewById(R.id.img_tc_b);
+        imgTypeC = (ImageView) view.findViewById(R.id.img_tc_c);
+        btnSelect = (Button) view.findViewById(R.id.btn_type_select);
+        tcSelect = (ImageView) view.findViewById(R.id.img_tc_select);
+        rlPay = (RelativeLayout) view.findViewById(R.id.rl_pay);
+        rlPayAfter = (RelativeLayout) view.findViewById(R.id.rl_pay_after);
     }
 
     private void initData(){
@@ -54,10 +75,78 @@ public class SelectWaterDeviceView extends RelativeLayout {
             @Override
             public void onClick(View view) {
                 imgStart.setVisibility(View.GONE);
+                rlZbxt.setVisibility(VISIBLE);
+
 //                imgBg.setImageResource(R.drawable.gj_device_bg_3);
-                Glide.with(mContext).load(R.drawable.gj_device_bg_3).into(imgBg);
-                imgA.setVisibility(VISIBLE);
-                imgB.setVisibility(VISIBLE);
+//                Glide.with(mContext).load(R.drawable.gj_device_bg_3).into(imgBg);
+//                imgA.setVisibility(VISIBLE);
+//                imgB.setVisibility(VISIBLE);
+            }
+        });
+
+        btnSelect.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlZbxt.setVisibility(GONE);
+                rlTypeSelect.setVisibility(VISIBLE);
+            }
+        });
+
+        imgTypeA.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFlag = 1;
+                imgTypeA.setSelected(true);
+                imgTypeB.setSelected(false);
+                imgTypeC.setSelected(false);
+            }
+        });
+
+        imgTypeB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFlag = 2;
+                imgTypeA.setSelected(false);
+                imgTypeB.setSelected(true);
+                imgTypeC.setSelected(false);
+            }
+        });
+
+        imgTypeC.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectFlag = 3;
+                imgTypeA.setSelected(false);
+                imgTypeB.setSelected(false);
+                imgTypeC.setSelected(true);
+            }
+        });
+
+        imgTypeA.performClick();
+
+        tcSelect.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlTypeSelect.setVisibility(GONE);
+                rlPay.setVisibility(VISIBLE);
+            }
+        });
+
+        rlPay.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlPay.setVisibility(GONE);
+                rlPayAfter.setVisibility(VISIBLE);
+            }
+        });
+
+        rlPayAfter.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlPayAfter.setVisibility(GONE);
+                if(listener != null){
+                    listener.onActive(selectFlag);
+                }
             }
         });
 

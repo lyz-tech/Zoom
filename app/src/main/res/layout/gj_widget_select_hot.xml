@@ -98,7 +98,7 @@
             <TextView
                 android:id="@+id/txt_th_95"
                 android:textColor="#ffffff"
-                android:text="95°C"
+                android:text="90°C"
                 android:gravity="center"
                 android:textSize="@dimen/DIMEN_12sp"
                 android:background="@drawable/gj_shape_cir_textview"

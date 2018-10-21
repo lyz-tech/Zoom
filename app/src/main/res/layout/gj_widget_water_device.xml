@@ -20,6 +20,132 @@
         android:layout_height="@dimen/DIMEN_170dp" />
 
 
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_zbms"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:background="@drawable/gj_zbmos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/btn_type_select"
+            android:textColor="#ffffff"
+            android:background="@drawable/gj_selecter_permission"
+            android:layout_marginBottom="@dimen/DIMEN_30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:text="套餐选择"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_type_select"
+        android:visibility="gone"
+        android:background="@drawable/gj_tc_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/relativeLayout">
+
+            <ImageView
+                android:id="@+id/img_tc_a"
+                android:layout_marginRight="@dimen/DIMEN_132dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/gj_selecter_tc_a"
+                android:layout_width="@dimen/DIMEN_232dp"
+                android:layout_height="@dimen/DIMEN_52dp" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/DIMEN_132dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/DIMEN_5dp"
+                android:layout_below="@id/img_tc_a"
+                android:id="@+id/img_tc_b"
+                android:background="@drawable/gj_selecter_tc_b"
+                android:layout_width="@dimen/DIMEN_232dp"
+                android:layout_height="@dimen/DIMEN_52dp" />
+
+            <ImageView
+                android:layout_marginRight="@dimen/DIMEN_132dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/DIMEN_5dp"
+                android:layout_below="@id/img_tc_b"
+                android:id="@+id/img_tc_c"
+                android:background="@drawable/gj_selecter_tc_c"
+                android:layout_width="@dimen/DIMEN_232dp"
+                android:layout_height="@dimen/DIMEN_52dp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_marginLeft="@dimen/DIMEN_152dp"
+                android:background="@drawable/gj_selecter_tc_select"
+                android:layout_width="@dimen/DIMEN_202dp"
+                android:layout_height="@dimen/DIMEN_212dp"
+                android:id="@+id/img_tc_select" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_pay"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_money"
+                android:src="@drawable/gj_tc_bg"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/DIMEN_200dp"
+                android:layout_height="@dimen/DIMEN_200dp" />
+
+            <TextView
+                android:id="@+id/txt_money"
+                android:layout_below="@id/img_money"
+                android:text="需要付300"
+                android:textColor="#000000"
+                android:textSize="@dimen/DIMEN_20sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_pay_after"
+        android:visibility="gone"
+        android:background="@drawable/gj_bg_pay_after"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
     <ImageView
         android:visibility="gone"
         android:id="@+id/img_a"
