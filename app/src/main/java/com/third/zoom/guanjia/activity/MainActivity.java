@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
@@ -35,6 +36,7 @@ import com.third.zoom.guanjia.utils.GJProV2Util;
 import com.third.zoom.guanjia.utils.IntentUtils;
 import com.third.zoom.guanjia.widget.AboutGJView;
 import com.third.zoom.guanjia.widget.ErrorView;
+import com.third.zoom.guanjia.widget.GJVideoView;
 import com.third.zoom.guanjia.widget.MainView;
 import com.third.zoom.guanjia.widget.NavTopView;
 import com.third.zoom.guanjia.widget.SelectHotWaterView;
@@ -81,6 +83,7 @@ public class MainActivity extends BaseActivity {
     private WaitingView waitingView;
     private SelectWaterDeviceView waterDeviceView;
     private NavTopView navTopView;
+    private GJVideoView gjVideoView;
     private ErrorView errorView;
 
     private boolean isSending = false;  //是否正在发送协议
@@ -145,6 +148,7 @@ public class MainActivity extends BaseActivity {
         waterDeviceView = (SelectWaterDeviceView) findViewById(R.id.waterDeviceView);
         navTopView = (NavTopView) findViewById(R.id.topView);
         errorView = (ErrorView) findViewById(R.id.errorView);
+        gjVideoView = (GJVideoView) findViewById(R.id.gjVideo);
     }
 
     @Override
@@ -157,17 +161,41 @@ public class MainActivity extends BaseActivity {
 
 //        proTempString = GJProV2Util.getNormalPro();
 //        mHandler.sendEmptyMessageDelayed(WHAT_DATA_REPEAT,6000);
+        PreferenceUtils.init(this);
 
         initLVDialogView();
 
-        init1();
+        init0();
+
+//        init1();
 
         changeTime();
 
     }
 
+    private void init0(){
+        mainView.setVisibility(View.GONE);
+        navTopView.setVisibility(View.GONE);
+        gjVideoView.setVisibility(View.VISIBLE);
+        gjVideoView.setOnCompleteListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                gjVideoView.stop();
+                init1();
+            }
+        });
+        gjVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                gjVideoView.stop();
+                init1();
+                return true;
+            }
+        });
+    }
+
     private void init1(){
-        PreferenceUtils.init(this);
+        gjVideoView.setVisibility(View.GONE);
         boolean isBootFirst = PreferenceUtils.getBoolean("isBootFirst",true);
         if(isBootFirst){
             waterDeviceView.setVisibility(View.VISIBLE);
