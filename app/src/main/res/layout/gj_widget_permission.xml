@@ -25,6 +25,7 @@
             android:textSize="@dimen/DIMEN_15sp"/>
 
         <Button
+            android:visibility="gone"
             android:textColor="#ffffff"
             android:background="@drawable/gj_selecter_permission"
             android:id="@+id/btn_password"
@@ -36,6 +37,7 @@
             android:textSize="@dimen/DIMEN_15sp"/>
 
         <Button
+            android:visibility="gone"
             android:textColor="#ffffff"
             android:background="@drawable/gj_selecter_permission"
             android:id="@+id/btn_wifi"

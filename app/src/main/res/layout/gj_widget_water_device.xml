@@ -118,7 +118,7 @@
 
             <ImageView
                 android:id="@+id/img_money"
-                android:src="@drawable/gj_tc_bg"
+                android:src="@drawable/gj_pay_test"
                 android:layout_centerHorizontal="true"
                 android:layout_width="@dimen/DIMEN_200dp"
                 android:layout_height="@dimen/DIMEN_200dp" />
@@ -126,7 +126,7 @@
             <TextView
                 android:id="@+id/txt_money"
                 android:layout_below="@id/img_money"
-                android:text="需要付300"
+                android:text="需要付2000元"
                 android:textColor="#000000"
                 android:textSize="@dimen/DIMEN_20sp"
                 android:gravity="center"
@@ -143,6 +143,18 @@
         android:background="@drawable/gj_bg_pay_after"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txt_count"
+            android:text="5"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/DIMEN_20sp"
+            android:layout_marginRight="@dimen/DIMEN_20dp"
+            android:layout_marginBottom="@dimen/DIMEN_20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

@@ -222,8 +222,13 @@ public class SetPermissionView extends RelativeLayout{
 
     private int resId = R.drawable.gj_widget_permission_lx_change;
     private String lvTime = "";
-    DecimalFormat df = new DecimalFormat("0.0");
+    DecimalFormat df = new DecimalFormat("0");
     public void setLVTime(int type,float lvTime){
+        if(lvTime < 0){
+            lvTime = 0;
+        }else if(lvTime > 1){
+            lvTime = 1;
+        }
         this.lvTime = df.format(lvTime * 100);
         if(type == 1){
             resId = R.drawable.gj_widget_permission_lx_change2;

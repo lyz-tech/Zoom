@@ -60,15 +60,16 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private ImageView[] tips;
     private ImageView imageView;
 
-    private RelativeLayout rlChangeDevice;
-    private ImageView imgChangeBack;
-    private ImageView imgTypeSelect;
-    private RelativeLayout rlPay;
-    private RelativeLayout rlTc;
+    private PayView payView;
 
-    private ImageView imgTypeA;
-    private ImageView imgTypeB;
-    private ImageView imgTypeC;
+//    private RelativeLayout rlChangeDevice;
+//    private ImageView imgChangeBack;
+//    private ImageView imgTypeSelect;
+//    private RelativeLayout rlPay;
+//    private RelativeLayout rlTc;
+//    private ImageView imgTypeA;
+//    private ImageView imgTypeB;
+//    private ImageView imgTypeC;
     private int selectFlag = 1;
 
     private int currentType = 1;
@@ -93,6 +94,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         circles = (LinearLayout) view.findViewById(R.id.circles);
         setPermissionView = (SetPermissionView) view.findViewById(R.id.setPermissionView);
+        payView =  (PayView) view.findViewById(R.id.pawView);
         imgBack = (ImageView) view.findViewById(R.id.img_back);
         rlBack = (RelativeLayout) view.findViewById(R.id.rl_back);
         imgPre = (ImageView) view.findViewById(R.id.gj_about_img_pre);
@@ -119,15 +121,15 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         txtEh6 = (TextView) view.findViewById(R.id.txt_gj_eh_6);
         txtEh7 = (TextView) view.findViewById(R.id.txt_gj_eh_7);
         imgDown = (ImageView) view.findViewById(R.id.img_about_down);
-        rlChangeDevice = (RelativeLayout) view.findViewById(R.id.rl_change_device);
-//        imgDevice = (ImageView) view.findViewById(R.id.img_device);
-        imgChangeBack = (ImageView) view.findViewById(R.id.img_change_back);
-        rlPay = (RelativeLayout) view.findViewById(R.id.rl_pay);
-        imgTypeSelect = (ImageView) view.findViewById(R.id.img_tc_select);
-        rlTc = (RelativeLayout) view.findViewById(R.id.rl_tc);
-        imgTypeA = (ImageView) view.findViewById(R.id.img_tc_a);
-        imgTypeB = (ImageView) view.findViewById(R.id.img_tc_b);
-        imgTypeC = (ImageView) view.findViewById(R.id.img_tc_c);
+//        rlChangeDevice = (RelativeLayout) view.findViewById(R.id.rl_change_device);
+////        imgDevice = (ImageView) view.findViewById(R.id.img_device);
+//        imgChangeBack = (ImageView) view.findViewById(R.id.img_change_back);
+//        rlPay = (RelativeLayout) view.findViewById(R.id.rl_pay);
+//        imgTypeSelect = (ImageView) view.findViewById(R.id.img_tc_select);
+//        rlTc = (RelativeLayout) view.findViewById(R.id.rl_tc);
+//        imgTypeA = (ImageView) view.findViewById(R.id.img_tc_a);
+//        imgTypeB = (ImageView) view.findViewById(R.id.img_tc_b);
+//        imgTypeC = (ImageView) view.findViewById(R.id.img_tc_c);
     }
 
     private void initData() {
@@ -201,65 +203,75 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
 //            }
 //        });
 
-        imgChangeBack.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rlTc.setVisibility(GONE);
-                rlPay.setVisibility(GONE);
-                rlChangeDevice.setVisibility(GONE);
-            }
-        });
-
-        imgTypeA.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectFlag = 1;
-                imgTypeA.setSelected(true);
-                imgTypeB.setSelected(false);
-                imgTypeC.setSelected(false);
-            }
-        });
-
-        imgTypeB.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectFlag = 2;
-                imgTypeA.setSelected(false);
-                imgTypeB.setSelected(true);
-                imgTypeC.setSelected(false);
-            }
-        });
-
-        imgTypeC.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectFlag = 3;
-                imgTypeA.setSelected(false);
-                imgTypeB.setSelected(false);
-                imgTypeC.setSelected(true);
-            }
-        });
-
-        imgTypeSelect.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rlTc.setVisibility(GONE);
-                rlPay.setVisibility(VISIBLE);
-            }
-        });
-
-        rlPay.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rlTc.setVisibility(GONE);
-                rlPay.setVisibility(GONE);
-                rlChangeDevice.setVisibility(GONE);
-            }
-        });
+//        imgChangeBack.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                rlTc.setVisibility(GONE);
+//                rlPay.setVisibility(GONE);
+//                rlChangeDevice.setVisibility(GONE);
+//            }
+//        });
+//
+//        imgTypeA.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                selectFlag = 1;
+//                imgTypeA.setSelected(true);
+//                imgTypeB.setSelected(false);
+//                imgTypeC.setSelected(false);
+//            }
+//        });
+//
+//        imgTypeB.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                selectFlag = 2;
+//                imgTypeA.setSelected(false);
+//                imgTypeB.setSelected(true);
+//                imgTypeC.setSelected(false);
+//            }
+//        });
+//
+//        imgTypeC.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                selectFlag = 3;
+//                imgTypeA.setSelected(false);
+//                imgTypeB.setSelected(false);
+//                imgTypeC.setSelected(true);
+//            }
+//        });
+//
+//        imgTypeSelect.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                rlTc.setVisibility(GONE);
+//                rlPay.setVisibility(VISIBLE);
+//            }
+//        });
+//
+//        rlPay.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                rlTc.setVisibility(GONE);
+//                rlPay.setVisibility(GONE);
+//                rlChangeDevice.setVisibility(GONE);
+//            }
+//        });
 
         setPermissionView.setBackListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(popupWindow != null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
+                imgBack.performClick();
+            }
+        });
+
+        payView.setBackListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if(popupWindow != null && popupWindow.isShowing()){
                     popupWindow.dismiss();
                 }
@@ -368,7 +380,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                 changeView(6);
                 break;
         }
-    }
+}
 
     private void changeView(int position){
         IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
@@ -377,12 +389,21 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             imgNext.setVisibility(GONE);
             viewPager.setVisibility(GONE);
             circles.setVisibility(GONE);
+            payView.setVisibility(GONE);
             setPermissionView.setVisibility(VISIBLE);
+        }else if(position == 7){
+            imgPre.setVisibility(GONE);
+            imgNext.setVisibility(GONE);
+            viewPager.setVisibility(GONE);
+            circles.setVisibility(GONE);
+            setPermissionView.setVisibility(GONE);
+            payView.setVisibility(VISIBLE);
         }else{
             imgPre.setVisibility(VISIBLE);
             imgNext.setVisibility(VISIBLE);
             viewPager.setVisibility(VISIBLE);
             circles.setVisibility(VISIBLE);
+            payView.setVisibility(GONE);
             setPermissionView.setVisibility(GONE);
         }
     }
@@ -552,9 +573,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                     Intent toLv = new Intent(Contans.INTENT_GJ_ACTION_LV_SET);
                     context.sendBroadcast(toLv);
                 }else if((int)object == 2){
-                    rlChangeDevice.setVisibility(VISIBLE);
-                    rlTc.setVisibility(VISIBLE);
-                    imgTypeA.performClick();
+//                    rlChangeDevice.setVisibility(VISIBLE);
+//                    rlTc.setVisibility(VISIBLE);
+//                    imgTypeA.performClick();
                     selectFlag = 1;
 //                    int waterType = PreferenceUtils.getInt("waterType",1);
 //                    if(waterType == 2){
@@ -596,7 +617,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                 }
                 PreferenceUtils.commitInt("waterType",currentType);
                 PreferenceUtils.commitLong("waterTime",System.currentTimeMillis());
-                rlChangeDevice.setVisibility(GONE);
+//                rlChangeDevice.setVisibility(GONE);
                 imgBack.performClick();
             }
         });
@@ -655,18 +676,13 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     }
 
     private void initLVTime(){
-        int currentType = PreferenceUtils.getInt("waterType",1);
         long curnTime = System.currentTimeMillis();
         long indexTime = curnTime - PreferenceUtils.getLong("waterTime",0);
         int last = (int) (indexTime / (24 * 60 * 60 * 1000));
         if(last < 0 || last > 180){
             last = 0;
         }
-        if(currentType == 1){
-            setLVTime(currentType,120 - last);
-        }else{
-            setLVTime(currentType,180 - last);
-        }
+        setLVTime(currentType,180 - last);
 
     }
 

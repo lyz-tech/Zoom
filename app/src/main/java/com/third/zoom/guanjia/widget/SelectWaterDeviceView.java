@@ -3,11 +3,14 @@ package com.third.zoom.guanjia.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.third.zoom.R;
@@ -33,8 +36,30 @@ public class SelectWaterDeviceView extends RelativeLayout {
     private ImageView tcSelect;
     private RelativeLayout rlPay;
     private RelativeLayout rlPayAfter;
+    private TextView txtMoney;
+    private TextView txtCount;
+
+    private int countIndex  = 5;
 
     private int selectFlag = 1;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 1){
+                rlPayAfter.setVisibility(GONE);
+                if(listener != null){
+                    listener.onActive(selectFlag);
+                }
+            }else {
+                txtCount.setText(countIndex + "");
+                countIndex--;
+                if(countIndex > 0){
+                    mHandler.sendEmptyMessageDelayed(2,1000);
+                }
+            }
+        }
+    };
 
     public SelectWaterDeviceView(Context context) {
         this(context, null);
@@ -66,6 +91,8 @@ public class SelectWaterDeviceView extends RelativeLayout {
         tcSelect = (ImageView) view.findViewById(R.id.img_tc_select);
         rlPay = (RelativeLayout) view.findViewById(R.id.rl_pay);
         rlPayAfter = (RelativeLayout) view.findViewById(R.id.rl_pay_after);
+        txtMoney = (TextView) view.findViewById(R.id.txt_money);
+        txtCount = (TextView) view.findViewById(R.id.txt_count);
     }
 
     private void initData(){
@@ -129,6 +156,13 @@ public class SelectWaterDeviceView extends RelativeLayout {
             public void onClick(View view) {
                 rlTypeSelect.setVisibility(GONE);
                 rlPay.setVisibility(VISIBLE);
+                if(selectFlag == 1){
+                    txtMoney.setText("需要付2000元(点击跳过,测试用)");
+                }else if(selectFlag == 2){
+                    txtMoney.setText("需要付4000元(点击跳过,测试用)");
+                }else if(selectFlag == 3){
+                    txtMoney.setText("需要付6000元(点击跳过,测试用)");
+                }
             }
         });
 
@@ -137,16 +171,15 @@ public class SelectWaterDeviceView extends RelativeLayout {
             public void onClick(View view) {
                 rlPay.setVisibility(GONE);
                 rlPayAfter.setVisibility(VISIBLE);
+                mHandler.sendEmptyMessageDelayed(2,1);
+                mHandler.sendEmptyMessageDelayed(1,5000);
             }
         });
 
         rlPayAfter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                rlPayAfter.setVisibility(GONE);
-                if(listener != null){
-                    listener.onActive(selectFlag);
-                }
+
             }
         });
 

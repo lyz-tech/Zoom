@@ -207,7 +207,15 @@ public class MainActivity extends BaseActivity {
                     int type = (int) object;
                     PreferenceUtils.commitBoolean("isBootFirst",false);
                     PreferenceUtils.commitInt("waterType",type);
+                    PreferenceUtils.commitInt("lvTime",DEFAULT_SHARE_DAY_6);
                     PreferenceUtils.commitLong("waterTime",System.currentTimeMillis());
+                    if(type == 1){
+                        PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_3);
+                    }else if(type == 2){
+                        PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_6);
+                    }else if(type == 3){
+                        PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_12);
+                    }
                     saveTime = System.currentTimeMillis();
                     init2();
                 }
@@ -311,10 +319,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
-        if(exitDay <= 15){
-            showLVDialog(exitDay);
+        if(exitDay <= DEFAULT_EXIT_DAY){
+            showLVDialog(2,exitDay);
             return false;
         }
+
+        if(exitLvDay <= DEFAULT_EXIT_LV_DAY){
+            showLVDialog(1,exitLvDay);
+            return false;
+        }
+
         String pro = GJProV2Util.getWaterPro(isOpen,waterTh,waterMl);
         mHandler.removeMessages(WHAT_DATA_REPEAT);
         proTempString = pro;
@@ -533,38 +547,53 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private static final int DEFAULT_HOME_DAY = 180;
-    private static final int DEFAULT_SHARE_DAY = 120;
-    private static final int DEFAULT_EXIT_DAY = 15;
-    private int exitDay = 100;
+//    private static final int DEFAULT_HOME_DAY = 180;
+//    private static final int DEFAULT_SHARE_DAY = 120;
+    public static final int DEFAULT_SHARE_DAY_3 = 3 * 30;
+    public static final int DEFAULT_SHARE_DAY_6 = 6 * 30;
+    public static final int DEFAULT_SHARE_DAY_12 = 12 * 30;
+    private static final int DEFAULT_EXIT_DAY = 10;
+    private int exitDay = 180;
     private void changeTime(){
         saveTime = PreferenceUtils.getLong("waterTime",0);
         currentType = PreferenceUtils.getInt("waterType",1);
         long curnTime = System.currentTimeMillis();
         long indexTime = curnTime - saveTime;
         int last = (int) (indexTime / (24 * 60 * 60 * 1000));
+        int leftDay = PreferenceUtils.getInt("waterPay",DEFAULT_SHARE_DAY_3);
         if(last >= 0){
-            if(currentType == 1){
-                navTopView.setWaterTime(DEFAULT_SHARE_DAY - last);
-                aboutGJView.setLVTime(currentType,DEFAULT_SHARE_DAY - last );
-                exitDay = DEFAULT_SHARE_DAY - last;
-                if(DEFAULT_SHARE_DAY - last <= DEFAULT_EXIT_DAY && saveTime != 0){
-                    showLVDialog(DEFAULT_SHARE_DAY - last);
-                }
-            }else{
-                navTopView.setWaterTime(DEFAULT_HOME_DAY - last );
-                aboutGJView.setLVTime(currentType,DEFAULT_HOME_DAY - last);
-                exitDay = DEFAULT_HOME_DAY - last;
-                if(DEFAULT_HOME_DAY - last <= DEFAULT_EXIT_DAY && saveTime != 0){
-                    showLVDialog(DEFAULT_HOME_DAY - last);
-                }
+            navTopView.setWaterTime(leftDay - last);
+            aboutGJView.setLVTime(currentType,leftDay - last );
+            exitDay = leftDay - last;
+            if(leftDay - last <= DEFAULT_EXIT_DAY && saveTime != 0){
+                showLVDialog(2,leftDay - last);
             }
+        }
+
+        initLVDay();
+    }
+
+    private int exitLvDay = 180;
+    private static final int DEFAULT_EXIT_LV_DAY = 15;
+    private void initLVDay(){
+        long curnTime = System.currentTimeMillis();
+        long indexTime = curnTime - PreferenceUtils.getLong("waterTime",0);
+        int last = (int) (indexTime / (24 * 60 * 60 * 1000));
+        if(last < 0 || last > 180){
+            last = 0;
+        }
+        exitLvDay = DEFAULT_SHARE_DAY_6 - last;
+
+        if(exitLvDay <= DEFAULT_EXIT_LV_DAY && indexTime != 0){
+            showLVDialog(1,exitLvDay);
         }
     }
 
     private  AlertDialog LVDialog;
     private String LV_HEAD = "滤芯将在 ";
     private String LV_END = " 天后到期，到期后水机将停止工作，请尽快联系我们的工作人员对产氢设备进行更换！";
+    private String TC_HEAD = "您的套餐将于 ";
+    private String TC_END = " 天后到期，请尽快到套餐中心续约。";
     private TextView lvTextView;
     private void initLVDialogView(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -584,12 +613,16 @@ public class MainActivity extends BaseActivity {
         LVDialog = builder.create();
     }
 
-    public void showLVDialog(int day){
+    public void showLVDialog(int type,int day){
         if(!LVDialog.isShowing()){
             if(day < 0){
                 day = 0;
             }
-            lvTextView.setText(LV_HEAD + day + LV_END);
+            if(type == 1){
+                lvTextView.setText(LV_HEAD + day + LV_END);
+            }else{
+                lvTextView.setText(TC_HEAD + day + TC_END);
+            }
             LVDialog.show();
             Window dialogWindow = LVDialog.getWindow();
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
