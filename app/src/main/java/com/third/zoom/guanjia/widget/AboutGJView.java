@@ -295,6 +295,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         int waterMode = PreferenceUtils.getInt("waterMode",1);
         if(waterMode == 2){
             ll7.setVisibility(GONE);
+        }else{
+            ll7.setVisibility(VISIBLE);
         }
     }
 

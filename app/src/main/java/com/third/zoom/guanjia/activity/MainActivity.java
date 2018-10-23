@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
@@ -404,11 +405,11 @@ public class MainActivity extends BaseActivity {
      */
     private void operation(boolean isActive) {
         if (isActive) {
-            SystemUtil.setScreenLight(this, 160);
+            SystemUtil.setScreenLight(this, 170);
             waitingView.setVisibility(View.GONE);
         } else {
             Log.e("ZM", "3分钟没有操作");
-            SystemUtil.setScreenLight(this, 60);
+            SystemUtil.setScreenLight(this, 40);
             waitingView.setVisibility(View.VISIBLE);
         }
     }
@@ -426,7 +427,7 @@ public class MainActivity extends BaseActivity {
      */
     private void operation2() {
         Log.e("ZM", "2分钟没有操作");
-        SystemUtil.setScreenLight(this, 90);
+        SystemUtil.setScreenLight(this, 80);
     }
 
     /**
