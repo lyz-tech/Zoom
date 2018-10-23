@@ -3,9 +3,11 @@ package com.third.zoom.guanjia.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,12 +17,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
+import com.third.zoom.common.utils.PreferenceUtils;
+import com.third.zoom.guanjia.utils.Contans;
+
+import static com.third.zoom.guanjia.activity.MainActivity.DEFAULT_SHARE_DAY_12;
+import static com.third.zoom.guanjia.activity.MainActivity.DEFAULT_SHARE_DAY_3;
+import static com.third.zoom.guanjia.activity.MainActivity.DEFAULT_SHARE_DAY_6;
 
 /**
  * Created by Alienware on 2018/8/30.
  */
 
-public class SelectWaterDeviceView extends RelativeLayout {
+public class SelectWaterDeviceV2View extends RelativeLayout {
 
     private Context mContext;
     private ImageView imgBg;
@@ -61,15 +69,15 @@ public class SelectWaterDeviceView extends RelativeLayout {
         }
     };
 
-    public SelectWaterDeviceView(Context context) {
+    public SelectWaterDeviceV2View(Context context) {
         this(context, null);
     }
 
-    public SelectWaterDeviceView(Context context, AttributeSet attrs) {
+    public SelectWaterDeviceV2View(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SelectWaterDeviceView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SelectWaterDeviceV2View(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         initView();
@@ -77,7 +85,7 @@ public class SelectWaterDeviceView extends RelativeLayout {
     }
 
     private void initView(){
-        View view = View.inflate(mContext, R.layout.gj_widget_water_device,this);
+        View view = View.inflate(mContext, R.layout.gj_widget_water_device_v2,this);
         imgBg = (ImageView) view.findViewById(R.id.img_bg);
         imgStart = (ImageView) view.findViewById(R.id.img_start);
         imgA = (ImageView) view.findViewById(R.id.img_a);
@@ -96,19 +104,24 @@ public class SelectWaterDeviceView extends RelativeLayout {
     }
 
     private void initData(){
+        PreferenceUtils.init(mContext);
         normalDialog();
 
-        imgStart.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imgStart.setVisibility(View.GONE);
-//                rlZbxt.setVisibility(VISIBLE);
-//                imgBg.setImageResource(R.drawable.gj_device_bg_3);
-                Glide.with(mContext).load(R.drawable.gj_device_bg_3).into(imgBg);
-                imgA.setVisibility(VISIBLE);
-                imgB.setVisibility(VISIBLE);
-            }
-        });
+//        imgStart.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                imgStart.setVisibility(View.GONE);
+////                rlZbxt.setVisibility(VISIBLE);
+////                imgBg.setImageResource(R.drawable.gj_device_bg_3);
+//                Glide.with(mContext).load(R.drawable.gj_device_bg_3).into(imgBg);
+//                imgA.setVisibility(VISIBLE);
+//                imgB.setVisibility(VISIBLE);
+//            }
+//        });
+        imgStart.setVisibility(View.GONE);
+        Glide.with(mContext).load(R.drawable.gj_device_bg_3).into(imgBg);
+        imgA.setVisibility(VISIBLE);
+        imgB.setVisibility(VISIBLE);
 
         btnSelect.setOnClickListener(new OnClickListener() {
             @Override
@@ -170,9 +183,11 @@ public class SelectWaterDeviceView extends RelativeLayout {
             @Override
             public void onClick(View view) {
                 rlPay.setVisibility(GONE);
-                rlPayAfter.setVisibility(VISIBLE);
-                mHandler.sendEmptyMessageDelayed(2,1);
-                mHandler.sendEmptyMessageDelayed(1,5000);
+                SelectWaterDeviceV2View.this.setVisibility(GONE);
+                updateMode(selectFlag);
+//                rlPayAfter.setVisibility(VISIBLE);
+//                mHandler.sendEmptyMessageDelayed(2,1);
+//                mHandler.sendEmptyMessageDelayed(1,5000);
             }
         });
 
@@ -203,6 +218,36 @@ public class SelectWaterDeviceView extends RelativeLayout {
         });
     }
 
+    private void updateMode(int type){
+        if(type == 10){
+            Log.e("ZM","家庭机");
+            type = 2;
+            PreferenceUtils.commitInt("waterMode",2);
+        }else{
+            PreferenceUtils.commitInt("waterMode",1);
+        }
+        PreferenceUtils.commitBoolean("isBootFirst",false);
+        PreferenceUtils.commitInt("waterType",type);
+        PreferenceUtils.commitInt("lvTime",DEFAULT_SHARE_DAY_6);
+        PreferenceUtils.commitLong("waterTime",System.currentTimeMillis());
+        if(type == 1){
+            PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_3);
+        }else if(type == 2){
+            PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_6);
+        }else if(type == 3){
+            PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_12);
+        }
+        Intent toLv = new Intent(Contans.INTENT_GJ_ACTION_MODE_CHANGE);
+        mContext.sendBroadcast(toLv);
+    }
+
+    public void initViewData(){
+        imgStart.setVisibility(View.GONE);
+        Glide.with(mContext).load(R.drawable.gj_device_bg_3).into(imgBg);
+        imgA.setVisibility(VISIBLE);
+        imgB.setVisibility(VISIBLE);
+    }
+
     private int type;
     private AlertDialog normalDialog;
     private void normalDialog(){
@@ -211,6 +256,8 @@ public class SelectWaterDeviceView extends RelativeLayout {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                SelectWaterDeviceV2View.this.setVisibility(GONE);
+                updateMode(10);
                 if(listener != null){
                     listener.onActive(type);
                 }

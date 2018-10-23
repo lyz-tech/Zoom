@@ -46,8 +46,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private int[] resId1 = {R.drawable.gj_about_tab1_1,R.drawable.gj_about_tab1_2,R.drawable.gj_about_tab1_3};
     private int[] resId2 = {R.drawable.gj_about_tab2_1,R.drawable.gj_about_tab2_2,R.drawable.gj_about_tab2_3,R.drawable.gj_about_tab2_4};
     private int[] resId3 = {R.drawable.gj_about_tab3_1,R.drawable.gj_about_tab3_2,R.drawable.gj_about_tab3_3,R.drawable.gj_about_tab3_4};
-    private int[] resId4 = {R.drawable.gj_about_tab4_1,R.drawable.gj_about_tab4_2};
-    private int[] resId5 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2};
+    private int[] resId4 = {R.drawable.gj_about_tab4_1,R.drawable.gj_about_tab4_2,R.drawable.gj_about_tab4_3};
+    private int[] resId5 = {R.drawable.gj_about_tab5_1,R.drawable.gj_about_tab5_2,R.drawable.gj_about_tab5_3,R.drawable.gj_about_tab5_4};
     private int[] resId7 = {R.drawable.gj_about_tab5_1};
 
     private int[] resId11 = {R.drawable.gj_about_tab1_1_1};
@@ -61,6 +61,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private ImageView imageView;
 
     private PayView payView;
+    private SelectWaterDeviceV2View selectWaterDeviceV2View;
 
 //    private RelativeLayout rlChangeDevice;
 //    private ImageView imgChangeBack;
@@ -91,6 +92,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
 
     private void initView() {
         View view = View.inflate(context, R.layout.gj_widget_about, this);
+        selectWaterDeviceV2View = (SelectWaterDeviceV2View) view.findViewById(R.id.rl_device);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         circles = (LinearLayout) view.findViewById(R.id.circles);
         setPermissionView = (SetPermissionView) view.findViewById(R.id.setPermissionView);
@@ -141,6 +143,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         ll5.setOnClickListener(this);
         ll6.setOnClickListener(this);
         ll7.setOnClickListener(this);
+
+        updateTab();
 
         viewPager.setOffscreenPageLimit(0);
         aboutPageAdapter = new AboutPageAdapter(context, imgResIds);
@@ -285,6 +289,13 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         imgResIds = resId1;
         changeTextColor(1);
         updateData(imgResIds);
+    }
+
+    public void updateTab(){
+        int waterMode = PreferenceUtils.getInt("waterMode",1);
+        if(waterMode == 2){
+            ll7.setVisibility(GONE);
+        }
     }
 
     private RelativeLayout rlBack;
@@ -573,18 +584,24 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
                     Intent toLv = new Intent(Contans.INTENT_GJ_ACTION_LV_SET);
                     context.sendBroadcast(toLv);
                 }else if((int)object == 2){
-//                    rlChangeDevice.setVisibility(VISIBLE);
-//                    rlTc.setVisibility(VISIBLE);
-//                    imgTypeA.performClick();
-                    selectFlag = 1;
-//                    int waterType = PreferenceUtils.getInt("waterType",1);
-//                    if(waterType == 2){
-//                        currentType = 1;
-//                        imgDevice.setImageResource(R.drawable.gj_device_a);
-//                    }else if(waterType == 1){
-//                        currentType = 2;
-//                        imgDevice.setImageResource(R.drawable.gj_device_b);
-//                    }
+                    int waterMode = PreferenceUtils.getInt("waterMode",1);
+                    selectWaterDeviceV2View.initViewData();
+                    selectWaterDeviceV2View.setVisibility(VISIBLE);
+                    if(waterMode == 1){
+//                        rlChangeDevice.setVisibility(VISIBLE);
+//                        rlTc.setVisibility(VISIBLE);
+//                        imgTypeA.performClick();
+//                        int waterType = PreferenceUtils.getInt("waterType",1);
+//                        if(waterType == 2){
+//                            currentType = 1;
+//                            imgDevice.setImageResource(R.drawable.gj_device_a);
+//                        }else if(waterType == 1){
+//                            currentType = 2;
+//                            imgDevice.setImageResource(R.drawable.gj_device_b);
+//                        }
+                    }else{
+//                        selectFlag = 1;
+                    }
                 }
             }
         });

@@ -14,6 +14,7 @@ import java.io.IOException;
 public class GJGpioUtil {
 
     private static String GPIO_PATH = "/sys/class/mygpio/device/gpio1";
+    private static String GPIO_PATH_HOT = "/sys/class/mygpio/device/gpio1";
     public static final String GPIO_ON = "1";
     public static final String GPIO_OFF = "0";
 
@@ -22,6 +23,24 @@ public class GJGpioUtil {
      * @param status
      */
     public static void writeGpio(String status){
+        File f = new File(GPIO_PATH);
+        try {
+            FileOutputStream outputStream = new FileOutputStream(f);
+            outputStream.write(status.getBytes());
+            outputStream.flush();
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 控制IO口
+     * @param status
+     */
+    public static void writeGpio2(String status){
         File f = new File(GPIO_PATH);
         try {
             FileOutputStream outputStream = new FileOutputStream(f);

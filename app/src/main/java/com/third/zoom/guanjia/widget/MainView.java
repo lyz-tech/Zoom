@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -109,6 +110,7 @@ public class MainView extends LinearLayout{
                 }
             }
         });
+        imgShow.setClickable(false);
     }
 
     public void setBmvListener(BmvSelectListener bmvListener){
@@ -124,6 +126,7 @@ public class MainView extends LinearLayout{
     }
 
     public void setPositionShow(int position){
+        Log.e("ZM","setPositionShow + " + position);
         mHandler.removeMessages(WHAT_UPDATE_SHOW);
         mHandler.removeMessages(WHAT_UPDATE_NORMAL_SHOW);
         Glide.with(mContext).load(positionRes[position]).into(imgShow);
@@ -142,6 +145,10 @@ public class MainView extends LinearLayout{
     public void setCurClickIndex(int index){
         curClickIndex = index;
         imgShow.setClickable(false);
+    }
+
+    public int getCurClickIndex(){
+        return curClickIndex;
     }
 
     public void updateNormalShow(int index){
@@ -172,6 +179,11 @@ public class MainView extends LinearLayout{
         Glide.with(mContext).load(showRes[showIndex]).into(imgShow);
 //        imgShow.setImageResource(showRes[showIndex]);
         mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_SHOW,UPDATE_SHOW_TIME);
+    }
+
+    public void stopShow(){
+        mHandler.removeMessages(WHAT_UPDATE_SHOW);
+        mHandler.removeMessages(WHAT_UPDATE_NORMAL_SHOW);
     }
 
 }

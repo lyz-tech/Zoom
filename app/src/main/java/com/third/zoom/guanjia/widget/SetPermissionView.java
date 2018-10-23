@@ -97,16 +97,6 @@ public class SetPermissionView extends RelativeLayout{
 //            }
 //        });
 
-//        setTimeView.setCancelOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
-//                permissionRoot.setVisibility(VISIBLE);
-//                passwordView.setVisibility(GONE);
-//                setTimeView.setVisibility(GONE);
-//            }
-//        });
-
         normalDialog();
 
     }

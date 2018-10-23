@@ -28,13 +28,18 @@ public class GJProV2Util {
         Log.e("ZM", "状态 = " + isOpen + "---水温 = " + waterTh + "---水容量 = " + waterMl);
         String pro = "";
         if(isOpen){
-            GJGpioUtil.writeGpio(GJGpioUtil.GPIO_ON);
             //常温水不发协议
+            if(waterTh == GJProUtil.DEFAULT_NORMAL_WATER_TH){
+                GJGpioUtil.writeGpio2(GJGpioUtil.GPIO_ON);
+            }else{
+                GJGpioUtil.writeGpio(GJGpioUtil.GPIO_ON);
+            }
             String data1 = Integer.toHexString(waterTh);
             String sum = Integer.toHexString(waterTh + 1);
             pro = PRO_START + PRO_MODE + data1 + PRO_DATA_2345 + sum;
         }else{
             GJGpioUtil.writeGpio(GJGpioUtil.GPIO_OFF);
+            GJGpioUtil.writeGpio2(GJGpioUtil.GPIO_OFF);
 //            String data1 = "00";
 //            pro = PRO_START + PRO_MODE + data1 + PRO_DATA_2345 + "01";
         }

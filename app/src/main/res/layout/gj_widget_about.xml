@@ -367,6 +367,13 @@
 
     </LinearLayout>
 
+    <com.third.zoom.guanjia.widget.SelectWaterDeviceV2View
+        android:id="@+id/rl_device"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.third.zoom.guanjia.widget.SelectWaterDeviceV2View>
+
     <!--<RelativeLayout-->
         <!--android:background="@drawable/gj_device_bg_2"-->
         <!--android:id="@+id/rl_change_device"-->

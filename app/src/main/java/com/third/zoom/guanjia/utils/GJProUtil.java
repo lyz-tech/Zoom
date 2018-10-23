@@ -14,7 +14,7 @@ public class GJProUtil {
     //默认出水容量
     public static final int DEFAULT_WATER_ML = 500;
     //默认常温水温度
-    public static final int DEFAULT_NORMAL_WATER_TH = 30;
+    public static final int DEFAULT_NORMAL_WATER_TH = 25;
 
     //协议头
     private static final String SEND_PRO_HEAD = "AA";
@@ -98,16 +98,19 @@ public class GJProUtil {
         int result = 25;
         switch (position){
             case 0:
-                result = 50;
+                result = 25;
                 break;
             case 1:
-                result = 65;
+                result = 50;
                 break;
             case 2:
-                result = 80;
+                result = 60;
                 break;
             case 3:
-                result = 95;
+                result = 70;
+                break;
+            case 4:
+                result = 80;
                 break;
         }
         return result;

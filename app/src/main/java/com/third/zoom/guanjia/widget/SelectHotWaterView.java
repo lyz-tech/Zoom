@@ -27,7 +27,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
             "90度水温适宜冲泡各种茶类等"};
 
     private int defaultResId = R.drawable.gj_hot_select;
-    private int[] resId = {R.drawable.gj_hot_select_50,R.drawable.gj_hot_select_65,R.drawable.gj_hot_select_80,R.drawable.gj_hot_select_95};
+    private int[] resId = {R.drawable.gj_hot_select,R.drawable.gj_hot_select_50,R.drawable.gj_hot_select_65,R.drawable.gj_hot_select_80,R.drawable.gj_hot_select_95};
 
     private int openResId = R.drawable.gj_shape_cir_textview_red;
     private int closeResId = R.drawable.gj_shape_cir_textview;
@@ -36,6 +36,7 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
     private RelativeLayout rlBack;
     private ImageView imgBack;
     private ImageView txtNotice;
+    private TextView txtTHCW;
     private TextView txtTH50;
     private TextView txtTH65;
     private TextView txtTH85;
@@ -68,24 +69,29 @@ public class SelectHotWaterView extends RelativeLayout implements View.OnClickLi
 //        txtNotice.setImageResource(defaultResId);
         imgBack = (ImageView) findViewById(R.id.img_back);
 
+        txtTHCW = (TextView) view.findViewById(R.id.txt_th_cw);
+        txtTHCW.setTag(0);
+        txtTHCW.setOnClickListener(this);
+
         txtTH50 = (TextView) view.findViewById(R.id.txt_th_50);
-        txtTH50.setTag(0);
+        txtTH50.setTag(1);
         txtTH50.setOnClickListener(this);
 
         txtTH65 = (TextView) view.findViewById(R.id.txt_th_65);
-        txtTH65.setTag(1);
+        txtTH65.setTag(2);
         txtTH65.setOnClickListener(this);
 
         txtTH85 = (TextView) view.findViewById(R.id.txt_th_85);
-        txtTH85.setTag(2);
+        txtTH85.setTag(3);
         txtTH85.setOnClickListener(this);
 
         txtTH95 = (TextView) view.findViewById(R.id.txt_th_95);
-        txtTH95.setTag(3);
+        txtTH95.setTag(4);
         txtTH95.setOnClickListener(this);
     }
 
     private void initData(){
+        tabs.add(txtTHCW);
         tabs.add(txtTH50);
         tabs.add(txtTH65);
         tabs.add(txtTH85);

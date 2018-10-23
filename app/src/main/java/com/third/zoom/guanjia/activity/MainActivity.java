@@ -134,6 +134,9 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeMessages(WHAT_DATA_REPEAT);
+        if(mainView != null){
+            mainView.stopShow();
+        }
         unRegisterGJProReceiver();
         unRegistTimeReceiver();
         SerialInterface.closeAllSerialPort();
@@ -205,6 +208,13 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onActive(Object object) {
                     int type = (int) object;
+                    if(type == 10){
+                        Log.e("ZM","家庭机");
+                        type = 2;
+                        PreferenceUtils.commitInt("waterMode",2);
+                    }else{
+                        PreferenceUtils.commitInt("waterMode",1);
+                    }
                     PreferenceUtils.commitBoolean("isBootFirst",false);
                     PreferenceUtils.commitInt("waterType",type);
                     PreferenceUtils.commitInt("lvTime",DEFAULT_SHARE_DAY_6);
@@ -218,6 +228,9 @@ public class MainActivity extends BaseActivity {
                     }
                     saveTime = System.currentTimeMillis();
                     init2();
+                    if(aboutGJView != null){
+                        aboutGJView.updateTab();
+                    }
                 }
             });
         }else{
@@ -229,6 +242,7 @@ public class MainActivity extends BaseActivity {
         waterDeviceView.setVisibility(View.GONE);
         navTopView.setVisibility(View.VISIBLE);
         mainView.setVisibility(View.VISIBLE);
+        mainView.setCurClickIndex(-1);
         mainView.setBmvListener(new BmvSelectListener() {
             @Override
             public void itemSelectOpen(int position) {
@@ -264,10 +278,12 @@ public class MainActivity extends BaseActivity {
         mainView.setHotWaterClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendActiveAction();
-                mainView.setVisibility(View.GONE);
-                selectHotWaterView.setVisibility(View.VISIBLE);
-                mainView.getBmvItem(0).performClick();
+                if(mainView.getCurClickIndex() == 0){
+                    sendActiveAction();
+                    mainView.setVisibility(View.GONE);
+                    selectHotWaterView.setVisibility(View.VISIBLE);
+                    mainView.getBmvItem(0).performClick();
+                }
             }
         });
 
@@ -321,12 +337,18 @@ public class MainActivity extends BaseActivity {
     private synchronized boolean sendPro(boolean isOpen, int waterTh, int waterMl) {
         if(exitDay <= DEFAULT_EXIT_DAY){
             showLVDialog(2,exitDay);
-            return false;
+
+            if(exitDay <= 0){
+                return false;
+            }
         }
 
         if(exitLvDay <= DEFAULT_EXIT_LV_DAY){
             showLVDialog(1,exitLvDay);
-            return false;
+
+            if(exitLvDay <= 0){
+                return false;
+            }
         }
 
         String pro = GJProV2Util.getWaterPro(isOpen,waterTh,waterMl);
@@ -382,21 +404,21 @@ public class MainActivity extends BaseActivity {
      */
     private void operation(boolean isActive) {
         if (isActive) {
-            SystemUtil.setScreenLight(this, 200);
+            SystemUtil.setScreenLight(this, 160);
             waitingView.setVisibility(View.GONE);
         } else {
             Log.e("ZM", "3分钟没有操作");
-            SystemUtil.setScreenLight(this, 80);
+            SystemUtil.setScreenLight(this, 60);
             waitingView.setVisibility(View.VISIBLE);
         }
     }
 
     /**
-     * 1分钟没有操作，亮度设置为70%
+     * 1分钟没有操作，亮度设置为50%
      */
     private void operation1() {
         Log.e("ZM", "1分钟没有操作");
-        SystemUtil.setScreenLight(this, 160);
+        SystemUtil.setScreenLight(this, 120);
     }
 
     /**
@@ -404,7 +426,7 @@ public class MainActivity extends BaseActivity {
      */
     private void operation2() {
         Log.e("ZM", "2分钟没有操作");
-        SystemUtil.setScreenLight(this, 120);
+        SystemUtil.setScreenLight(this, 90);
     }
 
     /**
@@ -529,7 +551,8 @@ public class MainActivity extends BaseActivity {
     private void registTimeReceiver(){
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);//设置了系统时区
-        intentFilter.addAction(Contans.INTENT_GJ_ACTION_LV_SET);//设置了系统时区
+        intentFilter.addAction(Contans.INTENT_GJ_ACTION_LV_SET);
+        intentFilter.addAction(Contans.INTENT_GJ_ACTION_MODE_CHANGE);
         timeChangeReceiver = new TimeChangeReceiver();
         registerReceiver(timeChangeReceiver, intentFilter);
     }
@@ -544,6 +567,11 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             changeTime();
+            if(intent.getAction().equals(Contans.INTENT_GJ_ACTION_MODE_CHANGE)){
+                if(aboutGJView != null){
+                    aboutGJView.updateTab();
+                }
+            }
         }
     }
 
@@ -555,21 +583,37 @@ public class MainActivity extends BaseActivity {
     private static final int DEFAULT_EXIT_DAY = 10;
     private int exitDay = 180;
     private void changeTime(){
-        saveTime = PreferenceUtils.getLong("waterTime",0);
-        currentType = PreferenceUtils.getInt("waterType",1);
-        long curnTime = System.currentTimeMillis();
-        long indexTime = curnTime - saveTime;
-        int last = (int) (indexTime / (24 * 60 * 60 * 1000));
-        int leftDay = PreferenceUtils.getInt("waterPay",DEFAULT_SHARE_DAY_3);
-        if(last >= 0){
-            navTopView.setWaterTime(leftDay - last);
-            aboutGJView.setLVTime(currentType,leftDay - last );
-            exitDay = leftDay - last;
-            if(leftDay - last <= DEFAULT_EXIT_DAY && saveTime != 0){
-                showLVDialog(2,leftDay - last);
+        int waterMode = PreferenceUtils.getInt("waterMode",1);
+        if(waterMode == 2){
+            saveTime = PreferenceUtils.getLong("waterTime",0);
+            long curnTime = System.currentTimeMillis();
+            long indexTime = curnTime - saveTime;
+            int last = (int) (indexTime / (24 * 60 * 60 * 1000));
+            int leftDay = PreferenceUtils.getInt("lvTime",DEFAULT_SHARE_DAY_6);
+            if(last >= 0){
+                navTopView.setWaterTime(leftDay - last);
+                aboutGJView.setLVTime(currentType,leftDay - last );
+                exitDay = leftDay - last;
+                if(leftDay - last <= DEFAULT_EXIT_LV_DAY && saveTime != 0){
+                    showLVDialog(1,leftDay - last);
+                }
+            }
+        }else{
+            saveTime = PreferenceUtils.getLong("waterTime",0);
+            currentType = PreferenceUtils.getInt("waterType",1);
+            long curnTime = System.currentTimeMillis();
+            long indexTime = curnTime - saveTime;
+            int last = (int) (indexTime / (24 * 60 * 60 * 1000));
+            int leftDay = PreferenceUtils.getInt("waterPay",DEFAULT_SHARE_DAY_3);
+            if(last >= 0){
+                navTopView.setWaterTime(leftDay - last);
+                aboutGJView.setLVTime(currentType,leftDay - last );
+                exitDay = leftDay - last;
+                if(leftDay - last <= DEFAULT_EXIT_DAY && saveTime != 0){
+                    showLVDialog(2,leftDay - last);
+                }
             }
         }
-
         initLVDay();
     }
 

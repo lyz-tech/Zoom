@@ -6,12 +6,13 @@
 
     <ImageView
         android:id="@+id/img_bg"
-        android:src="@drawable/gj_device_bg_2"
+        android:src="@drawable/gj_device_bg_3"
         android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/img_start"
         android:src="@drawable/gj_device_start"
         android:layout_centerInParent="true"

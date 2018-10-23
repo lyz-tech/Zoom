@@ -39,6 +39,25 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/txt_th_cw"
+                android:text="常温水"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:textSize="@dimen/DIMEN_12sp"
+                android:background="@drawable/gj_shape_cir_textview"
+                android:layout_width="@dimen/DIMEN_40dp"
+                android:layout_height="@dimen/DIMEN_40dp" />
+
+            <View
+                android:layout_marginLeft="@dimen/DIMEN_5dp"
+                android:layout_marginRight="@dimen/DIMEN_5dp"
+                android:layout_gravity="center_vertical"
+                android:background="#c2c2c2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/DIMEN_3dp"></View>
+
+            <TextView
                 android:id="@+id/txt_th_50"
                 android:text="50°C"
                 android:textColor="#ffffff"
