@@ -84,7 +84,9 @@ public class SetPermissionView extends RelativeLayout{
         btnWifi.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                Intent toSetting = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                toSetting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(toSetting);
             }
         });
 
