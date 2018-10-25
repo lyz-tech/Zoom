@@ -17,6 +17,11 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <application
         android:name=".common.base.BaseApplication"
         android:allowBackup="true"
@@ -36,6 +41,9 @@
 
         <activity android:name=".ytbus.activity.FileSystemActivity"
                   android:screenOrientation="landscape"></activity>
+
+        <activity android:name=".guanjia.activity.WifiActivity"
+            android:screenOrientation="landscape"></activity>
 
         <receiver android:name=".common.receiver.BootReceiver">
             <intent-filter android:priority="1000">

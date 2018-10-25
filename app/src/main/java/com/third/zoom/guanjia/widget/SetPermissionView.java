@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
+import com.third.zoom.guanjia.activity.WifiActivity;
 import com.third.zoom.guanjia.utils.Contans;
 import com.third.zoom.guanjia.utils.IntentUtils;
 
@@ -84,7 +85,9 @@ public class SetPermissionView extends RelativeLayout{
         btnWifi.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toSetting = new Intent(Settings.ACTION_WIFI_SETTINGS);
+
+//                Intent toSetting = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                Intent toSetting =  new Intent(context, WifiActivity.class);
                 toSetting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(toSetting);
             }
