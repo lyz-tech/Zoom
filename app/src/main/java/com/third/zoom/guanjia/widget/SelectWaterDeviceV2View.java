@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +22,10 @@ import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
 import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.FileUtil;
+import com.third.zoom.guanjia.utils.QrCodeUtil;
+
+import java.io.File;
 
 import static com.third.zoom.guanjia.activity.MainActivity.DEFAULT_SHARE_DAY_12;
 import static com.third.zoom.guanjia.activity.MainActivity.DEFAULT_SHARE_DAY_3;
@@ -101,6 +108,8 @@ public class SelectWaterDeviceV2View extends RelativeLayout {
         rlPayAfter = (RelativeLayout) view.findViewById(R.id.rl_pay_after);
         txtMoney = (TextView) view.findViewById(R.id.txt_money);
         txtCount = (TextView) view.findViewById(R.id.txt_count);
+        imgMoney = (ImageView) view.findViewById(R.id.img_money);
+
     }
 
     private void initData(){
@@ -168,6 +177,10 @@ public class SelectWaterDeviceV2View extends RelativeLayout {
             public void onClick(View view) {
                 rlTypeSelect.setVisibility(GONE);
                 rlPay.setVisibility(VISIBLE);
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+                if(file != null && file.exists()){
+                    Glide.with(mContext).load(file).into(imgMoney);
+                }
                 Glide.with(mContext).load(R.drawable.gj_device_bg_2).into(imgBg);
                 if(selectFlag == 1){
                     txtMoney.setText("需要付2000元(点击跳过,测试用)");
@@ -216,6 +229,17 @@ public class SelectWaterDeviceV2View extends RelativeLayout {
                 type = 10;
             }
         });
+
+        initMoneyImg();
+    }
+    private ImageView imgMoney;
+    private void initMoneyImg(){
+        //本地文件
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+        if(file != null && file.exists()){
+            //加载图片
+            Glide.with(mContext).load(file).into(imgMoney);
+        }
     }
 
     private void updateMode(int type){

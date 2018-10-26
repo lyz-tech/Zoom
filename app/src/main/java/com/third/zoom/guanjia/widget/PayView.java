@@ -2,15 +2,20 @@ package com.third.zoom.guanjia.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.third.zoom.R;
 import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.FileUtil;
+
+import java.io.File;
 
 import static com.third.zoom.guanjia.activity.MainActivity.DEFAULT_SHARE_DAY_12;
 import static com.third.zoom.guanjia.activity.MainActivity.DEFAULT_SHARE_DAY_3;
@@ -50,7 +55,7 @@ public class PayView extends RelativeLayout {
         initView();
         initData();
     }
-
+    private ImageView imgMoney;
     private void initView() {
         View view = View.inflate(context, R.layout.gj_widget_pay,this);
         imgChangeBack = (ImageView) view.findViewById(R.id.img_change_back);
@@ -61,6 +66,7 @@ public class PayView extends RelativeLayout {
         imgTypeB = (ImageView) view.findViewById(R.id.img_tc_b);
         imgTypeC = (ImageView) view.findViewById(R.id.img_tc_c);
         txtMoney = (TextView) view.findViewById(R.id.txt_money);
+        imgMoney = (ImageView) view.findViewById(R.id.img_money);
     }
 
     private void initData(){
@@ -99,6 +105,10 @@ public class PayView extends RelativeLayout {
             @Override
             public void onClick(View view) {
                 rlPay.setVisibility(VISIBLE);
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+                if(file != null && file.exists()){
+                    Glide.with(context).load(file).into(imgMoney);
+                }
                 rlTc.setVisibility(GONE);
                 if(selectFlag == 1){
                     txtMoney.setText("需要付2000元(点击跳过,测试用)");

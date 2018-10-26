@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+  >
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="@dimen/DIMEN_300dp"
+        android:layout_height="wrap_content">
+
+
+   <TextView
+       android:text="温馨提示"
+       android:gravity="center"
+       android:id="@+id/wifi_title"
+       android:layout_marginTop="@dimen/DIMEN_15dp"
+       android:layout_marginBottom="@dimen/DIMEN_15dp"
+       android:textColor="@color/homecolor1"
+       android:textSize="@dimen/DIMEN_14sp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+    <View
+        android:background="#e0e0e0"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_1dp" />
+
+    <EditText
+        android:paddingLeft="@dimen/DIMEN_10dp"
+        android:id="@+id/password_edit"
+        android:textColor="@color/black_home"
+        android:lines="1"
+        android:textSize="@dimen/DIMEN_15sp"
+        android:hint="请输入Mac"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_80dp" />
+
+
+    <View
+        android:layout_marginLeft="@dimen/DIMEN_15dp"
+        android:layout_marginRight="@dimen/DIMEN_15dp"
+        android:background="#e0e0e0"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_1dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_50dp">
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:gravity="center"
+            android:textSize="@dimen/DIMEN_14sp"
+            android:text="取消"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/cofirm_button"
+            android:gravity="center"
+            android:textSize="@dimen/DIMEN_14sp"
+            android:text="确定"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

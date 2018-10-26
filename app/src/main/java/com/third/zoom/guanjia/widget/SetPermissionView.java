@@ -3,7 +3,9 @@ package com.third.zoom.guanjia.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -17,10 +19,13 @@ import android.widget.TextView;
 
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
+import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.guanjia.activity.WifiActivity;
 import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.FileUtil;
 import com.third.zoom.guanjia.utils.IntentUtils;
 
+import java.io.File;
 import java.text.DecimalFormat;
 
 /**
@@ -35,6 +40,7 @@ public class SetPermissionView extends RelativeLayout{
     private Button btnTime;
     private Button btnPassword;
     private Button btnWifi;
+    private Button btnMac;
     private ImageView imgBack;
 
     private int type;
@@ -60,10 +66,12 @@ public class SetPermissionView extends RelativeLayout{
         btnTime = (Button) view.findViewById(R.id.btn_time);
         btnPassword = (Button) view.findViewById(R.id.btn_password);
         btnWifi = (Button) view.findViewById(R.id.btn_wifi);
+        btnMac = (Button) view.findViewById(R.id.btn_mac);
         imgBack = (ImageView) view.findViewById(R.id.img_change_back);
     }
 
     private void initData() {
+        PreferenceUtils.init(context);
         btnTime.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +101,7 @@ public class SetPermissionView extends RelativeLayout{
             }
         });
 
+        macInit();
 //        passwordView.setCancelOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -106,6 +115,28 @@ public class SetPermissionView extends RelativeLayout{
 
     }
 
+    private void macInit(){
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+        //本地文件
+        if(file != null && file.exists()){
+            btnMac.setVisibility(GONE);
+        }else{
+            btnMac.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    initMacDialog();
+                }
+            });
+        }
+
+    }
+
+    private void initMacDialog(){
+        MacDialog macDialog = new MacDialog(getContext(),R.style.dialog_download);
+        if(!macDialog.isShowing()){
+            macDialog.show();
+        }
+    }
 
     private AlertDialog normalDialog;
     private void normalDialog(){

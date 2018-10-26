@@ -3,9 +3,13 @@ package com.third.zoom.guanjia.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +19,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
+import com.third.zoom.common.utils.PreferenceUtils;
+import com.third.zoom.guanjia.bean.XWBack;
+import com.third.zoom.guanjia.utils.FileUtil;
+import com.third.zoom.guanjia.utils.QrCodeUtil;
+
+import java.io.File;
 
 /**
  * Created by Alienware on 2018/8/30.
@@ -38,6 +48,7 @@ public class SelectWaterDeviceView extends RelativeLayout {
     private RelativeLayout rlPayAfter;
     private TextView txtMoney;
     private TextView txtCount;
+    private ImageView imgMoney;
 
     private int countIndex  = 5;
 
@@ -93,9 +104,14 @@ public class SelectWaterDeviceView extends RelativeLayout {
         rlPayAfter = (RelativeLayout) view.findViewById(R.id.rl_pay_after);
         txtMoney = (TextView) view.findViewById(R.id.txt_money);
         txtCount = (TextView) view.findViewById(R.id.txt_count);
+        imgMoney = (ImageView) view.findViewById(R.id.img_money);
     }
 
     private void initData(){
+        PreferenceUtils.init(mContext);
+
+        initMoneyImg();
+
         normalDialog();
 
         imgStart.setOnClickListener(new OnClickListener() {
@@ -155,6 +171,10 @@ public class SelectWaterDeviceView extends RelativeLayout {
             public void onClick(View view) {
                 rlTypeSelect.setVisibility(GONE);
                 rlPay.setVisibility(VISIBLE);
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+                if(file != null && file.exists()){
+                    Glide.with(mContext).load(file).into(imgMoney);
+                }
                 Glide.with(mContext).load(R.drawable.gj_device_bg_2).into(imgBg);
                 if(selectFlag == 1){
                     txtMoney.setText("需要付2000元(点击跳过,测试用)");
@@ -201,6 +221,13 @@ public class SelectWaterDeviceView extends RelativeLayout {
                 type = 10;
             }
         });
+    }
+
+    private void initMoneyImg(){
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+        if(file != null && file.exists()){
+            Glide.with(mContext).load(file).into(imgMoney);
+        }
     }
 
     private int type;
@@ -250,6 +277,7 @@ public class SelectWaterDeviceView extends RelativeLayout {
     public void setOnListener(NormalListener onListener){
         listener = onListener;
     }
+
 
 
 }
