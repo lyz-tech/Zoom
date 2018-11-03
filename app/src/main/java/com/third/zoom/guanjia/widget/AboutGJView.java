@@ -3,6 +3,7 @@ package com.third.zoom.guanjia.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -37,6 +38,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
     private LinearLayout circles;
     private SetPermissionView setPermissionView;
     private ImageView imgPre,imgNext;
+    private RelativeLayout rlPre;
+    private RelativeLayout rlNext;
     private RelativeLayout ll1;
     private LinearLayout ll2,ll3,ll4,ll5,ll6,ll7;
     private TextView txtZh1,txtZh2,txtZh3,txtZh4,txtZh5,txtZh6,txtZh7;
@@ -101,6 +104,8 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         rlBack = (RelativeLayout) view.findViewById(R.id.rl_back);
         imgPre = (ImageView) view.findViewById(R.id.gj_about_img_pre);
         imgNext = (ImageView) view.findViewById(R.id.gj_about_img_next);
+        rlPre = (RelativeLayout) view.findViewById(R.id.rl_about_pre);
+        rlNext = (RelativeLayout) view.findViewById(R.id.rl_about_next);
         ll1 = (RelativeLayout) view.findViewById(R.id.ll1);
         ll2 = (LinearLayout) view.findViewById(R.id.ll2);
         ll3 = (LinearLayout) view.findViewById(R.id.ll3);
@@ -132,6 +137,15 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
 //        imgTypeA = (ImageView) view.findViewById(R.id.img_tc_a);
 //        imgTypeB = (ImageView) view.findViewById(R.id.img_tc_b);
 //        imgTypeC = (ImageView) view.findViewById(R.id.img_tc_c);
+
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonnts/wryh.ttf");
+        txtZh1.setTypeface(typeface);
+        txtZh2.setTypeface(typeface);
+        txtZh3.setTypeface(typeface);
+        txtZh4.setTypeface(typeface);
+        txtZh5.setTypeface(typeface);
+        txtZh6.setTypeface(typeface);
+        txtZh7.setTypeface(typeface);
     }
 
     private void initData() {
@@ -173,6 +187,18 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             }
         });
 
+        rlPre.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgPre.performClick();
+            }
+        });
+        rlNext.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgNext.performClick();
+            }
+        });
 
         imgPre.setOnClickListener(new OnClickListener() {
             @Override
@@ -468,7 +494,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         }
     }
 
-    private String[] txtRes = {"水机说明","滤芯介绍","滤芯监测","安全责任"};
+    private String[] txtRes = {"水机说明","安全责任"};
     private int resIndex = 0;
     private PopupWindow popupWindow;
     private void popupWindowView(){
@@ -487,7 +513,7 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         }else{
             txt1.setTextColor(context.getResources().getColor(R.color.txt_black));
         }
-        TextView txt2 = (TextView) view.findViewById(R.id.txt_popup_2);
+        TextView txt2 = (TextView) view.findViewById(R.id.txt_popup_4);
         txt2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -501,34 +527,34 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         }else{
             txt2.setTextColor(context.getResources().getColor(R.color.txt_black));
         }
-        TextView txt3 = (TextView) view.findViewById(R.id.txt_popup_3);
-        txt3.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activePopupWindow(view);
-                resIndex = 2;
-                changePopText(resIndex);
-            }
-        });
-        if(resIndex == 2){
-            txt3.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
-        }else{
-            txt3.setTextColor(context.getResources().getColor(R.color.txt_black));
-        }
-        TextView txt4 = (TextView) view.findViewById(R.id.txt_popup_4);
-        txt4.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activePopupWindow(view);
-                resIndex = 3;
-                changePopText(resIndex);
-            }
-        });
-        if(resIndex == 3){
-            txt4.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
-        }else{
-            txt4.setTextColor(context.getResources().getColor(R.color.txt_black));
-        }
+//        TextView txt3 = (TextView) view.findViewById(R.id.txt_popup_3);
+//        txt3.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                activePopupWindow(view);
+//                resIndex = 2;
+//                changePopText(resIndex);
+//            }
+//        });
+//        if(resIndex == 2){
+//            txt3.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
+//        }else{
+//            txt3.setTextColor(context.getResources().getColor(R.color.txt_black));
+//        }
+//        TextView txt4 = (TextView) view.findViewById(R.id.txt_popup_4);
+//        txt4.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                activePopupWindow(view);
+//                resIndex = 3;
+//                changePopText(resIndex);
+//            }
+//        });
+//        if(resIndex == 3){
+//            txt4.setTextColor(context.getResources().getColor(R.color.txt_tab_normal_2));
+//        }else{
+//            txt4.setTextColor(context.getResources().getColor(R.color.txt_black));
+//        }
         popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
         //设置弹出窗体的背景
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00FFFFFF));
@@ -564,9 +590,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
         if(index == 0){
             imgResIds = resId1;
         }else if(index == 1){
-            imgResIds = resId11;
+            imgResIds = resId13;
         }else if(index == 2){
-            imgResIds = resId12;
+            imgResIds = resId13;
         }else if(index == 3){
             imgResIds = resId13;
         }
@@ -578,9 +604,9 @@ public class AboutGJView extends LinearLayout implements View.OnClickListener {
             @Override
             public void onActive(Object object) {
                 if((int)object == 1){
-                    resId12[0] = R.drawable.gj_about_tab1_1_4;
-                    resIndex = 2;
-                    changePopText(2);
+//                    resId12[0] = R.drawable.gj_about_tab1_1_4;
+//                    resIndex = 2;
+//                    changePopText(2);
                     PreferenceUtils.init(context);
                     PreferenceUtils.commitLong("waterTime",System.currentTimeMillis());
                     Intent toLv = new Intent(Contans.INTENT_GJ_ACTION_LV_SET);

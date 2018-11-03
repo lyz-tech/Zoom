@@ -41,7 +41,7 @@ public class GJVideoView extends RelativeLayout {
         videoView = (VideoView) view.findViewById(R.id.videoView);
     }
 
-    private void initData(){
+    public void initData(){
         Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.gj_video);
         videoView.setVideoURI(uri);
         videoView.start();

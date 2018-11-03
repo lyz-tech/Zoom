@@ -2,6 +2,7 @@ package com.third.zoom.guanjia.widget;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -71,6 +72,12 @@ public class NavTopView extends RelativeLayout{
         txtTimeHour = (TextView) view.findViewById(R.id.txt_time_hour);
         txtWaterTime = (TextView) view.findViewById(R.id.txt_water_time);
         txtWaterCap = (TextView) view.findViewById(R.id.txt_water_cap);
+        Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "fonnts/wryh.ttf");
+        txtTimeDay.setTypeface(typeface);
+        txtTimeWeek.setTypeface(typeface);
+        txtTimeHour.setTypeface(typeface);
+        txtWaterTime.setTypeface(typeface);
+        txtWaterCap.setTypeface(typeface);
     }
 
     private void initData(){

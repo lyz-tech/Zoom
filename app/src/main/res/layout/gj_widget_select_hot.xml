@@ -59,7 +59,7 @@
 
             <TextView
                 android:id="@+id/txt_th_50"
-                android:text="50°C"
+                android:text="±50°C"
                 android:textColor="#ffffff"
                 android:gravity="center"
                 android:textSize="@dimen/DIMEN_12sp"
@@ -79,7 +79,7 @@
             <TextView
                 android:id="@+id/txt_th_65"
                 android:textColor="#ffffff"
-                android:text="60°C"
+                android:text="±60°C"
                 android:gravity="center"
                 android:textSize="@dimen/DIMEN_12sp"
                 android:background="@drawable/gj_shape_cir_textview"
@@ -98,7 +98,7 @@
             <TextView
                 android:id="@+id/txt_th_85"
                 android:textColor="#ffffff"
-                android:text="70°C"
+                android:text="±70°C"
                 android:gravity="center"
                 android:textSize="@dimen/DIMEN_12sp"
                 android:background="@drawable/gj_shape_cir_textview"
@@ -117,7 +117,7 @@
             <TextView
                 android:id="@+id/txt_th_95"
                 android:textColor="#ffffff"
-                android:text="80°C"
+                android:text="±80°C"
                 android:gravity="center"
                 android:textSize="@dimen/DIMEN_12sp"
                 android:background="@drawable/gj_shape_cir_textview"
@@ -141,8 +141,8 @@
             android:id="@+id/img_back"
             android:layout_centerInParent="true"
             android:background="@drawable/gj_selecter_icon_back_2"
-            android:layout_width="@dimen/DIMEN_30dp"
-            android:layout_height="@dimen/DIMEN_30dp" />
+            android:layout_width="@dimen/DIMEN_40dp"
+            android:layout_height="@dimen/DIMEN_40dp" />
 
     </RelativeLayout>
 

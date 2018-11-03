@@ -19,14 +19,16 @@
                 android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
             <RelativeLayout
-                android:layout_width="@dimen/DIMEN_40dp"
-                android:layout_height="match_parent"
+                android:id="@+id/rl_about_pre"
+                android:layout_width="@dimen/DIMEN_80dp"
+                android:layout_height="@dimen/DIMEN_80dp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true">
 
                 <ImageView
                     android:id="@+id/gj_about_img_pre"
-                    android:layout_width="@dimen/DIMEN_15dp"
-                    android:layout_height="@dimen/DIMEN_25dp"
+                    android:layout_width="@dimen/DIMEN_25dp"
+                    android:layout_height="@dimen/DIMEN_35dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/gj_selecter_icon_pre"
                     android:clickable="true"
@@ -34,14 +36,16 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="@dimen/DIMEN_40dp"
-                android:layout_height="match_parent"
+                android:id="@+id/rl_about_next"
+                android:layout_width="@dimen/DIMEN_80dp"
+                android:layout_height="@dimen/DIMEN_80dp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true">
 
                 <ImageView
                     android:id="@+id/gj_about_img_next"
-                    android:layout_width="@dimen/DIMEN_15dp"
-                    android:layout_height="@dimen/DIMEN_25dp"
+                    android:layout_width="@dimen/DIMEN_25dp"
+                    android:layout_height="@dimen/DIMEN_35dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/gj_selecter_icon_next"
                     android:clickable="true"
@@ -76,8 +80,8 @@
                 android:id="@+id/img_back"
                 android:layout_centerInParent="true"
                 android:background="@drawable/gj_selecter_icon_back_2"
-                android:layout_width="@dimen/DIMEN_30dp"
-                android:layout_height="@dimen/DIMEN_30dp" />
+                android:layout_width="@dimen/DIMEN_40dp"
+                android:layout_height="@dimen/DIMEN_40dp" />
 
         </RelativeLayout>
 
@@ -122,7 +126,7 @@
                     android:gravity="center"
                     android:text="水机说明"
                     android:textColor="#000000"
-                    android:textSize="@dimen/DIMEN_12sp" />
+                    android:textSize="@dimen/DIMEN_15sp" />
 
                 <ImageView
                     android:id="@+id/img_about_down"
@@ -168,7 +172,7 @@
                     android:gravity="center"
                     android:text="专利证书"
                     android:textColor="#000000"
-                    android:textSize="@dimen/DIMEN_12sp" />
+                    android:textSize="@dimen/DIMEN_15sp" />
 
                 <TextView
                     android:visibility="gone"
@@ -204,7 +208,7 @@
                     android:gravity="center"
                     android:text="氢与健康"
                     android:textColor="#000000"
-                    android:textSize="@dimen/DIMEN_12sp" />
+                    android:textSize="@dimen/DIMEN_15sp" />
 
                 <TextView
                     android:visibility="gone"
@@ -240,7 +244,7 @@
                     android:gravity="center"
                     android:text="售后维修"
                     android:textColor="#000000"
-                    android:textSize="@dimen/DIMEN_12sp" />
+                    android:textSize="@dimen/DIMEN_15sp" />
 
                 <TextView
                     android:visibility="gone"
@@ -276,7 +280,7 @@
                     android:gravity="center"
                     android:text="产品系列"
                     android:textColor="#000000"
-                    android:textSize="@dimen/DIMEN_12sp" />
+                    android:textSize="@dimen/DIMEN_15sp" />
 
                 <TextView
                     android:visibility="gone"
@@ -312,7 +316,7 @@
                     android:gravity="center"
                     android:text="套餐中心"
                     android:textColor="#000000"
-                    android:textSize="@dimen/DIMEN_12sp" />
+                    android:textSize="@dimen/DIMEN_15sp" />
 
                 <TextView
                     android:visibility="gone"
@@ -349,7 +353,7 @@
                     android:gravity="center"
                     android:text="设置权限"
                     android:textColor="#000000"
-                    android:textSize="@dimen/DIMEN_12sp" />
+                    android:textSize="@dimen/DIMEN_15sp" />
 
                 <TextView
                     android:visibility="gone"

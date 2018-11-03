@@ -10,7 +10,7 @@
         android:id="@+id/topView"
         android:background="@color/txt_focus"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/DIMEN_28dp">
+        android:layout_height="@dimen/DIMEN_30dp">
     </com.third.zoom.guanjia.widget.NavTopView>
 
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.third.zoom.R;
@@ -28,20 +29,24 @@ public class MainView extends LinearLayout{
 
     private Context mContext;
     private ImageView imgShow;
+    private ImageView imgShow2;
     private ImageView imgPre;
     private ImageView imgNext;
+    private RelativeLayout rlPre;
+    private RelativeLayout rlNext;
+    private RelativeLayout rlLock;
     private CommonBmv commonBmv;
 
     /**
      * 主页轮播图
      */
-    private int[] showRes = { R.drawable.gj_main_show_14,R.drawable.gj_main_show_16,R.drawable.gj_main_show_0,R.drawable.gj_main_show_00,R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_3,
+    private int[] showRes = {R.drawable.gj_wait_frame3, R.drawable.gj_wait_frame3,R.drawable.gj_main_show_14,R.drawable.gj_main_show_16,R.drawable.gj_main_show_0,R.drawable.gj_main_show_00,R.drawable.gj_main_show_1,R.drawable.gj_main_show_2,R.drawable.gj_main_show_3,
             R.drawable.gj_main_show_4,R.drawable.gj_main_show_5,R.drawable.gj_main_show_6,R.drawable.gj_main_show_7,
             R.drawable.gj_main_show_8,R.drawable.gj_main_show_9,R.drawable.gj_main_show_10,R.drawable.gj_main_show_11,
             R.drawable.gj_main_show_15,R.drawable.gj_main_show_23,
             R.drawable.gj_main_show_17,R.drawable.gj_main_show_18,R.drawable.gj_main_show_19,
             R.drawable.gj_main_show_20,R.drawable.gj_main_show_21,R.drawable.gj_main_show_22};
-    private int[] positionRes = {R.drawable.gj_icon_hot_unlock,R.drawable.gj_main_show_29,R.drawable.gj_icon_bom_notice};
+    private int[] positionRes = {R.drawable.gj_device_bg_2,R.drawable.gj_main_show_29,R.drawable.gj_icon_bom_notice};
     private int[] normalRes = {R.drawable.gj_main_show_29,R.drawable.gj_main_show_30};
     private int showIndex = 0;
     private int normalShowIndex = 0;
@@ -82,13 +87,29 @@ public class MainView extends LinearLayout{
     private void initView(){
         View view = View.inflate(mContext, R.layout.gj_widget_main,this);
         imgShow = (ImageView) view.findViewById(R.id.img_main_show);
+        imgShow2 = (ImageView) view.findViewById(R.id.img_main_show2);
         commonBmv = (CommonBmv) view.findViewById(R.id.commonbmv);
         imgPre = (ImageView) view.findViewById(R.id.gj_main_img_pre);
         imgNext = (ImageView) view.findViewById(R.id.gj_main_img_next);
+        rlPre = (RelativeLayout) view.findViewById(R.id.rl_pre);
+        rlNext = (RelativeLayout) view.findViewById(R.id.rl_next);
+        rlLock = (RelativeLayout) view.findViewById(R.id.rl_lock);
     }
 
     private void initData(){
         updateShow(0);
+        rlPre.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgPre.performClick();
+            }
+        });
+        rlNext.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgNext.performClick();
+            }
+        });
         imgPre.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +131,14 @@ public class MainView extends LinearLayout{
                 }
             }
         });
+
+        imgShow2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgShow.performClick();
+            }
+        });
+
         imgShow.setClickable(false);
     }
 
@@ -133,8 +162,10 @@ public class MainView extends LinearLayout{
 //        imgShow.setImageResource(positionRes[position]);
         curClickIndex = position;
         if(curClickIndex == 0){
-            imgShow.setClickable(true);
+            rlLock.setVisibility(VISIBLE);
+            imgShow.setClickable(false);
         }else{
+            rlLock.setVisibility(GONE);
             imgShow.setClickable(false);
         }
         if(curClickIndex == 1){
@@ -143,6 +174,8 @@ public class MainView extends LinearLayout{
     }
 
     public void setCurClickIndex(int index){
+        rlLock.setVisibility(GONE);
+        imgShow.setVisibility(VISIBLE);
         curClickIndex = index;
         imgShow.setClickable(false);
     }

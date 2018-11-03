@@ -240,6 +240,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init2(){
+        gjVideoView.setVisibility(View.GONE);
         waterDeviceView.setVisibility(View.GONE);
         navTopView.setVisibility(View.VISIBLE);
         mainView.setVisibility(View.VISIBLE);
@@ -406,7 +407,31 @@ public class MainActivity extends BaseActivity {
     private void operation(boolean isActive) {
         if (isActive) {
             SystemUtil.setScreenLight(this, 170);
+            if(waitingView.getVisibility() == View.VISIBLE){
+                mainView.updateShow(100);
+                mainView.setVisibility(View.GONE);
+                navTopView.setVisibility(View.GONE);
+                gjVideoView.setVisibility(View.VISIBLE);
+                gjVideoView.setOnCompleteListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        gjVideoView.stop();
+                        init2();
+                    }
+                });
+                gjVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                        gjVideoView.stop();
+                        init2();
+                        return true;
+                    }
+                });
+                gjVideoView.initData();
+            }
+
             waitingView.setVisibility(View.GONE);
+//            mainView.updateShow(100);
         } else {
             Log.e("ZM", "3分钟没有操作");
             SystemUtil.setScreenLight(this, 40);

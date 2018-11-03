@@ -30,6 +30,9 @@ public class CommonBmvItem  extends LinearLayout {
     private int       mNormalTitleResId;//默认时
     private int       mSelectedTitleResId;//选中时
 
+    private float normalSize;
+    private float selectSize;
+
     public CommonBmvItem(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
@@ -39,6 +42,8 @@ public class CommonBmvItem  extends LinearLayout {
     public CommonBmvItem(Context context) {
         super(context);
         initView();
+        normalSize = context.getResources().getDimension(R.dimen.DIMEN_10sp);
+        selectSize = context.getResources().getDimension(R.dimen.DIMEN_12sp);
     }
 
     private void initView() {
@@ -71,6 +76,11 @@ public class CommonBmvItem  extends LinearLayout {
     private void setTitleSelected(boolean selected){
         this.mTitleSelected = selected;
         tvTitle.setTextColor(mTitleSelected?mSelectedTitleResId:mNormalTitleResId);
+        if(mTitleSelected){
+            tvTitle.setTextSize(13);
+        }else {
+            tvTitle.setTextSize(10);
+        }
     }
 
     public void setTabSelected(boolean selected){

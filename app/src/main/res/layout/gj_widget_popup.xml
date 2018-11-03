@@ -20,11 +20,13 @@
         android:layout_height="@dimen/DIMEN_30dp" />
 
     <View
+        android:visibility="gone"
         android:background="@color/txt_bg_about_deliver"
         android:layout_width="@dimen/DIMEN_106dp"
         android:layout_height="@dimen/DIMEN_1dp"></View>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/txt_popup_2"
         android:text="滤芯介绍"
         android:gravity="center"
@@ -35,11 +37,13 @@
         android:layout_height="@dimen/DIMEN_30dp" />
 
     <View
+        android:visibility="gone"
         android:background="@color/txt_bg_about_deliver"
         android:layout_width="@dimen/DIMEN_106dp"
         android:layout_height="@dimen/DIMEN_1dp"></View>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/txt_popup_3"
         android:text="滤芯监测"
         android:gravity="center"
