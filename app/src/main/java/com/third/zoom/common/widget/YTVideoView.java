@@ -9,6 +9,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnVideoSizeChangedListener;
+import android.net.Uri;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -27,6 +28,8 @@ public class YTVideoView extends SurfaceView {
 	private MediaPlayer mPlayer;
 	private SurfaceHolder mSurfaceHolder;
 	private String path;
+	private Uri uri;
+	private Context context;
 
 	private OnPreparedListener mOnPreparedListener;
 	private OnCompletionListener mOnCompletionListener;
@@ -46,6 +49,7 @@ public class YTVideoView extends SurfaceView {
 
 	public YTVideoView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		this.context = context;
 		initYTVideoView();
 	}
 
@@ -222,6 +226,10 @@ public class YTVideoView extends SurfaceView {
 		mOnCompletionListener = listener;
 	}
 
+    public void setOnCompleteListener(OnCompletionListener listener) {
+        mOnCompletionListener = listener;
+    }
+
 	public void setOnErrorListener(OnErrorListener listener) {
 		mOnErrorListener = listener;
 	}
@@ -256,6 +264,19 @@ public class YTVideoView extends SurfaceView {
 		//但是这样可能无法无缝切换(主要是轮播下一个视频的时候,每次重新new 一个 MediaPlayer 则无法做到无缝播放)
 		openMediaPlayer();
 	}
+
+	/**
+	 * 设置播放地址
+	 * @param uri
+	 */
+	public void setVideoPathUri(Uri uri) {
+		Log.e("ZM","当前播放：" + uri);
+		this.uri = uri;
+		playPosition = 0;
+		//但是这样可能无法无缝切换(主要是轮播下一个视频的时候,每次重新new 一个 MediaPlayer 则无法做到无缝播放)
+		openMediaPlayer();
+	}
+
 
 	public String getVideoPath(){
 		return path;
@@ -321,6 +342,21 @@ public class YTVideoView extends SurfaceView {
 			e.printStackTrace();
 		}
 	}
+
+    /**
+     * 停止播放
+     */
+    public void stop() {
+        try {
+            if (mPlayer != null) {
+                mPlayer.stop();
+                mPlayer.release();
+                mPlayer = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * 释放资源

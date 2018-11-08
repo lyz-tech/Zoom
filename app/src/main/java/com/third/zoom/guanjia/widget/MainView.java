@@ -46,7 +46,7 @@ public class MainView extends LinearLayout{
             R.drawable.gj_main_show_15,R.drawable.gj_main_show_23,
             R.drawable.gj_main_show_17,R.drawable.gj_main_show_18,R.drawable.gj_main_show_19,
             R.drawable.gj_main_show_20,R.drawable.gj_main_show_21,R.drawable.gj_main_show_22};
-    private int[] positionRes = {R.drawable.gj_device_bg_2,R.drawable.gj_main_show_29,R.drawable.gj_icon_bom_notice};
+    private int[] positionRes = {R.drawable.gj_about_tab_6,R.drawable.gj_main_show_29,R.drawable.gj_icon_bom_notice};
     private int[] normalRes = {R.drawable.gj_main_show_29,R.drawable.gj_main_show_30};
     private int showIndex = 0;
     private int normalShowIndex = 0;

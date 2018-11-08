@@ -3,6 +3,7 @@ package com.third.zoom.guanjia.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,9 +18,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gruio.utils.GpioK2Manager;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
 import com.third.zoom.common.utils.PreferenceUtils;
+import com.third.zoom.guanjia.activity.WifiActivity;
 import com.third.zoom.guanjia.bean.XWBack;
 import com.third.zoom.guanjia.utils.FileUtil;
 import com.third.zoom.guanjia.utils.QrCodeUtil;
@@ -50,6 +53,9 @@ public class SelectWaterDeviceView extends RelativeLayout {
     private TextView txtCount;
     private ImageView imgMoney;
 
+    private Button btnWifi;
+    private Button btnMac;
+
     private int countIndex  = 5;
 
     private int selectFlag = 1;
@@ -62,6 +68,8 @@ public class SelectWaterDeviceView extends RelativeLayout {
                 if(listener != null){
                     listener.onActive(selectFlag);
                 }
+            }else if(msg.what == 10){
+                getGpioStatus();
             }else {
                 txtCount.setText(countIndex + "");
                 countIndex--;
@@ -105,6 +113,8 @@ public class SelectWaterDeviceView extends RelativeLayout {
         txtMoney = (TextView) view.findViewById(R.id.txt_money);
         txtCount = (TextView) view.findViewById(R.id.txt_count);
         imgMoney = (ImageView) view.findViewById(R.id.img_money);
+        btnWifi = (Button) view.findViewById(R.id.btn_wifi);
+        btnMac = (Button) view.findViewById(R.id.btn_mac);
     }
 
     private void initData(){
@@ -177,22 +187,23 @@ public class SelectWaterDeviceView extends RelativeLayout {
                 }
                 Glide.with(mContext).load(R.drawable.gj_device_bg_2).into(imgBg);
                 if(selectFlag == 1){
-                    txtMoney.setText("需要付2000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }else if(selectFlag == 2){
-                    txtMoney.setText("需要付4000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }else if(selectFlag == 3){
-                    txtMoney.setText("需要付6000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }
+                mHandler.sendEmptyMessageDelayed(10,3000);
             }
         });
 
         rlPay.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                rlPay.setVisibility(GONE);
-                rlPayAfter.setVisibility(VISIBLE);
-                mHandler.sendEmptyMessageDelayed(2,1);
-                mHandler.sendEmptyMessageDelayed(1,5000);
+//                rlPay.setVisibility(GONE);
+//                rlPayAfter.setVisibility(VISIBLE);
+//                mHandler.sendEmptyMessageDelayed(2,1);
+//                mHandler.sendEmptyMessageDelayed(1,5000);
             }
         });
 
@@ -221,7 +232,44 @@ public class SelectWaterDeviceView extends RelativeLayout {
                 type = 10;
             }
         });
+
+        btnWifi.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                Intent toSetting = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                Intent toSetting =  new Intent(mContext, WifiActivity.class);
+                toSetting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(toSetting);
+            }
+        });
+
+        macInit();
     }
+
+    private void macInit(){
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+        //本地文件
+        if(file != null && file.exists()){
+            btnMac.setVisibility(GONE);
+        }else{
+            btnMac.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    initMacDialog();
+                }
+            });
+        }
+
+    }
+
+    private void initMacDialog(){
+        MacDialog macDialog = new MacDialog(getContext(),R.style.dialog_download);
+        if(!macDialog.isShowing()){
+            macDialog.show();
+        }
+    }
+
 
     private void initMoneyImg(){
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
@@ -278,6 +326,32 @@ public class SelectWaterDeviceView extends RelativeLayout {
         listener = onListener;
     }
 
+    /**
+     * 读取io状态
+     */
+    private void getGpioStatus(){
+        int status = GpioK2Manager.getInstance().getGpio3();
+        if(status == 1){
+            paySuccess();
+        }else{
+            waitingPay();
+        }
+    }
 
+    /**
+     * 支付成功
+     */
+    private void paySuccess(){
+        rlPay.setVisibility(GONE);
+        rlPayAfter.setVisibility(VISIBLE);
+        mHandler.sendEmptyMessageDelayed(2,1);
+        mHandler.sendEmptyMessageDelayed(1,5000);
+    }
 
+    /**
+     * 等待支付
+     */
+    private void waitingPay(){
+        mHandler.sendEmptyMessageDelayed(10,1500);
+    }
 }

@@ -35,9 +35,12 @@ import okhttp3.Response;
 
 public class QrCodeUtil {
 
-    private static String QR_URL = "http://m.test.wafaiot.com/wafa/test/api/thirdParty/mac/for/mini/qr/code";
-    private static String vendorOpenId = "gJ8EMFa4";
-    private static String MAC = "865933031234567";
+    //    private static String QR_URL = "http://m.test.wafaiot.com/wafa/test/api/thirdParty/mac/for/mini/qr/code";
+//    private static String vendorOpenId = "gJ8EMFa4";
+    //    private static String MAC = "865933031234567";
+    private static String vendorOpenId = "TdE75W33";
+    private static String MAC = "865933030876078";
+    private static String QR_URL = "http://m.wafaiot.com/wafa/api/thirdParty/mac/for/mini/qr/code";
 
     public static void setMac(String mac) {
         MAC = mac;

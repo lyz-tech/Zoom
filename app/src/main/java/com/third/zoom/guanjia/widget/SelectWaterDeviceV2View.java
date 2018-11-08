@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gruio.utils.GpioK2Manager;
 import com.third.zoom.R;
 import com.third.zoom.common.listener.NormalListener;
 import com.third.zoom.common.utils.PreferenceUtils;
@@ -66,6 +67,8 @@ public class SelectWaterDeviceV2View extends RelativeLayout {
                 if(listener != null){
                     listener.onActive(selectFlag);
                 }
+            }else if(msg.what == 10){
+                getGpioStatus();
             }else {
                 txtCount.setText(countIndex + "");
                 countIndex--;
@@ -183,21 +186,22 @@ public class SelectWaterDeviceV2View extends RelativeLayout {
                 }
                 Glide.with(mContext).load(R.drawable.gj_device_bg_2).into(imgBg);
                 if(selectFlag == 1){
-                    txtMoney.setText("需要付2000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }else if(selectFlag == 2){
-                    txtMoney.setText("需要付4000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }else if(selectFlag == 3){
-                    txtMoney.setText("需要付6000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }
+                mHandler.sendEmptyMessageDelayed(10,3000);
             }
         });
 
         rlPay.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                rlPay.setVisibility(GONE);
-                SelectWaterDeviceV2View.this.setVisibility(GONE);
-                updateMode(selectFlag);
+//                rlPay.setVisibility(GONE);
+//                SelectWaterDeviceV2View.this.setVisibility(GONE);
+//                updateMode(selectFlag);
 //                rlPayAfter.setVisibility(VISIBLE);
 //                mHandler.sendEmptyMessageDelayed(2,1);
 //                mHandler.sendEmptyMessageDelayed(1,5000);
@@ -322,5 +326,31 @@ public class SelectWaterDeviceV2View extends RelativeLayout {
         listener = onListener;
     }
 
+    /**
+     * 读取io状态
+     */
+    private void getGpioStatus(){
+        int status = GpioK2Manager.getInstance().getGpio3();
+        if(status == 1){
+            paySuccess();
+        }else{
+            waitingPay();
+        }
+    }
 
+    /**
+     * 支付成功
+     */
+    private void paySuccess(){
+        rlPay.setVisibility(GONE);
+        SelectWaterDeviceV2View.this.setVisibility(GONE);
+        updateMode(selectFlag);
+    }
+
+    /**
+     * 等待支付
+     */
+    private void waitingPay(){
+        mHandler.sendEmptyMessageDelayed(10,1500);
+    }
 }

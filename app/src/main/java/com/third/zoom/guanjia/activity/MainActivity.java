@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
@@ -29,9 +30,11 @@ import com.third.zoom.common.listener.NormalListener;
 import com.third.zoom.common.serial.SerialInterface;
 import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.common.utils.SystemUtil;
+import com.third.zoom.common.widget.YTVideoView;
 import com.third.zoom.guanjia.bean.DeviceDetailStatus;
 import com.third.zoom.guanjia.handler.GJProHandler;
 import com.third.zoom.guanjia.utils.Contans;
+import com.third.zoom.guanjia.utils.FileUtil;
 import com.third.zoom.guanjia.utils.GJProUtil;
 import com.third.zoom.guanjia.utils.GJProV2Util;
 import com.third.zoom.guanjia.utils.IntentUtils;
@@ -44,6 +47,7 @@ import com.third.zoom.guanjia.widget.SelectHotWaterView;
 import com.third.zoom.guanjia.widget.SelectWaterDeviceView;
 import com.third.zoom.guanjia.widget.WaitingView;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -84,7 +88,7 @@ public class MainActivity extends BaseActivity {
     private WaitingView waitingView;
     private SelectWaterDeviceView waterDeviceView;
     private NavTopView navTopView;
-    private GJVideoView gjVideoView;
+    private YTVideoView gjVideoView;
     private ErrorView errorView;
 
     private boolean isSending = false;  //是否正在发送协议
@@ -152,7 +156,7 @@ public class MainActivity extends BaseActivity {
         waterDeviceView = (SelectWaterDeviceView) findViewById(R.id.waterDeviceView);
         navTopView = (NavTopView) findViewById(R.id.topView);
         errorView = (ErrorView) findViewById(R.id.errorView);
-        gjVideoView = (GJVideoView) findViewById(R.id.gjVideo);
+        gjVideoView = (YTVideoView) findViewById(R.id.gjVideo);
     }
 
     @Override
@@ -178,6 +182,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init0(){
+        File gjFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/gj" );
+        if(!gjFile.exists()){
+            gjFile.mkdirs();
+        }
+        FileUtil.putAssetsToSDCard(this, Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +FileUtil.VIDEO_PATH);
         mainView.setVisibility(View.GONE);
         navTopView.setVisibility(View.GONE);
         gjVideoView.setVisibility(View.VISIBLE);
@@ -196,6 +205,8 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         });
+
+        gjVideoView.setVideoPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +FileUtil.VIDEO_PATH);
     }
 
     private void init1(){
@@ -427,7 +438,7 @@ public class MainActivity extends BaseActivity {
                         return true;
                     }
                 });
-                gjVideoView.initData();
+                gjVideoView.setVideoPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +FileUtil.VIDEO_PATH);
             }
 
             waitingView.setVisibility(View.GONE);

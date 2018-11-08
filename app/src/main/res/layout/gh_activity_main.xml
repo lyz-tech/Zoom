@@ -52,12 +52,12 @@
             android:layout_height="match_parent">
         </com.third.zoom.guanjia.widget.SelectWaterDeviceView>
 
-        <com.third.zoom.guanjia.widget.GJVideoView
+        <com.third.zoom.common.widget.YTVideoView
             android:visibility="gone"
             android:id="@+id/gjVideo"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.third.zoom.guanjia.widget.GJVideoView>
+        </com.third.zoom.common.widget.YTVideoView>
 
         <com.third.zoom.guanjia.widget.ErrorView
             android:visibility="gone"

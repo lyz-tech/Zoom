@@ -3,6 +3,7 @@ package com.third.zoom.guanjia.widget;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.third.zoom.R;
+import com.third.zoom.guanjia.utils.FileUtil;
 
 /**
  * Created by Alienware on 2018/10/21.
@@ -42,8 +44,10 @@ public class GJVideoView extends RelativeLayout {
     }
 
     public void initData(){
-        Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.gj_video);
-        videoView.setVideoURI(uri);
+//          Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + FileUtil.VIDEO_PATH
+//        Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.gj_video);
+//        videoView.setVideoURI(uri);
+        videoView.setVideoPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + FileUtil.VIDEO_PATH);
         videoView.start();
     }
 

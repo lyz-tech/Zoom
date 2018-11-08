@@ -115,6 +115,13 @@ public class MacDialog extends Dialog implements View.OnClickListener{
             public void onSuccess(Object object) {
                 XWBack xwBack = (XWBack) object;
                 String urCode = xwBack.getData().getQrcode();
+                if(TextUtils.isEmpty(urCode)){
+                    Message msg = Message.obtain();
+                    msg.what = 2;
+                    msg.obj = "获取二维码数据失败";
+                    mHandler.sendMessage(msg);
+                    return;
+                }
                 Log.e("ZM","urCode = " +urCode);
                 mBitmap = QrCodeUtil.createQRCodeBitmap(urCode, 480, 480);
                 PreferenceUtils.commitString("qrCode",urCode);
