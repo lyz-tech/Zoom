@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -182,7 +183,8 @@ public class SelectWaterDeviceV2View extends RelativeLayout {
                 rlPay.setVisibility(VISIBLE);
                 File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
                 if(file != null && file.exists()){
-                    Glide.with(mContext).load(file).into(imgMoney);
+                    imgMoney.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+//                    Glide.with(mContext).load(file).into(imgMoney);
                 }
                 Glide.with(mContext).load(R.drawable.gj_device_bg_2).into(imgBg);
                 if(selectFlag == 1){

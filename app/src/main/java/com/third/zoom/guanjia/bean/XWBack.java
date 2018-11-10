@@ -8,12 +8,21 @@ public class XWBack {
 
     private int code;
     private long expires;
+    private String error;
     private WXData data;
     public void setCode(int code) {
         this.code = code;
     }
     public int getCode() {
         return code;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     public void setExpires(long expires) {

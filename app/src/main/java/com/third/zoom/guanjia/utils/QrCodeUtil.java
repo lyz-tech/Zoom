@@ -66,7 +66,11 @@ public class QrCodeUtil {
                 String result = response.body().string();
                 Gson gson = new Gson();
                 XWBack xwBack = gson.fromJson(result, XWBack.class);
-                normalListener.onSuccess(xwBack);
+                if(xwBack == null || xwBack.getData() == null){
+                    normalListener.onFail(xwBack.getError());
+                }else{
+                    normalListener.onSuccess(xwBack);
+                }
             }
         });
     }

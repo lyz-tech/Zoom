@@ -80,9 +80,9 @@ public class CommonBmvItem  extends LinearLayout {
         this.mTitleSelected = selected;
         tvTitle.setTextColor(mTitleSelected?mSelectedTitleResId:mNormalTitleResId);
         if(mTitleSelected){
-            tvTitle.setTextSize(15);
+            tvTitle.setTextSize(20);
         }else {
-            tvTitle.setTextSize(13);
+            tvTitle.setTextSize(15);
         }
     }
 

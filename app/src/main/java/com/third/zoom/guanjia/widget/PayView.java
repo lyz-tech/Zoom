@@ -2,14 +2,20 @@ package com.third.zoom.guanjia.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.gruio.utils.GpioK2Manager;
 import com.third.zoom.R;
 import com.third.zoom.common.utils.PreferenceUtils;
 import com.third.zoom.guanjia.utils.Contans;
@@ -48,6 +54,13 @@ public class PayView extends RelativeLayout {
     public PayView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+                getGpioStatus();
+        }
+    };
 
     public PayView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -107,34 +120,26 @@ public class PayView extends RelativeLayout {
                 rlPay.setVisibility(VISIBLE);
                 File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
                 if(file != null && file.exists()){
-                    Glide.with(context).load(file).into(imgMoney);
+                    imgMoney.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+//                    Glide.with(context).load(file).into(imgMoney);
                 }
                 rlTc.setVisibility(GONE);
                 if(selectFlag == 1){
-                    txtMoney.setText("需要付2000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }else if(selectFlag == 2){
-                    txtMoney.setText("需要付4000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }else if(selectFlag == 3){
-                    txtMoney.setText("需要付6000元(点击跳过,测试用)");
+                    txtMoney.setText("请扫码付款");
                 }
+
+                mHandler.sendEmptyMessageDelayed(10,3000);
             }
         });
 
         rlPay.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                rlTc.setVisibility(VISIBLE);
-                rlPay.setVisibility(GONE);
-                int leftDay = PreferenceUtils.getInt("waterPay",DEFAULT_SHARE_DAY_3);
-                if(selectFlag == 1){
-                    PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_3 + leftDay);
-                }else if(selectFlag == 2){
-                    PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_6 + leftDay);
-                }else if(selectFlag == 3){
-                    PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_12 + leftDay);
-                }
-                Intent toLv = new Intent(Contans.INTENT_GJ_ACTION_LV_SET);
-                context.sendBroadcast(toLv);
+
             }
         });
 
@@ -151,6 +156,45 @@ public class PayView extends RelativeLayout {
 
     public void setBackListener(OnClickListener onClickListener){
         imgChangeBack.setOnClickListener(onClickListener);
+    }
+
+    /**
+     * 读取io状态
+     */
+    private void getGpioStatus(){
+        int status = GpioK2Manager.getInstance().getGpio3();
+        Log.e("ZM","io = " + status);
+        if(status == 1){
+            Toast.makeText(context,"支付成功" + status ,Toast.LENGTH_LONG).show();
+            paySuccess();
+        }else{
+            waitingPay();
+        }
+    }
+
+    /**
+     * 支付成功
+     */
+    private void paySuccess(){
+        rlTc.setVisibility(VISIBLE);
+        rlPay.setVisibility(GONE);
+        int leftDay = PreferenceUtils.getInt("waterPay",DEFAULT_SHARE_DAY_3);
+        if(selectFlag == 1){
+            PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_3 + leftDay);
+        }else if(selectFlag == 2){
+            PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_6 + leftDay);
+        }else if(selectFlag == 3){
+            PreferenceUtils.commitInt("waterPay",DEFAULT_SHARE_DAY_12 + leftDay);
+        }
+        Intent toLv = new Intent(Contans.INTENT_GJ_ACTION_LV_SET);
+        context.sendBroadcast(toLv);
+    }
+
+    /**
+     * 等待支付
+     */
+    private void waitingPay(){
+        mHandler.sendEmptyMessageDelayed(10,1500);
     }
 
 }
