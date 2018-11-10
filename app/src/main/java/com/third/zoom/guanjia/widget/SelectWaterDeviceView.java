@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gruio.utils.GpioK2Manager;
@@ -330,12 +331,15 @@ public class SelectWaterDeviceView extends RelativeLayout {
      * 读取io状态
      */
     private void getGpioStatus(){
-        int status = GpioK2Manager.getInstance().getGpio3();
-        if(status == 1){
-            paySuccess();
-        }else{
-            waitingPay();
-        }
+        paySuccess();
+//        int status = GpioK2Manager.getInstance().getGpio3();
+//        Log.e("ZM","io = " + status);
+//        if(status == 1){
+//            Toast.makeText(mContext,"支付成功" + status ,Toast.LENGTH_LONG).show();
+//            paySuccess();
+//        }else{
+//            waitingPay();
+//        }
     }
 
     /**

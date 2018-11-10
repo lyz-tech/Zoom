@@ -2,6 +2,7 @@ package com.third.zoom.common.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +44,9 @@ public class CommonBmvItem  extends LinearLayout {
         super(context);
         initView();
         normalSize = context.getResources().getDimension(R.dimen.DIMEN_10sp);
-        selectSize = context.getResources().getDimension(R.dimen.DIMEN_12sp);
+        selectSize = context.getResources().getDimension(R.dimen.DIMEN_13sp);
+        Log.e("ZM","normalSize = " + normalSize);
+        Log.e("ZM","selectSize = " + selectSize);
     }
 
     private void initView() {
@@ -77,9 +80,9 @@ public class CommonBmvItem  extends LinearLayout {
         this.mTitleSelected = selected;
         tvTitle.setTextColor(mTitleSelected?mSelectedTitleResId:mNormalTitleResId);
         if(mTitleSelected){
-            tvTitle.setTextSize(13);
+            tvTitle.setTextSize(15);
         }else {
-            tvTitle.setTextSize(10);
+            tvTitle.setTextSize(13);
         }
     }
 

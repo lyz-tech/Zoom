@@ -116,18 +116,20 @@ public class SetPermissionView extends RelativeLayout{
     }
 
     private void macInit(){
-        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
-        //本地文件
-        if(file != null && file.exists()){
-            btnMac.setVisibility(GONE);
-        }else{
+//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), FileUtil.QR_PATH);
+//        //本地文件
+//        if(file != null && file.exists()){
+//            btnMac.setVisibility(GONE);
+//        }else{
             btnMac.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    initMacDialog();
+                    IntentUtils.sendBroadcast(context, Contans.INTENT_GJ_ACTION_ACTIVE);
+                    type = 3;
+                    dialogShow();
                 }
             });
-        }
+//        }
 
     }
 
@@ -162,6 +164,8 @@ public class SetPermissionView extends RelativeLayout{
                         if(normalListener != null){
                             normalListener.onActive(2);
                         }
+                    }else if(type == 3){
+                        initMacDialog();
                     }
                 }
             }

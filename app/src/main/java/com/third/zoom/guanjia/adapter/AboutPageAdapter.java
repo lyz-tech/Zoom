@@ -28,6 +28,17 @@ public class AboutPageAdapter extends PagerAdapter {
         notifyDataSetChanged();
     }
 
+    private int resMode = 0;
+    public void updateData(int[] imageUrls,int mode){
+        this.resMode = mode;
+        this.imageUrls = imageUrls;
+        notifyDataSetChanged();
+    }
+
+    public int getResMode(){
+        return resMode;
+    }
+
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
@@ -52,4 +63,20 @@ public class AboutPageAdapter extends PagerAdapter {
     public boolean isViewFromObject(View view, Object object) {
         return object == view;
     }
+
+    private int mChildCount = 0;
+    @Override public void notifyDataSetChanged() {
+        mChildCount = getCount();
+        super.notifyDataSetChanged();
+    }
+
+    @Override public int getItemPosition(Object object) {
+        if (mChildCount > 0) {
+            mChildCount--;
+            return POSITION_NONE;
+        }
+        return super.getItemPosition(object);
+    }
+
+
 }
