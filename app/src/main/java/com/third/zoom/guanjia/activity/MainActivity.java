@@ -48,6 +48,7 @@ import com.third.zoom.guanjia.widget.SelectWaterDeviceView;
 import com.third.zoom.guanjia.widget.WaitingView;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -77,6 +78,7 @@ public class MainActivity extends BaseActivity {
     private static final int WHAT_DATA_REPEAT = 15;
     private static final int WHAT_DATA_TEST= 16;
     private static final int WHAT_DATA_SEND_NORMAL= 17;
+    private static final int WHAT_DATA_WATER_CAP= 18;
 
     private static final long DEFAULT_TIME = 3 * 60 * 1000;
     private static final long DEFAULT_TIME_1 = 1 * 60 * 1000;
@@ -123,6 +125,9 @@ public class MainActivity extends BaseActivity {
             case WHAT_DATA_SEND_NORMAL:
                 SerialInterface.sendHexMsg2SerialPort(SerialInterface.USEING_PORT,GJProV2Util.getNormalPro());
                 break;
+            case WHAT_DATA_WATER_CAP:
+                setWaterCap();
+                break;
         }
     }
 
@@ -139,6 +144,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeMessages(WHAT_DATA_REPEAT);
+        mHandler.removeMessages(WHAT_DATA_WATER_CAP);
         if(mainView != null){
             mainView.stopShow();
         }
@@ -251,6 +257,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init2(){
+        mHandler.sendEmptyMessageDelayed(WHAT_DATA_WATER_CAP,3000);
         gjVideoView.setVisibility(View.GONE);
         waterDeviceView.setVisibility(View.GONE);
         navTopView.setVisibility(View.VISIBLE);
@@ -753,6 +760,21 @@ public class MainActivity extends BaseActivity {
             errorView.setVisibility(View.GONE);
         }
 
+    }
+
+    private com.example.pc.myapplication.MainActivity mainActivity = new com.example.pc.myapplication.MainActivity();
+    private double CAP_D = 4426;
+    private void setWaterCap(){
+        try {
+            String capString = mainActivity.stringFromJNI();
+            int cap = Integer.valueOf(capString);
+            double result = cap/CAP_D;
+            result =  new BigDecimal(result).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+            navTopView.setWaterCap(result);
+        }catch (Exception e){
+            Log.e("ZM",e.getMessage());
+        }
+        mHandler.sendEmptyMessageDelayed(WHAT_DATA_WATER_CAP,3000);
     }
 
 }

@@ -119,17 +119,8 @@ public class NavTopView extends RelativeLayout{
         }
     }
 
-    private void setWaterCap(int waterCap){
-        txtWaterCap.setText(waterCap + "");
-        if(waterCap < 100){
-            txtWaterTime.setTextColor(Color.RED);
-            txtWaterCap.setTextColor(Color.RED);
-            updateWaterWarning(true);
-        }else{
-            txtWaterTime.setTextColor(Color.BLACK);
-            txtWaterCap.setTextColor(Color.BLACK);
-            updateWaterWarning(false);
-        }
+    public void setWaterCap(double waterCap){
+        txtWaterCap.setText(waterCap + "公升");
     }
 
     private void updateWaterWarning(boolean flag){
