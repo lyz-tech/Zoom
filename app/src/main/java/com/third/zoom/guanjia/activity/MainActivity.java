@@ -762,19 +762,39 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private com.example.pc.myapplication.MainActivity mainActivity = new com.example.pc.myapplication.MainActivity();
     private double CAP_D = 4426;
+    private int lastRecord = 0;
+    private int totalRecord = 0;
     private void setWaterCap(){
         try {
-            String capString = mainActivity.stringFromJNI();
-            int cap = Integer.valueOf(capString);
-            double result = cap/CAP_D;
-            result =  new BigDecimal(result).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-            navTopView.setWaterCap(result);
+            String capString = com.example.pc.myapplication.MainActivity.stringFromJNI();
+            if(!TextUtils.isEmpty(capString)){
+                int cap = Integer.valueOf(capString);
+                if(cap != lastRecord && totalRecord != 0){
+                    //不处理
+                }else{
+                    //数据保存
+                    int use = cap - lastRecord;
+                    int last = PreferenceUtils.getInt("lastRecord",0);
+                    if(use > 0){
+                        //获取上次保存的数据，叠加
+                        totalRecord = last + use;
+                        PreferenceUtils.commitInt("lastRecord",totalRecord);
+                    }else{
+                        totalRecord = last;
+                    }
+                    lastRecord = cap;
+
+                    double result =  new BigDecimal(totalRecord/CAP_D).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    if(navTopView != null && navTopView.getVisibility() == View.VISIBLE){
+                        navTopView.setWaterCap(result);
+                    }
+                }
+            }
         }catch (Exception e){
             Log.e("ZM",e.getMessage());
         }
-        mHandler.sendEmptyMessageDelayed(WHAT_DATA_WATER_CAP,3000);
+        mHandler.sendEmptyMessageDelayed(WHAT_DATA_WATER_CAP,15000);
     }
 
 }

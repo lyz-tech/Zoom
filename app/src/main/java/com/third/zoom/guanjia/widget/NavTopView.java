@@ -120,7 +120,9 @@ public class NavTopView extends RelativeLayout{
     }
 
     public void setWaterCap(double waterCap){
-        txtWaterCap.setText(waterCap + "公升");
+        if(txtWaterCap != null && txtWaterCap.getVisibility() == View.VISIBLE){
+            txtWaterCap.setText(waterCap + "公升");
+        }
     }
 
     private void updateWaterWarning(boolean flag){

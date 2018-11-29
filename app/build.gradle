@@ -7,8 +7,8 @@ android {
         applicationId "com.third.zoom"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 19
-        versionName "1.19"
+        versionCode 23
+        versionName "1.23"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构

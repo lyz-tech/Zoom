@@ -57,8 +57,8 @@
             android:id="@+id/img_change_back"
             android:layout_centerInParent="true"
             android:background="@drawable/gj_selecter_icon_back_2"
-            android:layout_width="@dimen/DIMEN_30dp"
-            android:layout_height="@dimen/DIMEN_30dp" />
+            android:layout_width="@dimen/DIMEN_40dp"
+            android:layout_height="@dimen/DIMEN_40dp" />
 
         </RelativeLayout>
 
